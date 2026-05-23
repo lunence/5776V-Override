@@ -37,9 +37,9 @@ class sdWriter {
             // while isWriting is true (based off the toggle)
             while (isWriting) {
                 // fetch pose data
-                currPoseX = drivetrain.getPose().x;
-                currPoseY = drivetrain.getPose().y;
-                currPoseTheta = drivetrain.getPose().theta * 180.0 / M_PI;
+                auto currPoseX = chassis.getPose().x;
+                auto currPoseY = chassis.getPose().y;
+                auto currPoseTheta = chassis.getPose().theta * 180.0 / M_PI;
 
                 // write pose data
                 fprintf(
