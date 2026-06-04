@@ -75,9 +75,8 @@ void lemlib::Chassis::distanceReset(char xDirection, char yDirection) {
 
     //since our distance sensors are offset from the center, their distance will either be closer or farther to the wall
     // than the center, making our raw reading longer/shorter than what we need
-    // if we take the sine of our heading - rotated (if applicable), we can tell this:
-    // sin > 0 -> sensor swung toward wall -> ray too short -> subtract correction (-1)
-    // sin < 0 -> sensor swung away from wall -> ray too long -> add correction    (+1)
+    // we can take the sin of our heading to see which is closer: center or sensor, and keep that in mind
+
     // we'll set this multiplier now and use it later
     
 
