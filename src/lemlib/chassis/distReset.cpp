@@ -103,14 +103,22 @@ void lemlib::Chassis::distanceReset(char xDirection, char yDirection) {
     float xRawRay = mmToIn(xDist->distance.get());
     float xLatCorr = tan(correctedAngle) * xDist->offsetX * offsetMultiplier;
     float xVertCorr = xDist ->offsetY;
-    float xPerpDistance = cos(correctedAngle) * (xRawRay + xLatCorr + xVertCorr);
+    float xPerpDistance = 0;
+    
+    if(xDist != nullptr){
+        xPerpDistance = cos(correctedAngle) * (xRawRay + xLatCorr + xVertCorr);
+    }
 
 
     //y perpDistance 
     float yRawRay = mmToIn(yDist->distance.get());
     float yLatCorr = tan(correctedAngle) * yDist->offsetY * offsetMultiplier;
     float yVertCorr = yDist ->offsetY;
-    float yPerpDistance = cos(correctedAngle) * (yRawRay + yLatCorr + yVertCorr);
+    float yPerpDistance = 0;
+
+    if(yDist != nullptr){
+        yPerpDistance = cos(correctedAngle) * (yRawRay + yLatCorr + yVertCorr);
+    }
    
    
 
