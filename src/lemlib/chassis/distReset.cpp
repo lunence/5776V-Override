@@ -12,7 +12,7 @@ void lemlib::Chassis::distanceReset(char xDirection, char yDirection) {
     DistResetSensors* xDist = nullptr;
     DistResetSensors* yDist = nullptr;
 
-    //if using front or back as x direction, need to rotate axes so x measures left and right
+    //if using front or back as x direction, need to switch axes so x measures left and right
     if(xDirection == 'F') {
         xDist = &distSensors.front;
         rotated = M_PI_2;
@@ -37,6 +37,8 @@ void lemlib::Chassis::distanceReset(char xDirection, char yDirection) {
         yDist = &distSensors.left;
         rotated = M_PI_2;
     }
+
+    // switch makes sure axes for reference angle are correct
 
     //invalidate sensors that return readings out of range
     if(xDist != nullptr && mmToIn(xDist->distance.get())>300) {
@@ -63,8 +65,8 @@ void lemlib::Chassis::distanceReset(char xDirection, char yDirection) {
     // GETTING CORRECTED ANGLE: 
 
     //we need to reformat our heading into a reference angle to deal with simpler trig values
-    //first, subtracting rotated re-zeros the reference to the wall direction so "straight-on" always reads as 0° going into trig
-    //then we sanitize the given angle, ensuring our ref angle is in the first quadrant (makes trig simple)
+    //subtracting rotated re-zeros the angle to the wall direction, making our ref angle based off where we face
+    //then we sanitize the given angle, making our ref angle easier to deal w/ during trig
 
 
     const float correctedAngle = lemlib::refAngle(true, 
@@ -74,49 +76,48 @@ void lemlib::Chassis::distanceReset(char xDirection, char yDirection) {
     // DERIVING OFFSET MULTIPLIER: 
 
     //since our distance sensors are offset from the center, their distance will either be closer or farther to the wall
-    // than the center, making our raw reading longer/shorter than what we need
-    // we can take the sin of our heading to see which is closer: center or sensor, and keep that in mind
-
-    // we'll set this multiplier now and use it later
-    
+    // than center, makingraw reading longer/shorter than what we need
+    // if sin(α) > 0, dist sensor ray = longer than central, multiplier = -1, and vice versa    
 
     const int offsetMultiplier = (std::sin(currentPose.theta-rotated) >= 0) ? -1 : 1;
 
 
     // ACTUAL DISTANCE CALCULATION
-    // we need to use trig to reconstruct the perpendicular distance from the center of robot to the wall given our sensor's information
 
-    // for this we need: 
-    // - our centralRay = rawRay + tan(α) * offsetX * multiplier  (this is all lateral correction)
+    // now we need to find acc perpendicular distance
+
+    // we need: 
+    // - sensorRay = rawRay + tan(α) * offsetX * multiplier  (this is all lateral correction): 
     // - - tan(α) = opp/adj, adj = offsetX, opp = difference in ray length
-    // - - tan(α) * adj = opp = difference in length
-    // - - we also add offsetY to account for that distance (vertical correction)
+    // - - tan(α) * adjacent = opposite
+    // - - tan(α) * offsetX =  difference in ray length
+    // - - we also add offsetY (vertical correction)
 
-    // - to get perp distance, we take this centralRay and our heading
-    // - - centralRay = hypotenuse, perpDistance = adj
-    // - - cos(α) = adj/hypotenuse, cos(α) * hypotenuse = adj; cos(α) * centralRay = perpDistance
+    // - to get perp distance, we take this sensorRay and our heading
+    // - - sensorRay = hypotenuse, perpDistance = adj
+    // - - cos(α) = adj/hypotenuse, cos(α) * sensorRay = perpDistance
     
 
 
     //x perpDistance 
-    float xRawRay = mmToIn(xDist->distance.get());
+    float xSensorRay = mmToIn(xDist->distance.get());
     float xLatCorr = tan(correctedAngle) * xDist->offsetX * offsetMultiplier;
     float xVertCorr = xDist ->offsetY;
     float xPerpDistance = 0;
     
     if(xDist != nullptr){
-        xPerpDistance = cos(correctedAngle) * (xRawRay + xLatCorr + xVertCorr);
+        xPerpDistance = cos(correctedAngle) * (xSensorRay + xLatCorr + xVertCorr);
     }
 
 
     //y perpDistance 
-    float yRawRay = mmToIn(yDist->distance.get());
+    float ySensorRay = mmToIn(yDist->distance.get());
     float yLatCorr = tan(correctedAngle) * yDist->offsetY * offsetMultiplier;
     float yVertCorr = yDist ->offsetY;
     float yPerpDistance = 0;
 
     if(yDist != nullptr){
-        yPerpDistance = cos(correctedAngle) * (yRawRay + yLatCorr + yVertCorr);
+        yPerpDistance = cos(correctedAngle) * (ySensorRay + yLatCorr + yVertCorr);
     }
    
    
