@@ -7,21 +7,25 @@
 
 class sdWriter {
     private:
-        bool isWriting = false;
-        int frequency = 10;
+        struct fileData {
+            bool isWriting;
+            int frequency;
+        };
+
+        std::unordered_map<std::string, FileSettings> files;
 
     public:
-        void startWrite() {
+        void startWrite(const std::string& filename) {
             // set isWriting to true, so that writeData will write
-            isWriting = true;
+            files[filename].isWriting = true;
         }
-        void stopWrite() {
+        void stopWrite(const std::string& filename) {
             // set isWriting to false, so that writeData will not write
-            isWriting = false;
+            files[filename].isWriting = false;
         }
-        void changeFrequency(int newFrequency) {
+        void changeFrequency(const std::string& filename, int newFrequency) {
             // set frequency to a new frequency, default 10ms
-            frequency = newFrequency;
+            files[filename].frequency = newFrequency;
         }
         void writeData(const std::string& filename) {
             // open file in append mode
@@ -35,7 +39,7 @@ class sdWriter {
             }
 
             // while isWriting is true (based off the toggle)
-            while (isWriting) {
+            while (files[filename].isWriting) {
                 // fetch pose data
                 auto pose = chassis.getPose()
 
