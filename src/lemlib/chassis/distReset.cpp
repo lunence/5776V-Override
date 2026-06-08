@@ -66,7 +66,7 @@ void lemlib::Chassis::distanceReset(char xDirection, char yDirection) {
 
     //we need to reformat our heading into a reference angle to deal with simpler trig values
     //subtracting rotated re-zeros the angle to the wall direction, making our ref angle based off where we face
-    //then we sanitize the given angle, making our ref angle easier to deal w/ during trig
+    //then we sanitize the given angle, making our ref angle easier to deal with during trig
 
 
     const float correctedAngle = lemlib::refAngle(true, 
