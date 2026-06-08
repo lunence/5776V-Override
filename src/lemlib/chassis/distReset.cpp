@@ -12,7 +12,7 @@ void lemlib::Chassis::distanceReset(char xDirection, char yDirection) {
     DistResetSensors* xDist = nullptr;
     DistResetSensors* yDist = nullptr;
 
-    //if using front or back as x direction, rotate angle by adding 90 degrees
+    //if using front or back as x direction, need to switch axes so x measures left and right
     if(xDirection == 'F') {
         xDist = &distSensors.front;
         rotated = M_PI_2;
@@ -25,7 +25,7 @@ void lemlib::Chassis::distanceReset(char xDirection, char yDirection) {
         xDist = &distSensors.left;
     }
         
-    //if using left or right as y direction, rotate angle by adding 90 degrees
+    //if using left or right as y direction, need to rotate axes so y measures fwd and back
     if(yDirection == 'F') {
         yDist = &distSensors.front;
     } else if(yDirection == 'B') {
@@ -38,6 +38,9 @@ void lemlib::Chassis::distanceReset(char xDirection, char yDirection) {
         rotated = M_PI_2;
     }
 
+    // switch makes sure axes for reference angle are correct
+
+    //invalidate sensors that return readings out of range
     if(xDist != nullptr && mmToIn(xDist->distance.get())>300) {
         xDist = nullptr;
     }
@@ -54,39 +57,83 @@ void lemlib::Chassis::distanceReset(char xDirection, char yDirection) {
 
     //get current position
     lemlib::Pose currentPose = this->getPose(true);
+
     //this is going to be the reset pose with theta in degrees
     lemlib::Pose pose(0, 0, this->getPose(false).theta);
 
-    //gets acute angle from axis
-    //subtract rotated to either keep same angle or rotate by 90 degrees
-    //sanitizes rotated angle (if it ends up being rotated)
-    //gets reference angle from x axis (y axis becomes x axis if rotated)
-    const float correctedAngle = lemlib::refAngle(true, lemlib::sanitizeAngle(currentPose.theta-rotated, true)); 
-    //determine if robot is to the left or right of closest axis (determines if you add or subtract offset distance calculated with tangent term)
-    //if to the left, subtract, if to the right, add
+    
+    // GETTING CORRECTED ANGLE: 
+
+    //we need to reformat our heading into a reference angle to deal with simpler trig values
+    //subtracting rotated re-zeros the angle to the wall direction, making our ref angle based off where we face
+    //then we sanitize the given angle, making our ref angle easier to deal with during trig
+
+
+    const float correctedAngle = lemlib::refAngle(true, 
+        lemlib::sanitizeAngle(currentPose.theta-rotated, true));
+    
+    
+    // DERIVING OFFSET MULTIPLIER: 
+
+    //since our distance sensors are offset from the center, their distance will either be closer or farther to the wall
+    // than center, makingraw reading longer/shorter than what we need
+    // if sin(α) > 0, dist sensor ray = longer than central, multiplier = -1, and vice versa    
+
     const int offsetMultiplier = (std::sin(currentPose.theta-rotated) >= 0) ? -1 : 1;
 
-    //calculate perpendicular distance from center to perimeter
-    //cosine of entire distance from center of bot to perimeter (not perpendicular)
-    //entire distance = distance sensor in inches + discrepancy from offset distance sensor + distance from center of bot
-    float xPerpDistance = 0;
-    float yPerpDistance = 0;
-    if(xDist != nullptr)
-        xPerpDistance = cos(correctedAngle) * (mmToIn(xDist->distance.get()) + tan(correctedAngle) * xDist->offsetX * offsetMultiplier + xDist->offsetY);
-    if(yDist != nullptr)
-        yPerpDistance = cos(correctedAngle) * (mmToIn(yDist->distance.get()) + tan(correctedAngle) * yDist->offsetX * offsetMultiplier + yDist->offsetY);
 
-    //x reset
-    if(currentPose.x > 0){ //pos
+    // ACTUAL DISTANCE CALCULATION
+
+    // now we need to find acc perpendicular distance
+
+    // we need: 
+    // - sensorRay = rawRay + tan(α) * offsetX * multiplier  (this is all lateral correction): 
+    // - - tan(α) = opp/adj, adj = offsetX, opp = difference in ray length
+    // - - tan(α) * adjacent = opposite
+    // - - tan(α) * offsetX =  difference in ray length
+    // - - we also add offsetY (vertical correction)
+
+    // - to get perp distance, we take this sensorRay and our heading
+    // - - sensorRay = hypotenuse, perpDistance = adj
+    // - - cos(α) = adj/hypotenuse, cos(α) * sensorRay = perpDistance
+    
+
+
+    //x perpDistance 
+    float xSensorRay = mmToIn(xDist->distance.get());
+    float xLatCorr = tan(correctedAngle) * xDist->offsetX * offsetMultiplier;
+    float xVertCorr = xDist ->offsetY;
+    float xPerpDistance = 0;
+    
+    if(xDist != nullptr){
+        xPerpDistance = cos(correctedAngle) * (xSensorRay + xLatCorr + xVertCorr);
+    }
+
+
+    //y perpDistance 
+    float ySensorRay = mmToIn(yDist->distance.get());
+    float yLatCorr = tan(correctedAngle) * yDist->offsetY * offsetMultiplier;
+    float yVertCorr = yDist ->offsetY;
+    float yPerpDistance = 0;
+
+    if(yDist != nullptr){
+        yPerpDistance = cos(correctedAngle) * (ySensorRay + yLatCorr + yVertCorr);
+    }
+   
+   
+
+    // FINAL RESETS:
+        //x reset
+    if(currentPose.x > 0){ // if on east half of coord plane, +x coord for pose
         pose.x = lemlib::halfWidth - xPerpDistance;
-    } else if(currentPose.x < 0) { //neg
+    } else if(currentPose.x < 0) { //else, -x coord, so subtract width from perpdistance
         pose.x = xPerpDistance - lemlib::halfWidth;
     }
 
     //y reset
-    if(currentPose.y > 0){ //pos
+    if(currentPose.y > 0){ //if on north half of coord plane, +y coord for pose
         pose.y = lemlib::halfWidth - yPerpDistance;
-    } else if(currentPose.y < 0){ //neg
+    } else if(currentPose.y < 0){ //else, -y coord, so subtract width from perpdistance
         pose.y = yPerpDistance - lemlib::halfWidth;
     }
 
