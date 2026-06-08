@@ -3,7 +3,7 @@
 #include "pros/rtos.hpp"
 #include "drivecode/util.hpp"
 #include "drivecode/objects.hpp"
-#include "sdcard/include/sdmain.hpp"
+#include "sdcard/sdmain.hpp"
 
 void motorInit() {
 }
@@ -14,7 +14,7 @@ void sensorInit() {}
 //begin all tasks
 void taskInit() {
     pros::Task screenTask(runScreen, "screen task");
-    pros::Task sdWriteTask(sdWrite, "sd write task");
+    pros::Task sdWriteTask(sdWriter::runWriter, "sd write task");
 }
 
 //brain task
