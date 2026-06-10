@@ -3,6 +3,9 @@
 // Map of file names to file settings, each filename is assigned to a fileData instance
 std::unordered_map<std::string, sdWriter::fileData> sdWriter::files;
 
+std::string sdWriter::activeFile = "";
+pros::Mutex sdWriter::filesMutex;
+
 void sdWriter::initFile(const std::string& filename) {
     std::string path = "/usd/" + filename;
     FILE* usd_file_write = fopen(path.c_str(), "r");
@@ -100,4 +103,27 @@ void sdWriter::runWriter() {
             sdWriter::writeData(filename);
         }
     }
+}   
+
+
+void sdWriter::logRow(const std::string& filename, const std::vector<std::string>& fields) {
+    if (filename.empty()) return;  // logging not set up: silently do nothing
+
+    std::string path = "/usd/" + filename;
+    FILE* usd_file_write = fopen(path.c_str(), "a");
+    if (usd_file_write == nullptr) return;
+
+    bool first = true;
+    for (const std::string& field : fields) {
+        if (!first) fprintf(usd_file_write, ",");
+        fprintf(usd_file_write, "%s", field.c_str());
+        first = false;
+    }
+    fprintf(usd_file_write, "\n");
+    fclose(usd_file_write);
+}
+
+// Tagged marker row, e.g. LABEL,184223,moveToPoint start
+void sdWriter::writeLabel(const std::string& filename, const std::string& label) {
+    logRow(filename, {"LABEL", std::to_string(pros::millis()), label});
 }
