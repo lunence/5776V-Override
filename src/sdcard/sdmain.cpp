@@ -53,41 +53,32 @@ void sdWriter::changeFrequency(const std::string& filename, int newFrequency) {
 
 // Write data to a given file
 void sdWriter::writeData(const std::string& filename) {
-    // open file in append mode
     std::string path = "/usd/" + filename;
-    FILE* usd_file_write = fopen(path.c_str(), "a");
 
-    // invalid file handling
-    if (usd_file_write == nullptr) {
-        initFile(filename);
-        usd_file_write = fopen(path.c_str(), "a");
-        if (usd_file_write == nullptr) {
-            printf("Failed to open file for appending.\n");
-            return;
-        }
-    }
-
-    // while isWriting is true (based off the toggle)
+    // Reopen the file each iteration so logRow/writeLabel can interleave under
+    // the same mutex. Holding the file open across delays was racing with
+    // concurrent logRow() callers and silently dropping their writes.
     while (files[filename].isWriting) {
+        filesMutex.take();
+        FILE* usd_file_write = fopen(path.c_str(), "a");
+        if (usd_file_write == nullptr) {
+            filesMutex.give();
+            pros::delay(files[filename].frequency);
+            continue;
+        }
+
         bool first = true;
-
         for (auto& getter : files[filename].values) {
-            if (!first)
-                fprintf(usd_file_write, ",");
-
+            if (!first) fprintf(usd_file_write, ",");
             fprintf(usd_file_write, "%s", getter().c_str());
-
             first = false;
         }
-
         fprintf(usd_file_write, "\n");
-        fflush(usd_file_write);
+        fclose(usd_file_write);
+        filesMutex.give();
 
         pros::delay(files[filename].frequency);
     }
-
-    // close and save file
-    fclose(usd_file_write);
 }
 
 // i suppose this is runWriter
@@ -110,8 +101,12 @@ void sdWriter::logRow(const std::string& filename, const std::vector<std::string
     if (filename.empty()) return;  // logging not set up: silently do nothing
 
     std::string path = "/usd/" + filename;
+    filesMutex.take();
     FILE* usd_file_write = fopen(path.c_str(), "a");
-    if (usd_file_write == nullptr) return;
+    if (usd_file_write == nullptr) {
+        filesMutex.give();
+        return;
+    }
 
     bool first = true;
     for (const std::string& field : fields) {
@@ -121,6 +116,7 @@ void sdWriter::logRow(const std::string& filename, const std::vector<std::string
     }
     fprintf(usd_file_write, "\n");
     fclose(usd_file_write);
+    filesMutex.give();
 }
 
 // Tagged marker row, e.g. LABEL,184223,moveToPoint start

@@ -7,6 +7,8 @@
 #include "lemlib/intersect.hpp"
 #include "autonomous/autonSelector.hpp"
 
+
+
 void on_center_button() {}
 
 void initialize() {
@@ -23,21 +25,15 @@ void competition_initialize() {}
 
 void autonomous() {
 	chassis.setBrakeMode(pros::E_MOTOR_BRAKE_BRAKE);
+
 	// sdWriter::activeFile = "auton.csv";
 	// sdWriter::setData("auton.csv");
-
-	void sevenBlockRight() {
-		chassis.moveDistance(24_in);
-		chassis.turnAngle(-90_deg);
-		chassis.moveDistance(12_in);
-		chassis.turnAngle(90_deg);
-		chassis.moveDistance(12_in);
-	};
 }
 
 void opcontrol() {
 	//driver
 	chassis.setBrakeMode(pros::E_MOTOR_BRAKE_COAST);
+	pros::screen::print(pros::E_TEXT_MEDIUM, 7, "upload successful");
 
 	while (true) {
 		//drive
