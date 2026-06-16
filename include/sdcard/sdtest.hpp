@@ -1,4 +1,5 @@
 #pragma once
+#include "sdcard/sdmain.hpp"
 
 class sdTest {
     public:

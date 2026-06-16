@@ -6,7 +6,7 @@
 #include <string>
 
 void sdTest::run() {
-    const std::string file = "sdtest.csv";
+    const std::string file = sdWriter::getTimestamp() + "_" + "sdtest.csv";
 
     printf("[sdtest] start\n");
 
@@ -24,21 +24,32 @@ void sdTest::run() {
     //    string every time the background runWriter task calls it.
     int counter = 0;
     sdWriter::setData(file, {
+        // time (milliseconds)
         []() { return std::to_string(pros::millis()); },
+
+        // counter
         [&counter]() { return std::to_string(counter++); },
+
+        // sine
         []() {
             double t = pros::millis() / 1000.0;
             return std::to_string(std::sin(t));
         },
+
+        // cosine
         []() {
             double t = pros::millis() / 1000.0;
             return std::to_string(std::cos(t));
         },
+
+        // fake x
         []() {
             // fake x: linear ramp
             double t = pros::millis() / 1000.0;
             return std::to_string(12.0 * t);
         },
+
+        // fake y
         []() {
             // fake y: parabola
             double t = pros::millis() / 1000.0;

@@ -123,3 +123,13 @@ void sdWriter::logRow(const std::string& filename, const std::vector<std::string
 void sdWriter::writeLabel(const std::string& filename, const std::string& label) {
     logRow(filename, {"LABEL", std::to_string(pros::millis()), label});
 }
+
+std::string sdWriter::getTimestamp() {
+    auto now = std::chrono::system_clock::now();
+    std::time_t currentTime = std::chrono::system_clock::to_time_t(now);
+    std::tm* localTime = std::localtime(&currentTime);
+
+    char buffer[32];
+    std::strftime(buffer, sizeof(buffer), "%Y%m%d_%H%M%S", localTime);
+    return std::string(buffer);
+}

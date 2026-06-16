@@ -1,11 +1,13 @@
 #pragma once
-
 #include <string>
 #include <vector>
 #include <functional>
 #include <unordered_map>
 #include <cstdint>
 #include "pros/rtos.hpp"
+#include <iomanip>
+#include <chrono>
+#include <ctime>
 
 class sdWriter {
     public:
@@ -31,6 +33,7 @@ class sdWriter {
         static void logRow(const std::string& filename,
                            const std::vector<std::string>& fields);
         static void writeLabel(const std::string& filename, const std::string& label);
+        static std::string getTimestamp();
 
     private:
         static std::unordered_map<std::string, fileData> files;
