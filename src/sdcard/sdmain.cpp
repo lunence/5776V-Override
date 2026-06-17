@@ -1,10 +1,32 @@
 #include "sdcard/sdmain.hpp"
+#include "lemlib/chassis/chassis.hpp"
+#include "drivecode/objects.hpp"
 
 // Map of file names to file settings, each filename is assigned to a fileData instance
 std::unordered_map<std::string, sdWriter::fileData> sdWriter::files;
 
 std::string sdWriter::activeFile = "";
 pros::Mutex sdWriter::filesMutex;
+
+std::vector<std::function<std::string()>> sdWriter::poseData = {
+        // time (milliseconds)
+        []() { return std::to_string(pros::millis()); },
+
+        // theta
+        []() {
+        return std::to_string(chassis.getPose().theta);        
+        },
+
+        // x
+        []() {
+        return std::to_string(chassis.getPose().x);        
+        },
+
+        // y
+        []() {
+        return std::to_string(chassis.getPose().y);        
+        },
+    };
 
 void sdWriter::initFile(const std::string& filename) {
     std::string path = "/usd/" + filename;

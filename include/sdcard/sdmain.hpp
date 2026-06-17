@@ -21,6 +21,7 @@ class sdWriter {
 
         // Which file synchronous logs (DSR, labels) go to. "" = logging off.
         static std::string activeFile;
+        static std::vector<std::function<std::string()>> poseData;
 
         static void initFile(const std::string& filename);
         static void setData(const std::string& filename,
@@ -34,6 +35,7 @@ class sdWriter {
                            const std::vector<std::string>& fields);
         static void writeLabel(const std::string& filename, const std::string& label);
         static std::string getTimestamp();
+        static std::string stealCompTime();
 
     private:
         static std::unordered_map<std::string, fileData> files;
