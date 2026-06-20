@@ -8,6 +8,11 @@
 void motorInit() {
 }
 
+void visionInit(){
+    visionFront.clear_led();
+    visionBack.clear_led();
+}
+
 //sensor settings
 void sensorInit() {}
 

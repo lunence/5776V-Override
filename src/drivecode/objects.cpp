@@ -3,6 +3,7 @@
 #include "objects.hpp"
 #include "drivecode/util.hpp"
 #include "pros/distance.hpp"
+#include "pros/vision.h"
 
 //pistons
 // pros::adi::DigitalOut scraper('B');
@@ -29,6 +30,9 @@ pros::Distance distRight(0);
 pros::Distance distLeft(0);
 pros::Distance distFront(0);
 pros::Distance distBack(0);
+
+pros::Vision visionFront(0);
+pros::Vision visionBack(0);
 
 // odom objects
 lemlib::TrackingWheel horizOdom(
@@ -98,3 +102,45 @@ lemlib::Chassis chassis(
     odomSensorsDrive,
     distSensors
 );
+
+pros::vision_signature_s_t signatureBluePin =
+    pros::Vision::signature_from_utility(0, 
+                                        -4551, 
+                                        -3437, 
+                                        -3994, 
+                                        7419, 
+                                        9253, 
+                                        8336, 
+                                        2.5, 
+                                        1);
+
+pros::vision_signature_s_t signatureYellowPin =
+    pros::Vision::signature_from_utility(1, 
+                                        -701, 
+                                        515, 
+                                        -93, 
+                                        -5019, 
+                                        -3611, 
+                                        -4315, 
+                                        2.5, 
+                                        1);
+
+pros::vision_signature_s_t signatureRedPin =
+    pros::Vision::signature_from_utility(2, 
+                                        5363, 
+                                        9011, 
+                                        7187, 
+                                        -1139, 
+                                        593, 
+                                        -273, 
+                                        2.5, 
+                                        1);
+// color code declarations
+// each vision sensor has its own for some reason?
+pros::vision_color_code_t codeBLUEYELLOW_F = visionFront.create_color_code(0, 1);
+pros::vision_color_code_t codeREDYELLOW_F = visionFront.create_color_code(2, 1);
+pros::vision_color_code_t codeBLUERED_F = visionFront.create_color_code(0, 2);
+
+pros::vision_color_code_t codeBLUEYELLOW_B = visionBack.create_color_code(0, 1);
+pros::vision_color_code_t codeREDYELLOW_B = visionBack.create_color_code(2, 1);
+pros::vision_color_code_t codeBLUERED_B = visionBack.create_color_code(0, 2);

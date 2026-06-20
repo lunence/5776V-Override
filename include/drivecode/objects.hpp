@@ -27,6 +27,21 @@ extern pros::Distance distRight;
 extern pros::Distance distLeft;
 extern pros::Distance distFront;
 extern pros::Distance distBack;
+extern pros::Vision visionFront;
+extern pros::Vision visionBack;
+
+// color signature declarations
+extern pros::vision_signature_s_t signatureBluePin;
+extern pros::vision_signature_s_t signatureYellowPin;
+extern pros::vision_signature_s_t signatureRedPin;
+
+// color code declarations
+extern pros::vision_color_code_t codeBLUEYELLOW_F;
+extern pros::vision_color_code_t codeREDYELLOW_F;
+extern pros::vision_color_code_t codeBLUERED_F;
+extern pros::vision_color_code_t codeBLUEYELLOW_B;
+extern pros::vision_color_code_t codeREDYELLOW_B;
+extern pros::vision_color_code_t codeBLUERED_B;
 
 //drivetrain declarations
 extern lemlib::TrackingWheel horizOdom;
