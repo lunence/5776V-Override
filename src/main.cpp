@@ -5,7 +5,9 @@
 #include "drivecode/util.hpp"
 #include "pros/misc.h"
 #include "lemlib/intersect.hpp"
-#include "autonomous/autonSelector.hpp"
+#include "autonomous/autonomous.hpp"
+#include "sdcard/sdtest.hpp"
+#include "sdcard/sdmain.hpp"
 
 void on_center_button() {}
 
@@ -23,7 +25,16 @@ void competition_initialize() {}
 
 void autonomous() {
 	chassis.setBrakeMode(pros::E_MOTOR_BRAKE_BRAKE);
-}
+
+	const std::string file = "autonsdtest.csv";
+
+	sdWriter::setData(file, sdWriter::poseData);
+
+	sdWriter::startWrite(file);
+	override();
+	sdWriter::stopWrite(file);
+
+} 
 
 void opcontrol() {
 	//driver
@@ -34,8 +45,8 @@ void opcontrol() {
 		int throttle = controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);
 		int turn = controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X);
 		chassis.arcade(throttle, turn);
-
 		//delay
 		pros::delay(10);
 	}
+
 }

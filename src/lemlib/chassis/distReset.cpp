@@ -1,40 +1,58 @@
 #include "lemlib/chassis/chassis.hpp"
 #include "lemlib/util.hpp"
 #include <cmath>
+#include <iostream>
+#include "main.h"
+#include <string>
+
+float absMax(float x1, float x2) {
+    if(std::fabs(x1) > std::fabs(x2)) {
+        pros::screen::print(pros::E_TEXT_MEDIUM, 150, 50, "left front chosen");
+        return x1;
+    } else {
+        pros::screen::print(pros::E_TEXT_MEDIUM, 150, 50, "right front chosen");
+        return x2;
+    }
+}
 
 void lemlib::Chassis::distanceReset(char xDirection, char yDirection) {
+    std::cout<<"distance reset started\n";
     //treat as lemlib motion so doesnt interfere with motions in progress
     // this->requestMotionStart();
 
     float rotated = 0;
 
     //pick active dist sensor for side
-    DistResetSensors* xDist = nullptr;
-    DistResetSensors* yDist = nullptr;
+    DistResetSensors* side1 = nullptr;
+    DistResetSensors* side2 = nullptr;
+    DistResetSensors* front1 = nullptr;
+    DistResetSensors* front2 = nullptr;
 
     //if using front or back as x direction, need to switch axes so x measures left and right
     if(xDirection == 'F') {
-        xDist = &distSensors.front;
+        side1 = &distSensors.frontLeft;
+        side2 = &distSensors.frontRight;
         rotated = M_PI_2;
     } else if(xDirection == 'B') {
-        xDist = &distSensors.back;
+        side1 = &distSensors.back;
         rotated = M_PI_2;
     } else if(xDirection == 'R') {
-        xDist = &distSensors.right;
+        side1 = &distSensors.right;
     } else if(xDirection == 'L') {
-        xDist = &distSensors.left;
+        side1 = &distSensors.left;
     }
         
     //if using left or right as y direction, need to rotate axes so y measures fwd and back
     if(yDirection == 'F') {
-        yDist = &distSensors.front;
+        front1 = &distSensors.frontLeft;
+        front2 = &distSensors.frontRight;
     } else if(yDirection == 'B') {
-        yDist = &distSensors.back;
+        front1 = &distSensors.back;
     } else if(yDirection == 'R') {
-        yDist = &distSensors.right;
+        front1 = &distSensors.right;
         rotated = M_PI_2;
     } else if(yDirection == 'L') {
-        yDist = &distSensors.left;
+        front1 = &distSensors.left;
         rotated = M_PI_2;
     }
 
@@ -50,10 +68,12 @@ void lemlib::Chassis::distanceReset(char xDirection, char yDirection) {
     }
 
     //if both/essential distance sensors are bad, don't reset
-    if(xDist == nullptr || yDist == nullptr) {
+    if(side1 == nullptr && side2 == nullptr || front1 == nullptr && front2 == nullptr) {
         this->endMotion();
         return;
     }
+
+    std::cout<<"distance sensors chosen\n";
 
     //get current position
     lemlib::Pose currentPose = this->getPose(true);
@@ -80,6 +100,18 @@ void lemlib::Chassis::distanceReset(char xDirection, char yDirection) {
     // if sin(α) > 0, dist sensor ray = longer than central, multiplier = -1, and vice versa    
 
     const int offsetMultiplier = (std::sin(currentPose.theta-rotated) >= 0) ? -1 : 1;
+
+    std::cout<<"offsetMultiplier: "<<offsetMultiplier<<"        rotated: "<<rotated<<"\n";
+    std::cout<<"correctedAngle: "<<correctedAngle<<"\n";
+    std::cout<<"sanitized angle: "<<lemlib::sanitizeAngle(currentPose.theta-rotated)*180/M_PI<<"\n";
+    //print pose to brain screen
+    pros::screen::print(pros::E_TEXT_MEDIUM, 150, 10, "correctedAngle: %.3f", correctedAngle);
+    char buf[64];
+    snprintf(buf, sizeof(buf), "%.3f, %.3f, %.3f",
+            currentPose.x, currentPose.y, currentPose.theta);
+    std::string printPos(buf);
+    pros::screen::print(pros::E_TEXT_MEDIUM, 150, 30, "Position: %s", printPos.c_str());
+    std::cout<<printPos<<"\n";
 
 
     // ACTUAL DISTANCE CALCULATION
@@ -129,6 +161,7 @@ void lemlib::Chassis::distanceReset(char xDirection, char yDirection) {
     } else if(currentPose.x < 0) { //else, -x coord, so subtract width from perpdistance
         pose.x = xPerpDistance - lemlib::halfWidth;
     }
+    std::cout<<"x position reset\n";
 
     //y reset
     if(currentPose.y > 0){ //if on north half of coord plane, +y coord for pose
@@ -136,8 +169,18 @@ void lemlib::Chassis::distanceReset(char xDirection, char yDirection) {
     } else if(currentPose.y < 0){ //else, -y coord, so subtract width from perpdistance
         pose.y = yPerpDistance - lemlib::halfWidth;
     }
+    std::cout<<"y position reset\n";
+
+
+    char buf1[64];
+    snprintf(buf1, sizeof(buf1), "%.3f, %.3f, %.3f",
+            pose.x, pose.y, pose.theta);
+    std::string printPos1(buf1);
+    pros::screen::print(pros::E_TEXT_MEDIUM, 150, 70, "Distance Reset: %s", printPos1.c_str());
+    std::cout<<printPos1<<"\n";
+    std::cout<<"distance reset finished\n\n";
 
     this->setPose(pose);
-    this->endMotion();
+    // this->endMotion();
     return;
 }
