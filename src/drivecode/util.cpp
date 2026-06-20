@@ -11,24 +11,24 @@ void motorInit() {
 //sensor settings
 void sensorInit() {}
 
-//begin all tasks
-void taskInit() {
-    pros::Task screenTask(runScreen, "screen task");
-    pros::Task sdWriteTask(sdWriter::runWriter, "sd write task");
-}
+// //begin all tasks
+// void taskInit() {
+//     pros::Task screenTask(runScreen, "screen task");
+//     pros::Task sdWriteTask(sdWriter::runWriter, "sd write task");
+// }
 
 //brain task
-void runScreen() {
-    while(true) {
-        lemlib::Pose pose = chassis.getPose();
+// void runScreen() {
+//     while(true) {
+//         lemlib::Pose pose = chassis.getPose();
 
-        pros::screen::print(pros::E_TEXT_MEDIUM, 1, "X: %.3f", pose.x);
-        pros::screen::print(pros::E_TEXT_MEDIUM, 2, "Y: %.3f", pose.y);
-        pros::screen::print(pros::E_TEXT_MEDIUM, 3, "Theta: %.3f", pose.theta);
+//         pros::screen::print(pros::E_TEXT_MEDIUM, 1, "X: %.3f", pose.x);
+//         pros::screen::print(pros::E_TEXT_MEDIUM, 2, "Y: %.3f", pose.y);
+//         pros::screen::print(pros::E_TEXT_MEDIUM, 3, "Theta: %.3f", pose.theta);
         
-        pros::delay(50);
-    }
-}
+//         pros::delay(50);
+//     }
+// }
 
 //console task
 void runConsole() {

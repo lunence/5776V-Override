@@ -4,25 +4,25 @@
 #include "pros/optical.hpp"
 
 //piston declarations
-extern pros::adi::DigitalOut scraper;
-extern pros::adi::DigitalOut wing;
-extern pros::adi::DigitalOut trapdoor;
-extern pros::adi::DigitalOut intakeLift;
-extern pros::adi::DigitalOut midDescore;
+// extern pros::adi::DigitalOut scraper;
+// extern pros::adi::DigitalOut wing;
+// extern pros::adi::DigitalOut trapdoor;
+// extern pros::adi::DigitalOut intakeLift;
+// extern pros::adi::DigitalOut midDescore;
 
 //intake motor declarations
-extern pros::Motor topIntake;
-extern pros::Motor midIntake;
-extern pros::Motor bottomIntake;
+// extern pros::Motor topIntake;
+// extern pros::Motor midIntake;
+// extern pros::Motor bottomIntake;
 
 //drive motor declarations
 extern pros::MotorGroup leftMotors;
 extern pros::MotorGroup rightMotors;
 
 //sensor declarations
-extern pros::Imu imu;
-extern pros::Optical color;
-extern pros::Rotation horizRotation;
+// extern pros::Imu imu;
+// extern pros::Optical color;
+// extern pros::Rotation horizRotation;
 extern pros::Distance distRight;
 extern pros::Distance distLeft;
 extern pros::Distance distFront;

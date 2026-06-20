@@ -17,19 +17,19 @@
 // pros::Motor bottomIntake(8, pros::MotorGearset::blue);
 
 //drive motors
-pros::MotorGroup leftMotors({-10, -16, 19}, pros::MotorGearset::blue);
-pros::MotorGroup rightMotors({1, -4, 3}, pros::MotorGearset::blue);
+pros::MotorGroup leftMotors({9, 10, 12}, pros::MotorGearset::blue);
+pros::MotorGroup rightMotors({14, 20, 12}, pros::MotorGearset::blue);
 
 //sensors
-// pros::Imu imu(6);
+pros::Imu imu(6);
 // pros::Optical color(18);
-// pros::Rotation horizRotation(7);
-// pros::Distance distRight(13);
-// pros::Distance distLeft(20);
-// pros::Distance distFront(15);
-// pros::Distance distBack(11);
+pros::Rotation horizRotation(0);
+pros::Distance distRight(0);
+pros::Distance distLeft(0);
+pros::Distance distFront(0);
+pros::Distance distBack(0);
 
-//odom objects
+// odom objects
 lemlib::TrackingWheel horizOdom(
     &horizRotation, 
     2,
