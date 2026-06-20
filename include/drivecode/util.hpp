@@ -7,6 +7,9 @@ void taskInit();
 //set motor modes/init motors
 void motorInit();
 
+//initialize visions
+void visionInit();
+
 //initialize sensors
 void sensorInit();
 

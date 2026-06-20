@@ -17,6 +17,7 @@ void initialize() {
 
 	// taskInit();
 	motorInit();
+	visionInit();
 }
 
 void disabled() {}
