@@ -23,17 +23,7 @@ void disabled() {}
 
 void competition_initialize() {}
 
-void autonomous() {
-	chassis.setBrakeMode(pros::E_MOTOR_BRAKE_BRAKE);
-
-	const std::string file = "autonsdtest.csv";
-
-	sdWriter::setData(file, sdWriter::poseData);
-
-	sdWriter::startWrite(file);
-	sdWriter::stopWrite(file);
-
-} 
+void autonomous() {}
 
 void opcontrol() {
 	//driver
