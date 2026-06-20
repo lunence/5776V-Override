@@ -31,7 +31,6 @@ void autonomous() {
 	sdWriter::setData(file, sdWriter::poseData);
 
 	sdWriter::startWrite(file);
-	override();
 	sdWriter::stopWrite(file);
 
 } 

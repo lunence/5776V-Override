@@ -25,8 +25,7 @@ extern pros::Optical color;
 extern pros::Rotation horizRotation;
 extern pros::Distance distRight;
 extern pros::Distance distLeft;
-extern pros::Distance distFrontLeft;
-extern pros::Distance distFrontRight;
+extern pros::Distance distFront;
 extern pros::Distance distBack;
 
 //drivetrain declarations
