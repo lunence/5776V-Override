@@ -26,7 +26,13 @@ void competition_initialize() {}
 void autonomous() {
 	chassis.setBrakeMode(pros::E_MOTOR_BRAKE_BRAKE);
 
-	pbauton();
+	const std::string file = "autonsdtest.csv";
+
+	sdWriter::setData(file, sdWriter::poseData);
+
+	sdWriter::startWrite(file);
+	override();
+	sdWriter::stopWrite(file);
 
 } 
 
