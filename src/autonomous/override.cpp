@@ -30,7 +30,8 @@ void override() {
     pros::delay(350);
 
     // go to the wall to distreset
-    chassis.moveToPoint(90, 90, 1500);
+    chassis.moveDistance(12, 1000, {.minSpeed = 25, .earlyExitRange = 0.5});
+    chassis.moveToPoint(45, 20, 1500);
     chassis.turnToHeading(0, 1000);
 
     // reset distance sensor 
