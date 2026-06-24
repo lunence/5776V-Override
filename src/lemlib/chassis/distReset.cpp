@@ -48,6 +48,7 @@ void lemlib::Chassis::distanceReset(char xDirection, char yDirection) {
 
     //if both/essential distance sensors are bad, don't reset
     if(xDist == nullptr || yDist == nullptr) {
+        this->endMotion();
         return;
     }
 
@@ -90,5 +91,6 @@ void lemlib::Chassis::distanceReset(char xDirection, char yDirection) {
     }
 
     this->setPose(pose);
+    this->endMotion();
     return;
 }
