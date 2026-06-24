@@ -19,7 +19,7 @@ void override() {
     //go to the quart
     chassis.turnToHeading(-97, 1000);
     chassis.moveToPoint(67.5, -27, 1500, {.minSpeed = 110, .earlyExitRange= 5});
-    chassis.moveToPoint(47.5, -27, 1500, {.maxSpeed = 80, .minSpeed = 50, .earlyExitRange= 0.5});
+    chassis.moveToPoint(47.5, -27, 1500, {.maxSpeed = 70, .earlyExitRange= 0.5});
     
     // in the event it turns away from 90 consistently this is to adjust it
     chassis.turnToHeading(-90, 1000);
@@ -29,7 +29,7 @@ void override() {
 
     // wait a bit to calibrate
     pros::delay(500);
-    chassis.moveToPoint(12, -7, 1500);
+    chassis.moveToPoint(12, -2, 1500);
     chassis.turnToHeading(0, 1000);
 
     // reset distance sensor 

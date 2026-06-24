@@ -17,17 +17,18 @@ pros::Motor midIntake(-9, pros::MotorGearset::green);
 pros::Motor bottomIntake(8, pros::MotorGearset::blue);
 
 //drive motors
-//TODO: make odom compatible with 5.5w 11w mixed
-pros::MotorGroup leftMotors({0, 0, 0}, pros::MotorGearset::blue);
-pros::MotorGroup rightMotors({0, 0, 0}, pros::MotorGearset::blue);
+pros::MotorGroup leftMotors({-10, -16, 19}, pros::MotorGearset::blue);
+pros::MotorGroup rightMotors({1, -4, 3}, pros::MotorGearset::blue);
 
 //sensors
-pros::Imu imu(0);
-pros::Rotation horizRotation(0);
-pros::Distance distRight(0);
-pros::Distance distLeft(0);
-pros::Distance distFront(0);
-pros::Distance distBack(0);
+pros::Imu imu(6);
+pros::Optical color(18);
+pros::Rotation horizRotation(7);
+pros::Distance distRight(13);
+pros::Distance distLeft(20);
+pros::Distance distFront(15);
+pros::Distance distFrontRight(12);
+pros::Distance distBack(11);
 
 //odom objects
 lemlib::TrackingWheel horizOdom(
