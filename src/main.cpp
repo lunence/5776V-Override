@@ -6,6 +6,7 @@
 #include "pros/misc.h"
 #include "lemlib/intersect.hpp"
 #include "autonomous/autonSelector.hpp"
+#include "autonomous/autonomous.hpp"
 
 void on_center_button() {}
 
@@ -23,7 +24,8 @@ void competition_initialize() {}
 
 void autonomous() {
 	chassis.setBrakeMode(pros::E_MOTOR_BRAKE_BRAKE);
-	chassis.moveDistance(24, 1000);
+	
+	override();
 }
 
 void opcontrol() {
