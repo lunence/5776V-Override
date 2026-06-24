@@ -1,56 +1,40 @@
 #include "lemlib/chassis/chassis.hpp"
 #include "lemlib/util.hpp"
 #include <cmath>
-#include <iostream>
-#include "main.h"
-#include <string>
-
-float absMax(float x1, float x2) {
-    if(std::fabs(x1) > std::fabs(x2)) {
-        return x1;
-    } else {
-        return x2;
-    }
-}
 
 void lemlib::Chassis::distanceReset(char xDirection, char yDirection) {
-    std::cout<<"distance reset started\n";
     //treat as lemlib motion so doesnt interfere with motions in progress
     // this->requestMotionStart();
 
     float rotated = 0;
 
     //pick active dist sensor for side
-    DistResetSensors* side1 = nullptr;
-    DistResetSensors* side2 = nullptr;
-    DistResetSensors* front1 = nullptr;
-    DistResetSensors* front2 = nullptr;
+    DistResetSensors* xDist = nullptr;
+    DistResetSensors* yDist = nullptr;
 
     //if using front or back as x direction, rotate angle by adding 90 degrees
     if(xDirection == 'F') {
-        side1 = &distSensors.frontLeft;
-        side2 = &distSensors.frontRight;
+        xDist = &distSensors.front;
         rotated = M_PI_2;
     } else if(xDirection == 'B') {
-        side1 = &distSensors.back;
+        xDist = &distSensors.back;
         rotated = M_PI_2;
     } else if(xDirection == 'R') {
-        side1 = &distSensors.right;
+        xDist = &distSensors.right;
     } else if(xDirection == 'L') {
-        side1 = &distSensors.left;
+        xDist = &distSensors.left;
     }
         
     //if using left or right as y direction, rotate angle by adding 90 degrees
     if(yDirection == 'F') {
-        front1 = &distSensors.frontLeft;
-        front2 = &distSensors.frontRight;
+        yDist = &distSensors.front;
     } else if(yDirection == 'B') {
-        front1 = &distSensors.back;
+        yDist = &distSensors.back;
     } else if(yDirection == 'R') {
-        front1 = &distSensors.right;
+        yDist = &distSensors.right;
         rotated = M_PI_2;
     } else if(yDirection == 'L') {
-        front1 = &distSensors.left;
+        yDist = &distSensors.left;
         rotated = M_PI_2;
     }
 
@@ -63,12 +47,10 @@ void lemlib::Chassis::distanceReset(char xDirection, char yDirection) {
     }
 
     //if both/essential distance sensors are bad, don't reset
-    if(side1 == nullptr && side2 == nullptr || front1 == nullptr && front2 == nullptr) {
+    if(xDist == nullptr || yDist == nullptr) {
         this->endMotion();
         return;
     }
-
-    std::cout<<"distance sensors chosen\n";
 
     //get current position
     lemlib::Pose currentPose = this->getPose(true);
@@ -100,7 +82,6 @@ void lemlib::Chassis::distanceReset(char xDirection, char yDirection) {
     } else if(currentPose.x < 0) { //neg
         pose.x = xPerpDistance - lemlib::halfWidth;
     }
-    std::cout<<"x position reset\n";
 
     //y reset
     if(currentPose.y > 0){ //pos
@@ -108,12 +89,8 @@ void lemlib::Chassis::distanceReset(char xDirection, char yDirection) {
     } else if(currentPose.y < 0){ //neg
         pose.y = yPerpDistance - lemlib::halfWidth;
     }
-    std::cout<<"y position reset\n";
-
-
-    std::cout<<"distance reset finished\n\n";
 
     this->setPose(pose);
-    // this->endMotion();
+    this->endMotion();
     return;
 }
