@@ -49,7 +49,7 @@ void override() {
     chassis.moveDistance(-32, 300, {.forwards = false, .minSpeed = 80});
 
     // align to line
-    chassis.turnToHeading(133, 850, {.direction = AngularDirection::CW_CLOCKWISE});
+    chassis.turnToHeading(130, 850, {.direction = AngularDirection::CW_CLOCKWISE});
     pros::delay(500);
 
     // // move to center
