@@ -45,11 +45,8 @@ void override() {
     chassis.turnToHeading(-90, 600);
 
     // get le pin because france and align to the line based on the grid
-    chassis.moveDistance(5, 300, {.minSpeed = 80});
+    chassis.moveDistance(6, 300, {.minSpeed = 80});
     chassis.moveDistance(-32, 300, {.forwards = false, .minSpeed = 80});
-
-    // turn back to forwards
-    chassis.turnToHeading(0, 600);
 
     // align to line
     chassis.turnToHeading(133, 850, {.direction = AngularDirection::CW_CLOCKWISE});
