@@ -10,10 +10,10 @@ void override() {
 
     // get the first pin
     chassis.moveToPoint(94, -64, 1000);
-    chassis.moveToPoint(110, -55.5, 1000);
+    chassis.moveToPoint(110, -54, 1000);
 
     // turn to the next pin and get it
-    chassis.turnToHeading(-42, 1000);
+    chassis.turnToHeading(-45, 1000);
     chassis.moveToPoint(95, -30, 1000);
 
     //go to the quart
@@ -31,10 +31,21 @@ void override() {
 
     // go to the wall to distreset
     chassis.turnToHeading(-50, 1000);
-    chassis.moveDistance(50, 1000, {.minSpeed = 25, .earlyExitRange = 0.5});
-    chassis.moveToPoint(-10, 30, 1500);
+    chassis.moveDistance(48, 1000, {.minSpeed = 25, .earlyExitRange = 0.5});
     chassis.turnToHeading(0, 1000);
 
     // reset distance sensor 
-    chassis.distanceReset('L', 'B');
+    // chassis.distanceReset('L', 'B');
+
+    // move to pin
+    chassis.moveDistance(24.5, 1500);
+    chassis.turnToHeading(-90, 1000);
+
+    // align to line
+    chassis.moveToPoint(10, 42, 1500);
+    chassis.turnToHeading(135, 1000);
+
+    // go to the center
+    chassis.moveDistance(36, 1500);
+    chassis.moveDistance(30, 1500);
 }
