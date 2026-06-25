@@ -44,17 +44,14 @@ void override() {
     chassis.moveDistance(-5, 300, {.forwards = false});
     chassis.turnToHeading(0, 600);
 
-
     // align to line
     chassis.moveToPoint(10, 45, 800);
-    // chassis.turnToHeading(133, 850);
-
-    chassis.turnToPoint(59, 3, 300);
+    chassis.turnToHeading(133, 850);
 
     // go to the center
     chassis.moveDistance(36, 1500, {.maxSpeed = 80, .earlyExitRange = 2});
 
-    chassis.turnToHeading(132, 500);
+    chassis.turnToHeading(133, 850);
 
     chassis.moveDistance(30, 1500, {.minSpeed = 100});
 }
