@@ -52,18 +52,18 @@ void override() {
     chassis.turnToHeading(133, 850, {.direction = AngularDirection::CW_CLOCKWISE});
     pros::delay(500);
 
-    // move to center
-    chassis.moveToPoint(90, -20, 1000);
-    chassis.turnToHeading(133, 850);
-    chassis.moveToPoint(105, -30, 1000);
+    // // move to center
+    // chassis.moveToPoint(100, 0, 1000, {.maxSpeed = 80, .minSpeed = 50, .earlyExitRange = 1});
+    // chassis.turnToHeading(133, 850);
+    // chassis.moveToPoint(124, -24, 1000, {.minSpeed = 100});
 
     // // Code here was previously used to move to center
     // // zcheng has decreed that don't do this.
-    // // go to the center 
-    // chassis.moveDistance(36, 1500, {.maxSpeed = 90, .minSpeed = 80, .earlyExitRange = 2});
+    // go to the center 
+    chassis.moveDistance(36, 1500, {.maxSpeed = 90, .minSpeed = 80, .earlyExitRange = 2});
 
-    // // previously used to make sure robot was fully aligned
-    // // chassis.turnToHeading(133, 850, {.direction = AngularDirection::CCW_COUNTERCLOCKWISE, .earlyExitRange = 1});
+    // previously used to make sure robot was fully aligned
+    // chassis.turnToHeading(133, 850, {.direction = AngularDirection::CCW_COUNTERCLOCKWISE, .earlyExitRange = 1});
 
-    // chassis.moveDistance(15, 1500, {.minSpeed = 110});
+    chassis.moveDistance(15, 1500, {.minSpeed = 110});
 }
