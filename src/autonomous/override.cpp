@@ -52,7 +52,7 @@ void override() {
     chassis.turnToHeading(0, 600);
 
     // align to line
-    chassis.turnToHeading(133, 850, {.direction = AngularDirection::CCW_COUNTERCLOCKWISE});
+    chassis.turnToHeading(133, 850, {.direction = AngularDirection::CW_CLOCKWISE});
 
     // go to the center 
     chassis.moveDistance(36, 1500, {.maxSpeed = 90, .minSpeed = 80, .earlyExitRange = 2});
