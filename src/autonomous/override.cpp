@@ -32,7 +32,7 @@ void override() {
 
     // go to the wall to distreset
     chassis.turnToHeading(-60, 800);
-    chassis.moveDistance(48, 1000, {.minSpeed = 90, .earlyExitRange = 0.5});
+    chassis.moveDistance(52, 1000, {.minSpeed = 90, .earlyExitRange = 0.5});
 
     // turn to a bit tilted to get more clearance
     chassis.turnToHeading(5, 600);
@@ -50,12 +50,20 @@ void override() {
 
     // align to line
     chassis.turnToHeading(133, 850, {.direction = AngularDirection::CW_CLOCKWISE});
+    pros::delay(500);
 
-    // go to the center 
-    chassis.moveDistance(36, 1500, {.maxSpeed = 90, .minSpeed = 80, .earlyExitRange = 2});
+    // move to center
+    chassis.moveToPoint(90, -20, 1000);
+    chassis.turnToHeading(133, 850);
+    chassis.moveToPoint(105, -30, 1000);
 
-    // previously used to make sure robot was fully aligned
-    // chassis.turnToHeading(133, 850, {.direction = AngularDirection::CCW_COUNTERCLOCKWISE, .earlyExitRange = 1});
+    // // Code here was previously used to move to center
+    // // zcheng has decreed that don't do this.
+    // // go to the center 
+    // chassis.moveDistance(36, 1500, {.maxSpeed = 90, .minSpeed = 80, .earlyExitRange = 2});
 
-    chassis.moveDistance(15, 1500, {.minSpeed = 110});
+    // // previously used to make sure robot was fully aligned
+    // // chassis.turnToHeading(133, 850, {.direction = AngularDirection::CCW_COUNTERCLOCKWISE, .earlyExitRange = 1});
+
+    // chassis.moveDistance(15, 1500, {.minSpeed = 110});
 }
