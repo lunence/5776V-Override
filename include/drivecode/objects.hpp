@@ -3,6 +3,12 @@
 #include "pros/distance.hpp"
 #include "pros/optical.hpp"
 
+// CONTROLS
+extern pros::controller_digital_e_t cascadeToggleControl;
+extern pros::controller_digital_e_t intakeControl;
+extern pros::controller_digital_e_t clawRotateControl;
+extern pros::controller_digital_e_t clawCloseControl;
+
 // drive motors
 extern pros::MotorGroup leftMotors;
 extern pros::MotorGroup rightMotors;

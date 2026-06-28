@@ -7,7 +7,7 @@ int cascadeState = 0;
 bool cascadePressed = false;
 
 void updateCascade() {
-    if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) {
+    if (controller.get_digital(cascadeToggleControl)) {
         if (!cascadePressed) {
             if (cascadeState == 0) {
                 cascadeState = 1;

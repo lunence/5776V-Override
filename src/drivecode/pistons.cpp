@@ -10,7 +10,8 @@ bool clawRotatePressed = false;
 bool clawClosePressed = false;
 
 void updatePistons() {
-    if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
+    // claw rotate
+    if (controller.get_digital(clawRotateControl)) {
         if (!clawRotatePressed) {
             if (clawRotateState == 0) {
                 clawRotateState = 1;
@@ -23,7 +24,8 @@ void updatePistons() {
         clawRotatePressed = false;
     }
     
-    if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
+    // claw close
+    if (controller.get_digital(clawCloseControl)) {
         if (!clawClosePressed) {
             if (clawCloseState == 0) {
                 clawCloseState = 1;

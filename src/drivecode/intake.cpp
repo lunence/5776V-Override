@@ -8,7 +8,7 @@ bool intakePressed = false;
 
 void updateIntake() {
     // if intake control is pressed
-    if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) {
+    if (controller.get_digital(intakeControl)) {
         if (!intakePressed) {
             // if it is intakking turn it outtake
             if(intakeState == 1) {

@@ -5,6 +5,12 @@
 #include "pros/distance.hpp"
 #include "pros/rotation.hpp"
 
+// TODO: CONTROLS
+pros::controller_digital_e_t cascadeToggleControl = pros::E_CONTROLLER_DIGITAL_L2;
+pros::controller_digital_e_t intakeControl = pros::E_CONTROLLER_DIGITAL_L1;
+pros::controller_digital_e_t clawRotateControl = pros::E_CONTROLLER_DIGITAL_R1;
+pros::controller_digital_e_t clawCloseControl = pros::E_CONTROLLER_DIGITAL_R2;
+
 // TODO: Add actual drive motor ports
 // drive motors
 pros::MotorGroup leftMotors({0, 0, 0});
