@@ -18,7 +18,7 @@ pros::Motor intake(0, pros::MotorGearset::green); // 5.5w
 // TODO: Change motor gearsets to actual used (these are for testing)
 // cascade and chainbar motors
 pros::Motor cascadeL (11, pros::MotorGearset::blue);
-pros::Motor cascadeR (11, pros::MotorGearset::blue);
+pros::Motor cascadeR (0, pros::MotorGearset::blue);
 pros::Motor chainBar (2, pros::MotorGearset::green); // 5.5 w
 
 // TODO: Add actual cascade distance sensor port
