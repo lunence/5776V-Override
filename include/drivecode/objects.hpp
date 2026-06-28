@@ -4,6 +4,7 @@
 #include "pros/optical.hpp"
 
 extern pros::Motor cascade;
+extern pros::Motor scoreMech;
 
 //drive motor declarations
 extern pros::MotorGroup leftMotors;

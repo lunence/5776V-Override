@@ -6,6 +6,7 @@
 #include "pros/rotation.hpp"
 
 pros::Motor cascade(11, pros::MotorGearset::blue);
+pros::Motor scoreMech(2, pros::MotorGearset::red);
 
 pros::Distance distCascade(1);
 

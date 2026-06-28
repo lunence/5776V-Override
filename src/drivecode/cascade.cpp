@@ -11,10 +11,13 @@ void updateCascade() {
         if (!cascadePressed) {
             if (cascadeState == 0) {
                 cascadeState = 1;
-            } else {
+            } if (cascadeState == 1) {
+                cascadeState = 2;
+            } if (cascadeState == 2) {
                 cascadeState = 0;
             }
         }
+        
         cascadePressed = true;
     } else {
         cascadePressed = false;
@@ -26,11 +29,19 @@ void runCascade() {
         if (cascadeState == 1) {
             if (distCascade.get() < 254) { // less than 10 in away
                 cascade.move_velocity(200);
+                scoreMech.move_velocity(0);
             } else {
-                cascade.move_velocity(0);
+                cascadeState = 2;
             }
-        } else {
+        
+        } if (cascadeState == 2) {
             cascade.move_velocity(0);
+            scoreMech.move_velocity(100);
+        }
+
+        if (cascadeState == 0) {
+            cascade.move_velocity(0);
+            scoreMech.move_velocity(0);
         }
 
         pros::delay(10);

@@ -16,20 +16,20 @@ void sensorInit() {}
 
 //begin all tasks
 void taskInit() {
-    // pros::Task screenTask(runScreen, "screen task");
+    pros::Task screenTask(runScreen, "screen task");
     // pros::Task sdWriteTask(sdWriter::runWriter, "sd write task");
-    // pros::Task cascadeTask(runCascade, "cascade task");
+    pros::Task cascadeTask(runCascade, "cascade task");
 }
 
-// //brain task
-// void runScreen() {
-//     while(true) {
-//         pros::screen::print(pros::E_TEXT_MEDIUM, 1, "Cascade State: %d", cascadeState);
-//         pros::screen::print(pros::E_TEXT_MEDIUM, 2, "DistSensor: %.3f", distCascade.get());
+//brain task
+void runScreen() {
+    while(true) {
+        pros::screen::print(pros::E_TEXT_MEDIUM, 1, "Cascade State: %d", cascadeState);
+        pros::screen::print(pros::E_TEXT_MEDIUM, 2, "DistSensor: %.3f", distCascade.get());
 
-//         pros::delay(10);
-//     }
-// }
+        pros::delay(10);
+    }
+}
 
 //console task
 void runConsole() {
