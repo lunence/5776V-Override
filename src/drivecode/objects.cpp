@@ -58,14 +58,14 @@ pros::Distance distRight(0);
 pros::Rotation horizRotation(0);
 pros::Imu imu(0);
 
-//odom objects
+// odom objects
 lemlib::TrackingWheel horizOdom(
     &horizRotation, 
     2,
     0
 );
 
-//odom sensors
+// odom sensors
 lemlib::OdomSensors odomSensorsDrive(
     nullptr,
     nullptr,
@@ -75,7 +75,7 @@ lemlib::OdomSensors odomSensorsDrive(
 );
 
 
-//drivetrain
+// drivetrain
 lemlib::Drivetrain drivetrain(
     &leftMotors,
     &rightMotors,
@@ -85,7 +85,7 @@ lemlib::Drivetrain drivetrain(
     60 //radius multiplier for movetopose angular constraint. more horizontaldrift allows more aggressive drifting
 );
 
-//controller settings
+// lateral pid controller
 lemlib::ControllerSettings lateralController(
     10,                           //kP
     0,                         //kI
@@ -98,26 +98,25 @@ lemlib::ControllerSettings lateralController(
     0                           //slew
 );
 
-lemlib::ControllerSettings angularController(
-    2.73,
-    0,
-    18,
-    5,
-    2,
-    50,
-    0,
-    500,
-    0
+// angular pid controller
+lemlib::ControllerSettings angularController(4.5, // proportional gain (kP)
+                                              0, // integral gain (kI)
+                                              27.5, // derivative gain (kD)
+                                              5, // anti windup
+                                              2, // small error range, in inches
+                                              50, // small error range timeout, in milliseconds
+                                              0, // large error range, in inches
+                                              500, // large error range timeout, in milliseconds
+                                              0 // maximum acceleration (slew)
 );
 
-//distance sensors
+// distance sensors
 lemlib::DistanceSensors distSensors(distFrontLeft, -4.13, 5.27,
-                                    // distFrontRight, 4.13, 5.27,
                                     distBack, 2.99, 4.66,
                                     distLeft, 2.04, 4.80,
                                     distRight, -3.18, 4.80);
 
-//controller
+// controller
 pros::Controller controller(pros::E_CONTROLLER_MASTER);
 
 // chassis
