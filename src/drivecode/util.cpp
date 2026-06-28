@@ -1,11 +1,12 @@
-// #include "pros/misc.h"
-// #include "pros/motors.h"
+#include "pros/misc.h"
+#include "pros/motors.h"
 #include "pros/rtos.hpp"
 #include "drivecode/util.hpp"
 #include "drivecode/objects.hpp"
 
 // motor settings
-void motorInit() {}
+void motorInit() {
+}
 
 // sensor settings
 void sensorInit() {}
