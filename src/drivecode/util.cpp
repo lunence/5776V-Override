@@ -5,10 +5,15 @@
 #include "drivecode/objects.hpp"
 #include "sdcard/sdmain.hpp"
 #include "drivecode/cascade.hpp"
+#include "drivecode/intake.hpp"
+#include "drivecode/pistons.hpp"
 
 void runCascade();
 
 void motorInit() {
+    cascadeL.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+    cascadeR.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+    chainBar.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
 }
 
 //sensor settings
@@ -19,6 +24,8 @@ void taskInit() {
     pros::Task screenTask(runScreen, "screen task");
     // pros::Task sdWriteTask(sdWriter::runWriter, "sd write task");
     pros::Task cascadeTask(runCascade, "cascade task");
+    pros::Task intakeTask(runIntake, "intake task");
+    pros::Task pistonTask(runPistons, "pistons task");
 }
 
 //brain task
