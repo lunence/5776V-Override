@@ -22,8 +22,8 @@ pros::controller_digital_e_t manualChainBarControlDown = pros::E_CONTROLLER_DIGI
 
 // TODO: Add actual drive motor ports
 // drive motors
-pros::MotorGroup leftMotors({0, 0, 0});
-pros::MotorGroup rightMotors({0, 0, 0});
+pros::MotorGroup leftMotors({-10, -16, 19}, pros::MotorGearset::blue);
+pros::MotorGroup rightMotors({1, -4, 3}, pros::MotorGearset::blue);
 
 // TODO: Add actual intake motor ports
 // intake

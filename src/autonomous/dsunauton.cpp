@@ -1,7 +1,7 @@
 #include "autonomous/autonomous.hpp"
 #include "lemlib/chassis/chassis.hpp"
 
-void override() {
+void dsunauto() {
     // beginning turn
     // intakeState = 1;
 
