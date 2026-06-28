@@ -5,6 +5,15 @@
 #include "pros/distance.hpp"
 #include "pros/rotation.hpp"
 
+// TODO: Add actual drive motor ports
+// drive motors
+pros::MotorGroup leftMotors({0, 0, 0});
+pros::MotorGroup rightMotors({0, 0, 0});
+
+// TODO: Add actual intake motor ports
+// intake
+pros::Motor intake(0, pros::MotorGearset::green); // 5.5w
+
 // TODO: Add actual cascade ports and rotation
 // TODO: Change motor gearsets to actual used (these are for testing)
 // cascade and chainbar motors
@@ -21,10 +30,6 @@ pros::Distance distCascade(1);
 pros::adi::DigitalOut pistonClawRotate(0);
 pros::adi::DigitalOut pistonClawClose(0);
 
-// TODO: Add actual intake motor ports
-// intake
-pros::Motor intake(0, pros::MotorGearset::green); // 5.5w
-
 // TODO: Add actual distance sensor ports
 // distance sensors for dsr
 pros::Distance distFrontLeft(0);
@@ -32,11 +37,6 @@ pros::Distance distFrontRight(0);
 pros::Distance distBack(0);
 pros::Distance distLeft(0);
 pros::Distance distRight(0);
-
-// TODO: Add actual drive motor ports
-// drive motors
-pros::MotorGroup leftMotors({0, 0, 0});
-pros::MotorGroup rightMotors({0, 0, 0});
 
 // TODO: Add actual odometry ports
 // odometry sensors for chassis
