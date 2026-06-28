@@ -28,20 +28,23 @@ void runCascade() {
     while (true) {
         if (cascadeState == 1) {
             if (distCascade.get() < 254) { // less than 10 in away
-                cascade.move_velocity(200);
-                scoreMech.move_velocity(0);
+                cascadeL.move_velocity(200);
+                // cascadeR.move_velocity(200);
+                chainBar.move_velocity(0);
             } else {
                 cascadeState = 2;
             }
         
         } if (cascadeState == 2) {
-            cascade.move_velocity(0);
-            scoreMech.move_velocity(100);
+            cascadeL.move_velocity(0);
+            // cascadeR.move_velocity(0);
+            chainBar.move_velocity(100);
         }
 
         if (cascadeState == 0) {
-            cascade.move_velocity(0);
-            scoreMech.move_velocity(0);
+            cascadeL.move_velocity(0);
+            // cascadeR.move_velocity(0);
+            chainBar.move_velocity(0);
         }
 
         pros::delay(10);

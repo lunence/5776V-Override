@@ -32,9 +32,9 @@ void opcontrol() {
 	chassis.setBrakeMode(pros::E_MOTOR_BRAKE_COAST);
 
 	while (true) {
-		// int throttle = controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);
-		// int turn = controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X);
-		// chassis.arcade(throttle, turn);
+		int throttle = controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);
+		int turn = controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X);
+		chassis.arcade(throttle, turn);
 
 		updateCascade();
 		pros::delay(10);

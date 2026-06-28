@@ -35,13 +35,15 @@ struct DistResetSensors {
 
 class DistanceSensors {
     public:
-        DistanceSensors(pros::Distance frontLeft, float frontLeftOffsetX, float frontLeftOffsetY,
-                        pros::Distance frontRight, float frontRightOffsetX, float frontRightOffsetY,
+        DistanceSensors(// pros::Distance frontLeft, float frontLeftOffsetX, float frontLeftOffsetY,
+                        // pros::Distance frontRight, float frontRightOffsetX, float frontRightOffsetY,
+                        pros::Distance front, float frontOffsetX, float frontOffsetY,
                         pros::Distance back, float backOffsetX, float backOffsetY,
                         pros::Distance left, float leftOffsetX, float leftOffsetY,
                         pros::Distance right, float rightOffsetX, float rightOffsetY);
-        DistResetSensors frontLeft;
-        DistResetSensors frontRight;
+        // DistResetSensors frontLeft;
+        // DistResetSensors frontRight;
+        DistResetSensors front;
         DistResetSensors back;
         DistResetSensors left;
         DistResetSensors right;
@@ -945,6 +947,8 @@ class Chassis {
          * 
          */
         void distanceReset(char xDirection, char yDirection);
+        void distResetX(char xDirection);
+        void distResetY(char yDirection);
 
         DistanceSensors distSensors;
 

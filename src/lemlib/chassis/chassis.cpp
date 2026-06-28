@@ -12,13 +12,11 @@
 
 //const float lemlib::DistanceSensors::width = 140.5;
 
-lemlib::DistanceSensors::DistanceSensors(pros::Distance frontLeft, float frontLeftOffsetX, float frontLeftOffsetY,
-                                        pros::Distance frontRight, float frontRightOffsetX, float frontRightOffsetY,
-                                        pros::Distance back, float backOffsetX, float backOffsetY,
-                                        pros::Distance left, float leftOffsetX, float leftOffsetY,
+lemlib::DistanceSensors::DistanceSensors(pros::Distance front, float frontOffsetX, float frontOffsetY,
+                                        pros::Distance back, float backOffsetX, float backOffsetY,  
+                                        pros::Distance left, float leftOffsetX, float leftOffsetY, 
                                         pros::Distance right, float rightOffsetX, float rightOffsetY)
-                        : frontLeft(frontLeft, frontLeftOffsetX, frontLeftOffsetY),
-                          frontRight(frontRight, frontRightOffsetX, frontRightOffsetY),
+                        : front(front, frontOffsetX, frontOffsetY),
                           back(back, backOffsetX, backOffsetY),
                           left(left, leftOffsetX, leftOffsetY),
                           right(right, rightOffsetX, rightOffsetY) {}

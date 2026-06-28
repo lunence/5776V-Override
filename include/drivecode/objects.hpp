@@ -3,23 +3,35 @@
 #include "pros/distance.hpp"
 #include "pros/optical.hpp"
 
-extern pros::Motor cascade;
-extern pros::Motor scoreMech;
+// cascade and chainbar motors
+extern pros::Motor cascadeL;
+extern pros::Motor cascadeR;
+extern pros::Motor chainBar;
 
-//drive motor declarations
-extern pros::MotorGroup leftMotors;
-extern pros::MotorGroup rightMotors;
+// cascade distance sensor for macro
+extern pros::Distance distCascade;
 
-//sensor declarations
-extern pros::Imu imu;
-extern pros::Optical color;
-extern pros::Rotation horizRotation;
-extern pros::Distance distRight;
-extern pros::Distance distLeft;
+// intake
+extern pros::Motor intake; // 5.5w
+
+// piston claw
+extern pros::adi::DigitalOut pistonClawRotate;
+extern pros::adi::DigitalOut pistonClawClose;
+
+// distance sensors for dsr
 extern pros::Distance distFrontLeft;
 extern pros::Distance distFrontRight;
 extern pros::Distance distBack;
-extern pros::Distance distCascade;
+extern pros::Distance distLeft;
+extern pros::Distance distRight;
+
+// drive motors
+extern pros::MotorGroup leftMotors;
+extern pros::MotorGroup rightMotors;
+
+// odometry sensors for chassis
+extern pros::Rotation horizRotation;
+extern pros::Imu imu;
 
 //drivetrain declarations
 extern lemlib::TrackingWheel horizOdom;

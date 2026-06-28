@@ -1,63 +1,51 @@
-// #include "lemlib/timer.hpp"
-// #include "main.h"
-// #include "pros/misc.h"
-// #include "drivecode/intake.hpp"
+#include "drivecode/intake.hpp"
+#include "pros/misc.h"
+#include "drivecode/objects.hpp"
 
-// void runIntake() {
-//     while (true) {
-//         switch(intakeState) {
-//             case 0: {
-//                 break;
-//             }
+int intakeState = 0;
 
-//             case 1: {
-//                 break;
-//             }
+bool intakePressed = false;
 
-//             case 2: {
-//                 break;
-//             }
-//         }
-//     }
-// }
+void updateIntake() {
+    // if intake control is pressed
+    if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) {
+        if (!intakePressed) {
+            // if it is intakking turn it outtake
+            if(intakeState == 1) {
+                intakeState = 2;
+            }
+            // if it is outtaking turn it off
+            if(intakeState == 2) {
+                intakeState = 0;
+            }
+            // if it is off turn it intaking
+            if(intakeState == 0) {
+                intakeState = 1;
+            }
+        }
+        // intake was just toggled just now
+        intakePressed = true;
 
-// void updateIntake() {
-//     if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) {
-//         if (!intakePressed) {
-//             if (toggleState == 3) {
-//                 toggleState = 0;
-//             } else {
-//                 toggleState = 3;
-//                 trapdoorState = 0;
-//             }
-//         }
-//         intakePressed = true;
-//     } else {
-//         intakePressed = false;
-//     }
+    } 
+    // intake was not toggled just now
+    else {
+        intakePressed = false;
+    }
+}
 
-//     // L2: outtake toggle
-//     if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) {
-//         if (!outtakePressed) {
-//             if (toggleState == 2) {
-//                 toggleState = 0;
-//             } else {
-//                 toggleState = 2;
-//             }
-//         }
-//         outtakePressed = true;
-//     } else {
-//         outtakePressed = false;
-//     }
-
-//     // R1: hold override (scoring)
-//     if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) {
-//         intakeState = 1;
-//         trapdoorState = 1;
-//     } else if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_Y)) { //Y hold override (mid goal score)
-//         intakeState = 4;
-//         trapdoorState = 0;
-//     } else {
-//         intakeState = toggleState; //update intake state to toggle state
-//     }
-// }
+void runIntake() {
+    while (true) {
+        // based on our intake state, we toggle it on or off
+        switch (intakeState) {
+            // intaking
+            case 1:
+                intake.move_velocity(200);
+            // outtaking
+            case 2:
+                intake.move_velocity(-200);
+            // off
+            case 0:
+                intake.move_velocity(0);
+        }
+    }
+}

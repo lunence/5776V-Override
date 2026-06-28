@@ -5,20 +5,41 @@
 #include "pros/distance.hpp"
 #include "pros/rotation.hpp"
 
-pros::Motor cascade(11, pros::MotorGearset::blue);
-pros::Motor scoreMech(2, pros::MotorGearset::red);
+// TODO: Add actual cascade ports and rotation
+// TODO: Change motor gearsets to actual used (these are for testing)
+// cascade and chainbar motors
+pros::Motor cascadeL (11, pros::MotorGearset::blue);
+pros::Motor cascadeR (11, pros::MotorGearset::blue);
+pros::Motor chainBar (2, pros::MotorGearset::green); // 5.5 w
 
+// TODO: Add actual cascade distance sensor port
+// cascade distance sensor for macro
 pros::Distance distCascade(1);
 
+// TODO: Add actual claw ports
+// piston claw
+pros::adi::DigitalOut pistonClawRotate(0);
+pros::adi::DigitalOut pistonClawClose(0);
+
+// TODO: Add actual intake motor ports
+// intake
+pros::Motor intake(0, pros::MotorGearset::green); // 5.5w
+
+// TODO: Add actual distance sensor ports
+// distance sensors for dsr
 pros::Distance distFrontLeft(0);
 pros::Distance distFrontRight(0);
 pros::Distance distBack(0);
 pros::Distance distLeft(0);
 pros::Distance distRight(0);
 
+// TODO: Add actual drive motor ports
+// drive motors
 pros::MotorGroup leftMotors({0, 0, 0});
 pros::MotorGroup rightMotors({0, 0, 0});
 
+// TODO: Add actual odometry ports
+// odometry sensors for chassis
 pros::Rotation horizRotation(0);
 pros::Imu imu(0);
 
@@ -63,7 +84,7 @@ lemlib::ControllerSettings lateralController(
 );
 
 lemlib::ControllerSettings angularController(
-    2.73, //TODO: BOOSTED THIS BY 0.25
+    2.73,
     0,
     18,
     5,
@@ -76,7 +97,7 @@ lemlib::ControllerSettings angularController(
 
 //distance sensors
 lemlib::DistanceSensors distSensors(distFrontLeft, -4.13, 5.27,
-                                    distFrontRight, 4.13, 5.27,
+                                    // distFrontRight, 4.13, 5.27,
                                     distBack, 2.99, 4.66,
                                     distLeft, 2.04, 4.80,
                                     distRight, -3.18, 4.80);

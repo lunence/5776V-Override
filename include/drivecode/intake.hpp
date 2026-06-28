@@ -1,9 +1,8 @@
 #include "main.h"
 #include "objects.hpp"
-#include "pistons.hpp"
 
-extern int sortState;
+extern bool intakePressed;
 extern int intakeState;
-extern bool lowSpeedMode;
+
 void updateIntake();
 void runIntake();
