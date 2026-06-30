@@ -25,7 +25,7 @@ void updateCascade() {
             // if at zero, change to one, if at one, change to zero
             // the two is the total number of states, the +1 refers to
             // the state coming up, so 2 would be 0 because that's the next state 
-            cascadeState = (cascadeState + 1) % 2;
+            cascadeState = (cascadeState + 1) % 3;
             if (cascadeState == 1 && manualOverride == true) {
                 manualOverride = false;
                 macroIsOn = (distCascade.get() <= 254 && distCascade.get() >= 1);
@@ -61,10 +61,28 @@ void runCascade() {
                     cascadeL.move_velocity(200);
                     cascadeR.move_velocity(200);
                 }
-                // if not in the range, it will cease to move until further sensor results
+                // if not in the range, it will cease to move until furthe sensor results
                 else {
                     cascadeL.move_velocity(0);
                     cascadeR.move_velocity(0);
+                }
+            }
+
+            // chain bar macro
+            else if (cascadeState == 2) {
+                // score
+                chainBar.move_velocity(200);
+
+                // check for stall
+                if (chainBar.get_target_velocity() != 0 && chainBar.get_actual_velocity() == 0) {
+                    // go backwards
+                    chainBar.move_velocity(-200);
+                }
+
+                // check for stall
+                if (chainBar.get_target_velocity() != 0 && chainBar.get_actual_velocity() == 0) {
+                    // stop as it has reached mechstop
+                    chainBar.move_velocity(0);
                 }
             }
         }
