@@ -7,7 +7,7 @@ bool topStack = false;
 bool macron = false;
 
 void updateMacron() {
-    if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) {
+    if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_A)) {
         if (!macronPressed) {
             macron = !macron;
         }
@@ -21,16 +21,16 @@ void updateTopStack() {
     if (!macron) return;
 
     int dist = distCascade.get();
+    
+    if (macron) topStack = true;
 
     while (macron && dist >= 1 && dist <= 300) {
         topStack = false;
         dist = distCascade.get();
     }
-
-    if (macron) topStack = true;
 }
 
-void runCascade() {
+void runMascade() {
     if (!macron) return;
 
     while (macron && !topStack) {

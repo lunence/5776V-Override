@@ -11,7 +11,8 @@ int manualChainBarStateDown = 0;
 bool cascadePressed = false;
 
 void updateCascade() {
-    if (controller.get_digital(cascadeToggleControl)) {
+    // if (controller.get_digital(cascadeToggleControl)) {
+    if (true) {
         if (!cascadePressed) {
             if (cascadeState == 0) {
                 cascadeState = 1;

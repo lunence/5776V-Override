@@ -7,6 +7,7 @@
 #include "drivecode/cascade.hpp"
 #include "drivecode/intake.hpp"
 #include "drivecode/pistons.hpp"
+#include "drivecode/mascade.hpp"
 
 void runCascade();
 
@@ -25,6 +26,7 @@ void taskInit() {
     pros::Task cascadeTask(runCascade, "cascade task");
     pros::Task intakeTask(runIntake, "intake task");
     pros::Task pistonTask(runPistons, "pistons task");
+    pros::Task mascadeTask(runMascade, "pistons task");
     
     // pros::Task sdWriteTask(sdWriter::runWriter, "sd write task");
 }

@@ -9,6 +9,7 @@
 #include "pros/misc.h"
 #include "lemlib/intersect.hpp"
 #include "autonomous/autonomous.hpp"
+#include "drivecode/mascade.hpp"
 // #include "sdcard/sdtest.hpp"
 // #include "sdcard/sdmain.hpp"
 
@@ -37,11 +38,18 @@ void opcontrol() {
 	while (true) {
 		int throttle = controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);
 		int turn = controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X);
+
+		cascadeL.move_voltage(12000);
+		cascadeR.move_voltage(12000);
+
 		chassis.arcade(throttle, turn);
 
 		updateCascade();
 		updateIntake();
 		updatePistons();
+
+		updateMacron();
+		updateTopStack();
 
 		pros::delay(10);
 	}
