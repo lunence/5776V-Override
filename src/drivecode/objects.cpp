@@ -2,7 +2,10 @@
 #include <climits>
 #include "objects.hpp"
 #include "drivecode/util.hpp"
+#include "pros/abstract_motor.hpp"
 #include "pros/distance.hpp"
+#include "pros/misc.h"
+#include "pros/motor_group.hpp"
 #include "pros/rotation.hpp"
 
 // TODO: CONTROLS
@@ -12,10 +15,15 @@ pros::controller_digital_e_t intakeControl = pros::E_CONTROLLER_DIGITAL_L1;
 pros::controller_digital_e_t clawRotateControl = pros::E_CONTROLLER_DIGITAL_R1;
 pros::controller_digital_e_t clawCloseControl = pros::E_CONTROLLER_DIGITAL_R2;
 
-// TODO: Add actual drive motor ports
-// drive motors
-pros::MotorGroup leftMotors({-10, -16, 19}, pros::MotorGearset::blue);
-pros::MotorGroup rightMotors({1, -4, 3}, pros::MotorGearset::blue);
+pros::controller_digital_e_t manualCascadeControlUp = pros::E_CONTROLLER_DIGITAL_DOWN;
+pros::controller_digital_e_t manualCascadeControlDown = pros::E_CONTROLLER_DIGITAL_RIGHT;
+pros::controller_digital_e_t manualChainBarControlUp = pros::E_CONTROLLER_DIGITAL_Y;
+pros::controller_digital_e_t manualChainBarControlDown = pros::E_CONTROLLER_DIGITAL_B;
+
+// TODO: Add actual drivetrain motor ports
+// drivetrain
+pros::MotorGroup leftMotors({0, 0, 0}, pros::MotorGearset::blue);
+pros::MotorGroup rightMotors({0, 0, 0}, pros::MotorGearset::blue);
 
 // TODO: Add actual intake motor ports
 // intake

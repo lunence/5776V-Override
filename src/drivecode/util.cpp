@@ -37,8 +37,9 @@ void runScreen() {
         pros::screen::print(pros::E_TEXT_MEDIUM, 6, "Left:  %.2f in", distLeft.get() / 25.4);
         pros::screen::print(pros::E_TEXT_MEDIUM, 7, "Back:  %.2f in", distBack.get() / 25.4);
         pros::screen::print(pros::E_TEXT_MEDIUM, 8, "Cascade state: %d", cascadeState);
+        pros::screen::print(pros::E_TEXT_MEDIUM, 9, "Manual override state: %d", manualOverride);
 
-        pros::delay(500);
+        pros::delay(10);
     }
 }
 
