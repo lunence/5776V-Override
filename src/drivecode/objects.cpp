@@ -3,23 +3,14 @@
 #include "objects.hpp"
 #include "drivecode/util.hpp"
 #include "pros/distance.hpp"
-#include "pros/misc.h"
-#include "pros/motors.h"
 #include "pros/rotation.hpp"
 
 // TODO: CONTROLS
-// macro controls
 pros::controller_digital_e_t cascadeToggleControl = pros::E_CONTROLLER_DIGITAL_L2;
 // pros::controller_digital_e_t intakeControl = pros::E_CONTROLLER_DIGITAL_A;
 pros::controller_digital_e_t intakeControl = pros::E_CONTROLLER_DIGITAL_L1;
 pros::controller_digital_e_t clawRotateControl = pros::E_CONTROLLER_DIGITAL_R1;
 pros::controller_digital_e_t clawCloseControl = pros::E_CONTROLLER_DIGITAL_R2;
-
-// micro controls
-pros::controller_digital_e_t manualCascadeControlUp = pros::E_CONTROLLER_DIGITAL_RIGHT;
-pros::controller_digital_e_t manualCascadeControlDown = pros::E_CONTROLLER_DIGITAL_DOWN;
-pros::controller_digital_e_t manualChainBarControlUp = pros::E_CONTROLLER_DIGITAL_Y;
-pros::controller_digital_e_t manualChainBarControlDown = pros::E_CONTROLLER_DIGITAL_B;
 
 // TODO: Add actual drive motor ports
 // drive motors

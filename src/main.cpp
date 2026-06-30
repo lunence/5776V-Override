@@ -1,7 +1,5 @@
 #include "main.h"
 #include "drivecode/cascade.hpp"
-#include "drivecode/intake.hpp"
-#include "drivecode/pistons.hpp"
 #include "drivecode/objects.hpp"
 #include "lemlib/chassis/chassis.hpp"
 #include "pros/motors.h"
@@ -47,9 +45,6 @@ void opcontrol() {
 		updateCascade();
 		updateIntake();
 		updatePistons();
-
-		updateMacron();
-		updateTopStack();
 
 		pros::delay(10);
 	}

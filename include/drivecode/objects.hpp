@@ -9,11 +9,6 @@ extern pros::controller_digital_e_t intakeControl;
 extern pros::controller_digital_e_t clawRotateControl;
 extern pros::controller_digital_e_t clawCloseControl;
 
-extern pros::controller_digital_e_t manualCascadeControlUp;
-extern pros::controller_digital_e_t manualCascadeControlDown;
-extern pros::controller_digital_e_t manualChainBarControlUp;
-extern pros::controller_digital_e_t manualChainBarControlDown;
-
 // drive motors
 extern pros::MotorGroup leftMotors;
 extern pros::MotorGroup rightMotors;
