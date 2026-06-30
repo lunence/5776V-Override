@@ -2,8 +2,9 @@
 #include "pros/misc.h"
 #include "drivecode/objects.hpp"
 
-
 bool macronPressed = false;
+bool topStack = false;
+bool macron = false;
 
 void updateMacron() {
     if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) {
@@ -33,14 +34,10 @@ void runCascade() {
     if (!macron) return;
 
     while (macron && !topStack) {
-        cascadeL.move_voltage(12000);
-        cascadeR.move_voltage(12000);
+        cascadeL.move_velocity(600);
+        cascadeR.move_velocity(600);
     }
 
-    cascadeL.move_voltage(0);
-    cascadeR.move_voltage(0);
+    cascadeL.move_velocity(0);
+    cascadeR.move_velocity(0);
 }
-
-
-
-
