@@ -1,5 +1,7 @@
 #include "main.h"
 #include "drivecode/cascade.hpp"
+#include "drivecode/pistons.hpp"
+#include "drivecode/intake.hpp"
 #include "drivecode/objects.hpp"
 #include "lemlib/chassis/chassis.hpp"
 #include "pros/motors.h"
@@ -36,9 +38,6 @@ void opcontrol() {
 	while (true) {
 		int throttle = controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);
 		int turn = controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X);
-
-		cascadeL.move_voltage(12000);
-		cascadeR.move_voltage(12000);
 
 		chassis.arcade(throttle, turn);
 

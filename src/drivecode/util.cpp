@@ -36,6 +36,7 @@ void runScreen() {
         pros::screen::print(pros::E_TEXT_MEDIUM, 5, "Right: %.2f in", distRight.get() / 25.4);
         pros::screen::print(pros::E_TEXT_MEDIUM, 6, "Left:  %.2f in", distLeft.get() / 25.4);
         pros::screen::print(pros::E_TEXT_MEDIUM, 7, "Back:  %.2f in", distBack.get() / 25.4);
+        pros::screen::print(pros::E_TEXT_MEDIUM, 8, "Cascade state: %d", cascadeState);
 
         pros::delay(500);
     }
