@@ -26,6 +26,10 @@ void updateCascade() {
             // the two is the total number of states, the +1 refers to
             // the state coming up, so 2 would be 0 because that's the next state 
             cascadeState = (cascadeState + 1) % 2;
+            if (cascadeState == 1 && manualOverride == true) {
+                manualOverride = false;
+                macroIsOn = (distCascade.get() <= 254 && distCascade.get() >= 1);
+            }
         }
         
         // cascade button just pressed
@@ -40,33 +44,30 @@ void updateCascade() {
 // macro cascade program
 void runCascade() {
     while (true) {
-        // cascade dist sensor sensing is OFF
-        if (cascadeState == 0 && manualOverride == false) { 
-            // don't move if it's off
-            macroIsOn = false;
-            cascadeL.move_velocity(0);
-            cascadeR.move_velocity(0);
-            break;
-        }
-        else if (cascadeState == 1 && manualOverride == false) {
-            macroIsOn = (distCascade.get() <= 254 && distCascade.get() >= 1);
-
-            // if the cascade distance sensor is within 1-254mm, and it is not overriden by manuals
-            if (macroIsOn) { // less than 10 in away
-                // move if it is in the range
-                cascadeL.move_velocity(200);
-                cascadeR.move_velocity(200);
-            }
-            // if not in the range, it will cease to move until further sensor results
-            else {
+        if (manualOverride == false) {
+            // cascade dist sensor sensing is OFF
+            if (cascadeState == 0) {
+                // don't move if it's off
+                macroIsOn = false;
                 cascadeL.move_velocity(0);
                 cascadeR.move_velocity(0);
             }
-        }
-        else {
-            break;
-        }
+            else if (cascadeState == 1) {
+                macroIsOn = (distCascade.get() <= 254 && distCascade.get() >= 1);
 
+                // if the cascade distance sensor is within 1-254mm, and it is not overriden by manuals
+                if (macroIsOn) { // less than 10 in away
+                    // move if it is in the range
+                    cascadeL.move_velocity(200);
+                    cascadeR.move_velocity(200);
+                }
+                // if not in the range, it will cease to move until further sensor results
+                else {
+                    cascadeL.move_velocity(0);
+                    cascadeR.move_velocity(0);
+                }
+            }
+        }
         pros::delay(10);
     }
 }
@@ -78,6 +79,8 @@ void runManual() {
         cascadeL.move_velocity(200);
         cascadeR.move_velocity(200);
         manualOverride = true;
+        cascadeState = 0;
+        macroIsOn = false;
     }
 
     // if manual control for cascade down pressed
@@ -86,14 +89,15 @@ void runManual() {
         cascadeL.move_velocity(-200);
         cascadeR.move_velocity(-200);
         manualOverride = true;
+        cascadeState = 0;
+        macroIsOn = false;
     }
 
     // if no manual controls for cascade pressed
-    else if (manualOverride && !controller.get_digital(manualCascadeControlUp) || !controller.get_digital(manualCascadeControlDown) ){
+    else if (manualOverride){
         // stop providing power to cascade
         cascadeL.move_velocity(0);
         cascadeR.move_velocity(0);
-        manualOverride = false;
     }
 
     // if manual control for chain bar up pressed
@@ -101,6 +105,8 @@ void runManual() {
         // chain bar rotate forwards
         chainBar.move_velocity(200);
         manualOverride = true;
+        cascadeState = 0;
+        macroIsOn = false;
     }
 
     // if manual control for chain bar down pressed
@@ -108,10 +114,12 @@ void runManual() {
         // chain bar rotate backwards
         chainBar.move_velocity(-200);
         manualOverride = true;
+        cascadeState = 0;
+        macroIsOn = false;
     }
 
     // if no manual controls for chain bar pressed
-    else if (manualOverride && !controller.get_digital(manualChainBarControlUp) || !controller.get_digital(manualChainBarControlDown) ){
+    else if (manualOverride){
         // stop providing power to cascade
         chainBar.move_velocity(0);
     }
