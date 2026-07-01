@@ -2,6 +2,7 @@
 #include "pros/misc.h"
 #include "drivecode/objects.hpp"
 #include "drivecode/pistons.hpp"
+#include <cstdint>
 
 // flipstate for what color we're locating
 // 0 yellow 1 red 2 blue
@@ -10,9 +11,10 @@ bool flipManualOverride = false;
 bool flipTogglePressed = false;
 
 bool clawClosePressed = false;
-bool clawCloseState = 0;
+int clawCloseState = 0;
 
-char 
+char color = 'Y';
+pros::vision_signature_s_t colorSig = yellowSig;
 
 // clawrotatecontrol is a placholder for the color change
 void updateFlip() {
@@ -43,24 +45,31 @@ void updateFlip() {
 
 void runFlip() {
     while (true) {
+        uint16_t detected = vision.get_by_size(0).signature;
+
         switch (flipState) {
             case 0:
                 // yellow
-                color = "Y";
-                controller.print(0, 0, "Color: %d", color);
+                color = 'Y';
+                colorSig = yellowSig;
+                break;
             case 1:
                 // red
-                color = "R";
-                controller.print(0, 0, "Color: %d", color);
+                color = 'R';
+                colorSig = redSig;
+                break;
             case 2:
                 // blue
-                color = "B";
-                controller.print(0, 0, "Color: %d", color);
+                color = 'B';
+                colorSig = blueSig;
+                break;
         }
 
+        controller.print(0, 0, "Color: %c", color);
+        
         //  check if the largest color 
-        if (vision.get_by_size(0).signature != colorSig) {
-            flip it i suppose
+        if (detected != colorSig.id) {
+            break;
         }
         
     }

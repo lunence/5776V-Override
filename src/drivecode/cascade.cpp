@@ -22,7 +22,7 @@ bool macroIsOn = false;
 
 void updateCascade() {
     // if my certain button is pressed
-    if (controller.get_digital(E_CONTROLLER_DIGITAL_L2)) {
+    if (controller.get_digital(cascadeControl)) {
         if (!cascadePressed) {
             // if at zero, change to one, if at one, change to zero
             // the two is the total number of states, the +1 refers to

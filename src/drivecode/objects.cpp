@@ -9,8 +9,9 @@
 #include "pros/rotation.hpp"
 
 // TODO: CONTROLS
-// pros::controller_digital_e_t intakeControl = pros::E_CONTROLLER_DIGITAL_A;
+// controls
 pros::controller_digital_e_t intakeControl = pros::E_CONTROLLER_DIGITAL_L1;
+pros::controller_digital_e_t cascadeControl = pros::E_CONTROLLER_DIGITAL_L2;
 pros::controller_digital_e_t clawRotateControl = pros::E_CONTROLLER_DIGITAL_R1;
 pros::controller_digital_e_t clawCloseControl = pros::E_CONTROLLER_DIGITAL_R2;
 
@@ -60,6 +61,38 @@ pros::Vision vision(0);
 // odometry sensors for chassis
 pros::Rotation horizRotation(0);
 pros::Imu imu(0);
+
+// TODO: Retune color if ever needed
+// color signatures for vision sensor
+pros::vision_signature_s_t yellowSig = pros::Vision::signature_from_utility(0, 
+                                                                       -1, 
+                                                                       2829, 
+                                                                      1414, 
+                                                                       -6837, 
+                                                                       -5983, 
+                                                                      -6410, 
+                                                                       2.5, 
+                                                                        0);
+
+pros::vision_signature_s_t blueSig = pros::Vision::signature_from_utility(1, 
+                                                                       -5111, 
+                                                                       -4395, 
+                                                                      -4753, 
+                                                                       1581, 
+                                                                       2427, 
+                                                                      2004, 
+                                                                       2.5, 
+                                                                        0);
+
+pros::vision_signature_s_t redSig = pros::Vision::signature_from_utility(2, 
+                                                                       13237, 
+                                                                       14369, 
+                                                                      13803, 
+                                                                       -1861, 
+                                                                       -1439, 
+                                                                      -1650, 
+                                                                       2.5, 
+                                                                        0);
 
 // odom objects
 lemlib::TrackingWheel horizOdom(

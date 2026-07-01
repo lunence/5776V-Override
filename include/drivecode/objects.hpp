@@ -4,7 +4,7 @@
 #include "pros/optical.hpp"
 
 // CONTROLS
-extern pros::controller_digital_e_t cascadeToggleControl;
+extern pros::controller_digital_e_t cascadeControl;
 extern pros::controller_digital_e_t intakeControl;
 extern pros::controller_digital_e_t clawRotateControl;
 extern pros::controller_digital_e_t clawCloseControl;
@@ -46,6 +46,11 @@ extern pros::Vision vision;
 // odometry sensors for chassis
 extern pros::Rotation horizRotation;
 extern pros::Imu imu;
+
+// color signatures for vision sensor
+extern pros::vision_signature_s_t yellowSig;
+extern pros::vision_signature_s_t redSig;
+extern pros::vision_signature_s_t blueSig;
 
 //drivetrain declarations
 extern lemlib::TrackingWheel horizOdom;
