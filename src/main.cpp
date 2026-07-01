@@ -42,7 +42,7 @@ void opcontrol() {
 
 		updateCascade();
 		updateIntake();
-		updatePistons();
+		// updatePistons();
 		runManual();
 
 		pros::delay(10);

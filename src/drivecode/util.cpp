@@ -21,7 +21,7 @@ void taskInit() {
     pros::Task screenTask(runScreen, "screen task");
     pros::Task cascadeTask(runCascade, "cascade task");
     pros::Task intakeTask(runIntake, "intake task");
-    pros::Task pistonTask(runPistons, "pistons task");
+    // pros::Task pistonTask(runPistons, "pistons task");
 }
 
 //brain task
