@@ -15,9 +15,12 @@ void motorInit() {}
 
 //sensor settings
 void sensorInit() {
-    vision.set_signature(1, &yellowSig);
+    vision.clear_led();
+    vision.set_exposure(150);
+    vision.set_led(4024241);
+    vision.set_signature(3, &yellowSig);
     vision.set_signature(2, &blueSig);
-    vision.set_signature(3, &redSig);
+    vision.set_signature(1, &redSig);
 }
 
 //begin all tasks
