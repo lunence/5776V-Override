@@ -11,11 +11,14 @@
 
 void runCascade();
 
-void motorInit() {
-}
+void motorInit() {}
 
 //sensor settings
-void sensorInit() {}
+void sensorInit() {
+    vision.set_signature(1, &yellowSig);
+    vision.set_signature(2, &blueSig);
+    vision.set_signature(3, &redSig);
+}
 
 //begin all tasks
 void taskInit() {

@@ -21,6 +21,7 @@ void initialize() {
 
 	taskInit();
 	motorInit();
+	sensorInit();
 }
 
 void disabled() {}

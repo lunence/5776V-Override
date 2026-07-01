@@ -48,16 +48,14 @@ void updateFlip() {
 void runFlip() {
     while (true) {
         uint16_t detected = vision.get_by_size(0).signature;
-        switch (detected) {
-            case 0:
-                detectedStr = 'Y';
-                break;
-            case 1:
-                detectedStr = 'B';
-                break;
-            case 2:
-                detectedStr = 'R';
-                break;
+        if (detected == yellowSig.id) {
+            detectedStr = 'Y';
+        } else if (detected == blueSig.id) {
+            detectedStr = 'B';
+        } else if (detected == redSig.id) {
+            detectedStr = 'R';
+        } else {
+            detectedStr = '?';
         }
 
         switch (flipState) {
@@ -77,13 +75,13 @@ void runFlip() {
                 colorSig = blueSig;
                 break;
         }
-
-        controller.print(0, 0, "Color: %c | Seeing: %c", color, detectedStr);
+        
+        controller.print(0, 0, "Color: %c | Seeing: %c     ", color, detectedStr);
         
         // //  check if the largest color 
         // if (detected != colorSig.id) {
         //     break;
         // }
-        
+        pros::delay(10);
     }
 }
