@@ -9,6 +9,8 @@ int cascadeState = 0;
 
 // boolean to track if cascade was just pressed now
 // since we haven't pressed it earlier, it's off at the start
+
+bool topStack = false;
 bool cascadePressed = false;
 
 // boolean to track if the manual override is overriding
@@ -20,12 +22,12 @@ bool macroIsOn = false;
 
 void updateCascade() {
     // if my certain button is pressed
-    if (controller.get_digital(cascadeToggleControl)) {
+    if (controller.get_digital(E_CONTROLLER_DIGITAL_L2)) {
         if (!cascadePressed) {
             // if at zero, change to one, if at one, change to zero
             // the two is the total number of states, the +1 refers to
             // the state coming up, so 2 would be 0 because that's the next state 
-            cascadeState = (cascadeState + 1) % 3;
+            cascadeState = (cascadeState + 1) % 2;
             if (cascadeState == 1 && manualOverride == true) {
                 manualOverride = false;
                 macroIsOn = (distCascade.get() <= 254 && distCascade.get() >= 1);
@@ -69,22 +71,7 @@ void runCascade() {
             }
 
             // chain bar macro
-            else if (cascadeState == 2) {
-                // score
-                chainBar.move_velocity(200);
 
-                // check for stall
-                if (chainBar.get_target_velocity() != 0 && chainBar.get_actual_velocity() == 0) {
-                    // go backwards
-                    chainBar.move_velocity(-200);
-                }
-
-                // check for stall
-                if (chainBar.get_target_velocity() != 0 && chainBar.get_actual_velocity() == 0) {
-                    // stop as it has reached mechstop
-                    chainBar.move_velocity(0);
-                }
-            }
         }
         pros::delay(10);
     }
@@ -94,8 +81,8 @@ void runManual() {
     // if manual control for cascade up pressed
     if (controller.get_digital(manualCascadeControlUp)) {
         // cascade move up
-        cascadeL.move_velocity(200);
-        cascadeR.move_velocity(200);
+        cascadeL.move_voltage(200);
+        cascadeR.move_voltage(200);
         manualOverride = true;
         cascadeState = 0;
         macroIsOn = false;
@@ -104,8 +91,8 @@ void runManual() {
     // if manual control for cascade down pressed
     else if (controller.get_digital(manualCascadeControlDown)) {
         // cascade move down
-        cascadeL.move_velocity(-200);
-        cascadeR.move_velocity(-200);
+        cascadeL.move_voltage(-12000);
+        cascadeR.move_voltage(-12000);
         manualOverride = true;
         cascadeState = 0;
         macroIsOn = false;
@@ -140,5 +127,17 @@ void runManual() {
     else if (manualOverride){
         // stop providing power to cascade
         chainBar.move_velocity(0);
+    }
+}
+
+void macroScore() {
+    while (true) {
+        if (!macroIsOn && cascadeState == 1 && manualOverride == false) {
+            // if the cascade is at the top of the stack (turns macroIsOn to false), cascadeState still equals 1 (you were just previosly running the macro), and manualOverride is false (you are not manually controlling the cascade), then you can run the macro to score
+            cascadeL.move_velocity(0);
+            cascadeR.move_velocity(0);
+            chainBar.move_velocity(200);
+       
+        }
     }
 }

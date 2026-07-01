@@ -9,7 +9,6 @@
 #include "pros/rotation.hpp"
 
 // TODO: CONTROLS
-pros::controller_digital_e_t cascadeToggleControl = pros::E_CONTROLLER_DIGITAL_L2;
 // pros::controller_digital_e_t intakeControl = pros::E_CONTROLLER_DIGITAL_A;
 pros::controller_digital_e_t intakeControl = pros::E_CONTROLLER_DIGITAL_L1;
 pros::controller_digital_e_t clawRotateControl = pros::E_CONTROLLER_DIGITAL_R1;
@@ -52,6 +51,10 @@ pros::Distance distFrontRight(0);
 pros::Distance distBack(0);
 pros::Distance distLeft(0);
 pros::Distance distRight(0);
+
+// TODO: Add actual vision sensor ports
+// vision sensors for colour sort
+pros::Vision vision(0);
 
 // TODO: Add actual odometry ports
 // odometry sensors for chassis

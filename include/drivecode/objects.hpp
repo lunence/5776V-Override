@@ -40,6 +40,9 @@ extern pros::Distance distBack;
 extern pros::Distance distLeft;
 extern pros::Distance distRight;
 
+// vision sensors for colour
+extern pros::Vision vision;
+
 // odometry sensors for chassis
 extern pros::Rotation horizRotation;
 extern pros::Imu imu;
