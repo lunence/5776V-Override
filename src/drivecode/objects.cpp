@@ -19,6 +19,7 @@ pros::controller_digital_e_t manualCascadeControlUp = pros::E_CONTROLLER_DIGITAL
 pros::controller_digital_e_t manualCascadeControlDown = pros::E_CONTROLLER_DIGITAL_RIGHT;
 pros::controller_digital_e_t manualChainBarControlUp = pros::E_CONTROLLER_DIGITAL_Y;
 pros::controller_digital_e_t manualChainBarControlDown = pros::E_CONTROLLER_DIGITAL_B;
+pros::controller_digital_e_t colorSwitchControl = pros::E_CONTROLLER_DIGITAL_A;
 
 // TODO: Add actual drivetrain motor ports
 // drivetrain
@@ -55,7 +56,7 @@ pros::Distance distRight(0);
 
 // TODO: Add actual vision sensor ports
 // vision sensors for colour sort
-pros::Vision vision(0);
+pros::Vision vision(9);
 
 // TODO: Add actual odometry ports
 // odometry sensors for chassis

@@ -15,11 +15,13 @@ int clawCloseState = 0;
 
 char color = 'Y';
 pros::vision_signature_s_t colorSig = yellowSig;
+uint16_t detected = vision.get_by_size(0).signature;
+char detectedStr = 'Y';
 
 // clawrotatecontrol is a placholder for the color change
 void updateFlip() {
     // color change
-    if (controller.get_digital(clawRotateControl)) {
+    if (controller.get_digital(colorSwitchControl)) {
         if (!flipTogglePressed) {
             flipState = (flipState + 1) % 3;
         }
@@ -46,6 +48,17 @@ void updateFlip() {
 void runFlip() {
     while (true) {
         uint16_t detected = vision.get_by_size(0).signature;
+        switch (detected) {
+            case 0:
+                detectedStr = 'Y';
+                break;
+            case 1:
+                detectedStr = 'B';
+                break;
+            case 2:
+                detectedStr = 'R';
+                break;
+        }
 
         switch (flipState) {
             case 0:
@@ -65,12 +78,12 @@ void runFlip() {
                 break;
         }
 
-        controller.print(0, 0, "Color: %c", color);
+        controller.print(0, 0, "Color: %c | Seeing: %c", color, detectedStr);
         
-        //  check if the largest color 
-        if (detected != colorSig.id) {
-            break;
-        }
+        // //  check if the largest color 
+        // if (detected != colorSig.id) {
+        //     break;
+        // }
         
     }
 }

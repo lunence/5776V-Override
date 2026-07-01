@@ -7,6 +7,7 @@
 #include "drivecode/cascade.hpp"
 #include "drivecode/intake.hpp"
 #include "drivecode/pistons.hpp"
+#include "drivecode/flip.hpp"
 
 void runCascade();
 
@@ -21,6 +22,7 @@ void taskInit() {
     pros::Task screenTask(runScreen, "screen task");
     pros::Task cascadeTask(runCascade, "cascade task");
     pros::Task intakeTask(runIntake, "intake task");
+    pros::Task flipTask(runFlip, "flip task");
     // pros::Task pistonTask(runPistons, "pistons task");
 }
 

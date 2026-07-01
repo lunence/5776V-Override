@@ -13,6 +13,7 @@ extern pros::controller_digital_e_t manualCascadeControlUp;
 extern pros::controller_digital_e_t manualCascadeControlDown;
 extern pros::controller_digital_e_t manualChainBarControlUp;
 extern pros::controller_digital_e_t manualChainBarControlDown;
+extern pros::controller_digital_e_t colorSwitchControl;
 
 // drive motors
 extern pros::MotorGroup leftMotors;
