@@ -75,13 +75,12 @@ void runFlip() {
                 colorSig = blueSig;
                 break;
         }
-        
+
         controller.print(0, 0, "Color: %c | Seeing: %c     ", color, detectedStr);
         
         // //  check if the largest color 
         // if (detected != colorSig.id) {
         //     break;
-        // }
-        pros::delay(10);
+        // }]
     }
 }
