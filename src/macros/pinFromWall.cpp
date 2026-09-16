@@ -19,11 +19,11 @@
 //             }
 //             case 1: {
 //                 resetState = 1;
-//                 rollerClaw.move_voltage(9000);
+//                 clawRoller.move_voltage(9000);
                 
-//                 pistonClaw.set_value(1);
+//                 clawPiston.set_value(1);
 //                 chainBarEasy(chainBarPinWallDown);
-//                 pistonClaw.set_value(0);
+//                 clawPiston.set_value(0);
 //                 chainBarEasy(chainBarPinWallRemove);
 
 //                 // cascade go up to cascadePinWallRemove

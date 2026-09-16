@@ -76,14 +76,14 @@ void opcontrol() {
 
 	while (true) {
 		if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) {
-			rollerClaw.move_voltage(12000);
+			clawRoller.move_voltage(12000);
 		} else {
-			rollerClaw.move_voltage(0);
+			clawRoller.move_voltage(0);
 		}
 
 		if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) {
 			if (!clawPressed) {
-				pistonClaw.set_value(!pistVal);
+				clawPiston.set_value(!pistVal);
 				pistVal = !pistVal;
 			}
 			// flip was just toggled just now

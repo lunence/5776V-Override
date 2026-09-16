@@ -20,7 +20,7 @@ extern pros::controller_digital_e_t toggleControl;
 extern pros::MotorGroup leftMotors;
 extern pros::MotorGroup rightMotors;
 
-extern pros::Motor rollerClaw;
+extern pros::Motor clawRoller;
 
 extern pros::MotorGroup cascadeFulls;
 extern pros::Motor cascadeHalf;
@@ -31,7 +31,7 @@ extern pros::Distance distCascade;
 extern pros::Rotation chainBarRotation;
 extern pros::Rotation cascadeRotation;
 
-extern pros::adi::DigitalOut pistonClaw;
+extern pros::adi::DigitalOut clawPiston;
 extern pros::adi::DigitalOut pistonToggle;
 
 extern pros::Distance distFrontLeft;

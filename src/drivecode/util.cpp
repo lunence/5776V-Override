@@ -9,7 +9,7 @@
 // initialize motors
 void motorInit() {
     // set current roller claw "absolute" position to zero
-    rollerClaw.tare_position();
+    clawRoller.tare_position();
 
     // set current cascade "absolute" position to zero
     cascadeFulls.tare_position();
@@ -38,12 +38,7 @@ void taskInit() {
     pros::Task screenTask(runScreen, "screen task");
     pros::Task consoleTask(runConsole, "console task");
 
-    pros::Task cascadeTask(cascadeManual, "cascade task");
-    pros::Task rollerTask(runRoller, "roller task");
-    pros::Task clawTask(runClaw, "claw task");
-    pros::Task toggleTask(runToggle, "toggle task");
-    
-    // pros::Task pinFromWallTask(runPinFromWall, "pin from wall task");
+    pros::Task manualClawTask(manualClaw, "manual claw task");
 }
 
 // // function to print motor voltages given a line to start on
@@ -85,3 +80,4 @@ void runConsole() {
         pros::delay(50);
     }
 }
+

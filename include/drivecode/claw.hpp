@@ -9,8 +9,10 @@ extern bool rollerPressedOut;
 extern int clawState;
 extern bool clawPressed;
 
-extern void updateRoller();
-extern void updateClaw();
+// extern void updateRoller();
+// extern void updateClaw();
 
-extern void runRoller();
-extern void runClaw();
+// extern void runRoller();
+// extern void runClaw();
+
+extern void manualClaw();
