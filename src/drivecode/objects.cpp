@@ -29,9 +29,9 @@ pros::Motor clawRoller(5, pros::MotorGearset::green);
 
 // TODO: Add actual cascade ports and rotation
 // cascade and chainbar motors
-pros::MotorGroup cascadeFulls({0, 0}, pros::MotorGearset::blue);
+pros::MotorGroup cascadeFulls({0, 0}, pros::MotorGearset::green);//all motors for cascade are green
 pros::Motor cascadeHalf(0, pros::MotorGearset::green); // 5.5 w
-pros::Motor chainBar (0, pros::MotorGearset::red);
+pros::Motor chainBar (0, pros::MotorGearset::green);//chain bar has a green motor
 
 // TODO: Add actual cascade sensor ports
 // cascade distance sensor for macro
@@ -48,16 +48,16 @@ pros::adi::DigitalOut clawPiston('A');
 
 // TODO: Add actual distance sensor ports
 // distance sensors for dsr
-pros::Distance distFrontLeft(0);
-pros::Distance distFrontRight(0);
-pros::Distance distBack(0);
+// pros::Distance distFrontLeft(0);
+// pros::Distance distFrontRight(0);
+pros::Distance distBack(6);
 pros::Distance distLeft(0);
-pros::Distance distRight(0);
+pros::Distance distRight(4);
 
 // TODO: Add actual odometry ports
 // odometry sensors for chassis
 pros::Rotation horizRotation(0);
-pros::Imu imu(0);
+pros::Imu imu(15);
 
 // odom objects
 lemlib::TrackingWheel horizOdom(
