@@ -21,8 +21,8 @@ pros::controller_digital_e_t clawControl = pros::E_CONTROLLER_DIGITAL_B;
 // pros::controller_digital_e_t toggleControl = pros::E_CONTROLLER_DIGITAL_DOWN;
 
 // TODO: Add actual drivetrain motor ports
-pros::MotorGroup leftMotors({-0, 0}, pros::MotorGearset::blue);
-pros::MotorGroup rightMotors({0, -0}, pros::MotorGearset::blue);
+pros::MotorGroup leftMotors({13, -14}, pros::MotorGearset::blue);
+pros::MotorGroup rightMotors({12, -11}, pros::MotorGearset::blue);
 
 // TODO: Add actual intake motor ports
 pros::Motor clawRoller(5, pros::MotorGearset::green);
