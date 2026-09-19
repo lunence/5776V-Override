@@ -5,6 +5,9 @@
 #include "pros/rtos.hpp"
 #include "drivecode/objects.hpp"
 #include "pros/screen.h"
+#include "drivecode/cascade.hpp"
+#include "drivecode/chainbar.hpp"
+#include "drivecode/claw.hpp"
 
 // initialize motors
 void motorInit() {
@@ -38,7 +41,9 @@ void taskInit() {
     pros::Task screenTask(runScreen, "screen task");
     pros::Task consoleTask(runConsole, "console task");
 
-    pros::Task manualClawTask(manualClaw, "manual claw task");
+    pros::Task manualClawTask(runClaw, "manual claw task");
+    pros::Task cascadeTask(runCascadeAuto, "cascade pid task");
+    pros::Task chainbarTask(runChainBar, "chainbar pid task");
 }
 
 // // function to print motor voltages given a line to start on

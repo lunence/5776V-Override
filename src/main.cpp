@@ -11,6 +11,7 @@
 #include "drivecode/objects.hpp"
 #include "drivecode/util.hpp"
 #include "drivecode/cascade.hpp"
+#include "drivecode/chainbar.hpp"
 #include "drivecode/claw.hpp"
 #include "drivecode/toggle.hpp"
 
@@ -71,16 +72,16 @@ void opcontrol() {
 	chassis.setBrakeMode(pros::E_MOTOR_BRAKE_COAST);
 	static bool antiTipping = false;
 
-	while (true)
+	while (true) {
 		int throttle = controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);
 		int turn = controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X);
 
-		// gourav's favourite two stick arcade configuration
-		runCascade();
+		updateCascadeControl();
+		updateCascadeManual();
+		updateCascadePID();
 		updateChainBar();
-		
-		manualClaw();
+		updateManualClaw();
 
 		pros::delay(10);
-	//}
+	}
 }

@@ -48,8 +48,8 @@ pros::adi::DigitalOut clawPiston('A');
 
 // TODO: Add actual distance sensor ports
 // distance sensors for dsr
-// pros::Distance distFrontLeft(0);
-// pros::Distance distFrontRight(0);
+pros::Distance distFrontLeft(0);
+pros::Distance distFrontRight(0);
 pros::Distance distBack(6);
 pros::Distance distLeft(0);
 pros::Distance distRight(4);

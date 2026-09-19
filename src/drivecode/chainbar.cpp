@@ -3,6 +3,8 @@
 #include "drivecode/claw.hpp"
 
 int chainBarState = 0;
+bool cbUpPressed = false;
+bool cbDownPressed = false;
 
 void updateChainBar() {
     // if the chain bar up is pressed
