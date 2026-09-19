@@ -61,7 +61,7 @@ void updateCascadeManual() {
     }
 }
 
-void updateCascadePID(int goalType) {
+void updateCascadePID() {
     if(!manualControl) {
 
         // while cascade is going up
@@ -71,7 +71,7 @@ void updateCascadePID(int goalType) {
             // tracking the level of pin/cup height that we're at. using integer division to truncate our level down
             currentLevel = static_cast<int>(cascadeHeight / heightConstant);
             // set snap target to the closest score height
-            targetInches = scoreHeights[goalType][currentLevel + 1]; 
+            targetInches = scoreHeights[0][currentLevel + 1]; 
         }
 
         autoCascade = true;

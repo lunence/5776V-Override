@@ -1,4 +1,15 @@
 ARCHTUPLE=arm-none-eabi-
+TOOLCHAIN=/Users/mooncyli/arm-toolchains/arm-gnu-toolchain-13.3.rel1-darwin-x86_64-arm-none-eabi/bin/
+
+AR:=$(TOOLCHAIN)arm-none-eabi-ar
+AS:=$(TOOLCHAIN)arm-none-eabi-gcc
+CC:=$(TOOLCHAIN)arm-none-eabi-gcc
+CXX:=$(TOOLCHAIN)arm-none-eabi-g++
+LD:=$(TOOLCHAIN)arm-none-eabi-g++
+OBJCOPY:=$(TOOLCHAIN)arm-none-eabi-objcopy
+SIZETOOL:=$(TOOLCHAIN)arm-none-eabi-size
+READELF:=$(TOOLCHAIN)arm-none-eabi-readelf
+STRIP:=$(TOOLCHAIN)arm-none-eabi-strip
 DEVICE=VEX EDR V5
 
 MFLAGS=-mcpu=cortex-a9 -mfpu=neon-fp16 -mfloat-abi=hard -Os -g -mthumb
@@ -34,7 +45,7 @@ LIBRARIES+=$(wildcard $(FWDIR)/*.a)
 EXCLUDE_COLD_LIBRARIES+=$(FWDIR)/libc.a $(FWDIR)/libm.a
 COLD_LIBRARIES=$(filter-out $(EXCLUDE_COLD_LIBRARIES), $(LIBRARIES))
 wlprefix=-Wl,$(subst $(SPACE),$(COMMA),$1)
-LNK_FLAGS=--gc-sections --start-group $(strip $(LIBRARIES)) -lgcc -lstdc++ --end-group -T$(FWDIR)/v5-common.ld --no-warn-rwx-segments --sort-section=alignment --sort-common
+LNK_FLAGS=--gc-sections --start-group $(strip $(LIBRARIES)) -lgcc -lstdc++ --end-group -T$(FWDIR)/v5-common.ld --sort-section=alignment --sort-common
 
 ASMFLAGS=$(MFLAGS) $(WARNFLAGS)
 CFLAGS=$(MFLAGS) $(CPPFLAGS) $(WARNFLAGS) $(GCCFLAGS) --std=$(C_STANDARD)
