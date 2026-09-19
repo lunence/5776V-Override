@@ -25,21 +25,21 @@ pros::MotorGroup leftMotors({13, -14}, pros::MotorGearset::blue);
 pros::MotorGroup rightMotors({12, -11}, pros::MotorGearset::blue);
 
 // TODO: Add actual intake motor ports
-pros::Motor clawRoller(5, pros::MotorGearset::green);
+pros::Motor clawRoller(7, pros::MotorGearset::green);
 
 // TODO: Add actual cascade ports and rotation
 // cascade and chainbar motors
-pros::MotorGroup cascadeFulls({0, 0}, pros::MotorGearset::green);//all motors for cascade are green
-pros::Motor cascadeHalf(0, pros::MotorGearset::green); // 5.5 w
-pros::Motor chainBar (0, pros::MotorGearset::green);//chain bar has a green motor
+pros::MotorGroup cascadeFulls({2, -3}, pros::MotorGearset::green);//all motors for cascade are green
+pros::Motor cascadeHalf(1, pros::MotorGearset::green); // 5.5 w
+pros::Motor chainBar (20, pros::MotorGearset::green);//chain bar has a green motor
 
 // TODO: Add actual cascade sensor ports
 // cascade distance sensor for macro
-pros::Distance distCascade(0);
+pros::Distance distCascade(19);
 
 // chain bar/cascade rotation sensors
-pros::Rotation chainBarRotation(0);
-pros::Rotation cascadeRotation(0);
+pros::Rotation chainBarRotation(18);
+pros::Rotation cascadeRotation(16);
 
 // TODO: Add actual claw ports
 // pistons
@@ -48,10 +48,9 @@ pros::adi::DigitalOut clawPiston('A');
 
 // TODO: Add actual distance sensor ports
 // distance sensors for dsr
-pros::Distance distFrontLeft(0);
-pros::Distance distFrontRight(0);
+pros::Distance distFront(17);
 pros::Distance distBack(6);
-pros::Distance distLeft(0);
+pros::Distance distLeft(9);
 pros::Distance distRight(4);
 
 // TODO: Add actual odometry ports
@@ -112,7 +111,7 @@ lemlib::ControllerSettings angularController(2, // proportional gain (kP)
 );
 
 // distance sensors
-lemlib::DistanceSensors distSensors(distFrontLeft, -4.13, 5.27,
+lemlib::DistanceSensors distSensors(distFront, -4.13, 5.27,
                                     distBack, 2.99, 4.66,
                                     distLeft, 2.04, 4.80,
                                     distRight, -3.18, 4.80);
