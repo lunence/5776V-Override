@@ -951,9 +951,10 @@ class Chassis {
          * 
          */
         void distReset(char xDirection, char yDirection);
-        void distResetNoTrig(char xDirection, char yDirection);
-        void distResetX(char xDirection);
-        void distResetY(char yDirection);
+        void distReset1D(char dir, char dist);
+        // void distResetNoTrig(char xDirection, char yDirection);
+        // void distResetX(char xDirection);
+        // void distResetY(char yDirection);
 
         DistanceSensors distSensors;
 
