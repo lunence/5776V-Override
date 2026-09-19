@@ -17,23 +17,25 @@ int xCurr, yCurr, xPrev, yPrev, theta, d;
 // Embedded drawing data
 const char* drawingData[] = {
     // override
-    "START 120 0 0\n"
-    "MOVETOPOINT 24 12\n"
-    "TURNTOHEADING 90\n"
-    "MOVEDISTANCE 18\n"
-    "TURNTOHEADING 45\n"
-    "MOVETOPOINT 36 30\n"
-    "TURNTOHEADING 180\n"
-    "MOVEDISTANCE 24\n"
-    "TURNTOHEADING 270\n"
-    "MOVETOPOINT 12 48\n"
-    "TURNTOHEADING 0\n"
-    "MOVEDISTANCE 30\n"
-    "TURNTOHEADING 135\n"
-    "MOVETOPOINT 48 24\n"
-    "MOVEDISTANCE 15\n"
-    "TURNTOHEADING 315\n"
-    "MOVEDISTANCE 20\n",
+    // "START 120 0 0\n"
+    // "MOVETOPOINT 24 12\n"
+    // "TURNTOHEADING 90\n"
+    // "MOVEDISTANCE 18\n"
+    // "TURNTOHEADING 45\n"
+    // "MOVETOPOINT 36 30\n"
+    // "TURNTOHEADING 180\n"
+    // "MOVEDISTANCE 24\n"
+    // "TURNTOHEADING 270\n"
+    // "MOVETOPOINT 12 48\n"
+    // "TURNTOHEADING 0\n"
+    // "MOVEDISTANCE 30\n"
+    // "TURNTOHEADING 135\n"
+    // "MOVETOPOINT 48 24\n"
+    // "MOVEDISTANCE 15\n"
+    // "TURNTOHEADING 315\n"
+    // "MOVEDISTANCE 20\n",
+
+    "",
 
     // dsun auto
     ""

@@ -68,13 +68,13 @@ void opcontrol() {
 		chassis.arcade(throttle, turn);
 
 		// update drivecode
-		updateCascade();
-		updateFlip();
-		updateIntake();
-		updatePistons();
+		// updateCascade();
+		// updateFlip();
+		// updateIntake();
+		// updatePistons();
 
 		// miscellaneous manual override or macro programs
-		runManual();
+		// runManual();
 		// macroScore();
 
 		pros::delay(10);

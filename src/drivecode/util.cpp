@@ -59,12 +59,12 @@ void taskInit() {
         }
     }
 
-    pros::Task cascadeTask(runCascade, "cascade task");
-    pros::Task flipTask(runFlip, "flip task");
-    pros::Task intakeTask(runIntake, "intake task");
-    pros::Task pistonTask(runPistons, "pistons task");
+    // pros::Task cascadeTask(runCascade, "cascade task");
+    // pros::Task flipTask(runFlip, "flip task");
+    // pros::Task intakeTask(runIntake, "intake task");
+    // pros::Task pistonTask(runPistons, "pistons task");
 
-    pros::Task scoreTask(macroScore, "score task");
+    // pros::Task scoreTask(macroScore, "score task");
 }
 
 //brain task

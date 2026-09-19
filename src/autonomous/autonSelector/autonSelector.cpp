@@ -154,9 +154,9 @@ void autonSelector() {
                 case 0:
                     // create medium button for override button
                     createAutonButton(VIRIDIAN, 
-                        const_cast<char*>("override"), 
-                        const_cast<char*>("mooncer's auton"), 
-                        const_cast<char*>("our first auton on the worlds bot"), 
+                        const_cast<char*>("Auton 1"), 
+                        const_cast<char*>("Autonomous description here (line 1)"), 
+                        const_cast<char*>("Autonomous description here (line 2)"), 
                         20, 20);
 
                     drawField(0);
@@ -166,35 +166,35 @@ void autonSelector() {
                 case 1:
                     // create medium button for dsun auto button
                     createAutonButton(VIRIDIAN, 
-                        const_cast<char*>("dsun auto"), 
-                        const_cast<char*>("dsun's bad auton"),  
-                        const_cast<char*>("really do not trust a psychopath"),  
+                        const_cast<char*>("Auton 2"), 
+                        const_cast<char*>("Autonomous description here (line 1)"),  
+                        const_cast<char*>("Autonomous description here (line 2)"),  
                         20, 20);
 
-                    drawField(1);
+                    drawField(0);
                     break;
 
                 // auton 3
                 case 2:
                     // create medium button for auton 3
                     createAutonButton(VIRIDIAN, 
-                        const_cast<char*>("auton 3"), 
-                        const_cast<char*>("i have the urge to put norrel's face"), 
-                        const_cast<char*>("here, hello norrel"), 
+                        const_cast<char*>("Auton 3"), 
+                        const_cast<char*>("Autonomous description here (line 1)"), 
+                        const_cast<char*>("Autonomous description here (line 2)"), 
                         20, 20);
 
-                    drawField(2);
+                    drawField(0);
                     break;
                 
                 case 3:
                     // create medium button for auton 4
                     createAutonButton(VIRIDIAN, 
-                        const_cast<char*>("auton 4"), 
-                        const_cast<char*>("hi vinish"), 
-                        const_cast<char*>("vinish is a cool guy"), 
+                        const_cast<char*>("Auton 4"), 
+                        const_cast<char*>("Autonomous description here (line 1)"), 
+                        const_cast<char*>("Autonomous description here (line 2)"), 
                         20, 20);
 
-                    drawField(3);
+                    drawField(0);
                     break;
             }
 
@@ -205,25 +205,25 @@ void autonSelector() {
                     // page one will result in the button for auton 1
                     case 0:
                         // create auton specific dialog that selects override
-                        dialog(1, "override");
+                        dialog(1, "Auton 1");
                         break;
 
                     // page two will result in the button for auton 2
                     case 1:
                         // create auton specific dialog that selects dsun auto 
-                        dialog(2, "dsun auto");
+                        dialog(2, "Auton 2");
                         break;
 
                     // page two will result in the button for auton 3
                     case 2:
                         // create auton specific dialog that selects auton 3
-                        dialog(3, "auton 3");
+                        dialog(3, "Auton 3");
                         break;
                     
                     // page two will result in the button for auton 4
                     case 3:
                         // create auton specific dialog that selects auton 4
-                        dialog(4, "auton 4");
+                        dialog(4, "Auton 4");
                         break;
                 }
             }
