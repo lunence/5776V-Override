@@ -56,7 +56,7 @@ pros::Distance distRight(4);
 
 // TODO: Add actual odometry ports
 // odometry sensors for chassis
-pros::Rotation horizRotation(0);
+pros::Rotation horizRotation(16);
 pros::Imu imu(15);
 
 // odom objects

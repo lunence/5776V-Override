@@ -57,8 +57,8 @@ void runCascadePID(int goalType) {
         // set snap target to the closest score height
         targetInches = scoreHeights[goalType][currentLevel + 1]; 
 
-    // while the current level is less than the target snap
-    while (lemlib::mmToIn(distCascade.get_distance()) < targetInches) {
+    // while the current level is less than the target snap 
+    while (lemlib::mmToIn(distCascade.get_distance()) < targetInches) { //TODO: cant override with other controls
         runCascadeAuto();
     }
 }

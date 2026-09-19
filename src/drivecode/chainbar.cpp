@@ -1,5 +1,6 @@
 #include "drivecode/chainbar.hpp"
 #include "drivecode/cascade.hpp"
+#include "drivecode/claw.hpp"
 
 int chainBarState = 0;
 
@@ -24,6 +25,8 @@ void updateChainBar() {
             chainBarState -= 1;
             // cap chainbarstate to 0
             chainBarState = std::max(chainBarState, 0);
+            //close claw on way back
+            clawPiston.set_value(true);
         }
         cbDownPressed = true;
         // if chain bar down as already been pressed, then set back to false
