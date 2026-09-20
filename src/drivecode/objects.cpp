@@ -1,6 +1,6 @@
 #include "lemlib/chassis/chassis.hpp"
 #include <climits>
-#include "objects.hpp"
+#include "drivecode/objects.hpp"
 #include "drivecode/util.hpp"
 #include "pros/abstract_motor.hpp"
 #include "pros/distance.hpp"

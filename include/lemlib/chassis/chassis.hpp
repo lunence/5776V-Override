@@ -951,7 +951,7 @@ class Chassis {
          * 
          */
         void distReset(char xDirection, char yDirection);
-        void distReset1D(char dir, char dist);
+        void distReset1D(char dir, char distSen);
         // void distResetNoTrig(char xDirection, char yDirection);
         // void distResetX(char xDirection);
         // void distResetY(char yDirection);

@@ -142,9 +142,9 @@ void lemlib::Chassis::distReset1D(char dir, char distSen) {
     //cosine of entire distance from center of bot to perimeter (not perpendicular)
     //entire distance = distance sensor in inches + discrepancy from offset distance sensor + distance from center of bot
     float perpDistance = 0;
-    perpDistance = cos(correctedAngle) * (mmToIn(dist->distance.get()) + tan(correctedAngle) * dist->offsetX * offsetMultiplier + xDist->offsetY);
+    perpDistance = cos(correctedAngle) * (mmToIn(dist->distance.get()) + tan(correctedAngle) * dist->offsetX * offsetMultiplier + dist->offsetY);
 
-    //x reset
+    //reset
     if(dir == 'x' || dir == 'X') {
         if(currentPose.x > 0){ //pos
             pose.x = lemlib::halfWidth - perpDistance;

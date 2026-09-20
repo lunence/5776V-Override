@@ -11,25 +11,29 @@ int clawState = 0;
 bool clawPressed = false;
 
 void updateManualClaw() {
-    if (controller.get_digital(clawControl)) {
+    // hold, not toggle control
+    if (controller.get_digital(clawControl)) { 
         // claw open
         clawState = 0;
     }
     else {
+        //claw closed
         clawState = 1;
     }
 }
 
 void runClaw() {
-    switch(clawState) {
-        case 0: {
-            clawPiston.set_value(false);
-            clawRoller.move_velocity(200);
-        }
-        case 1: {
-            clawPiston.set_value(true);
-            clawRoller.move_velocity(0); 
-        }
+    while(true) {
+        switch(clawState) {
+            case 0: { // claw open with rollers
+                clawPiston.set_value(false);
+                clawRoller.move_velocity(200);
+            }
+            case 1: { //claw closed w/o rollers
+                clawPiston.set_value(true);
+                clawRoller.move_velocity(0); 
+            }
 
+        }
     }
 }
