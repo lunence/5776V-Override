@@ -17,31 +17,31 @@ int lowerScorePos = 260;
 int upperScorePos = 200;
 
 bool manualPressed = false;
-bool manualControlCh = false;
+bool manualControlCh = true;
 
 void updateChainBarManual() {
-    if (pros::E_CONTROLLER_DIGITAL_DOWN) { //TODO: replace with actual control
-        if (!manualPressed) {
-            manualControlCh = !manualControlCh;
-        }
+    // if (pros::E_CONTROLLER_DIGITAL_DOWN) { //TODO: replace with actual control
+    //     if (!manualPressed) {
+    //         manualControlCh = !manualControlCh;
+    //     }
 
-        manualPressed = true;
+    //     manualPressed = true;
     
-    } else {
-        manualPressed = false;
-    }
+    // } else {
+    //     manualPressed = false;
+    // }
 
-    if(manualControlCh) {
+    // if(manualControlCh) {
         if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) {
-                chainBar.move_voltage(12000);
+                chainBar.move_voltage(8000);
         } else if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
-                chainBar.move_voltage(-12000);
+                chainBar.move_voltage(-8000);
         } else {
             chainBar.move_voltage(0);
         }
-    } else {
-        updateChainBar();
-    }
+    // } else {
+        // updateChainBar();
+    // }
 }
 
 void updateChainBar() {

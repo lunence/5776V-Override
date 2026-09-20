@@ -38,7 +38,7 @@ void taskInit() {
 
     pros::Task manualClawTask(runClaw, "manual claw task");
     //pros::Task cascadeTask(runCascadeAuto, "cascade pid task");
-    pros::Task chainbarTask(runChainBar, "chainbar pid task");
+    //pros::Task chainbarTask(runChainBar, "chainbar pid task");
 }
 
 // // function to print motor voltages given a line to start on

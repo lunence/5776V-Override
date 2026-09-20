@@ -21,8 +21,15 @@ void scoreMacro(int scoreLevel) {
 
 void toggleMacro(int flips, int distance) {
     for (int i = 0; i < flips; i++) {
-        chassis.moveDistance(distance, 300);
-        chassis.moveDistance(-distance, 300);
+        leftMotors.move_voltage(-5000);
+        rightMotors.move_voltage(-5000);
+
+        pros::delay(400);
+
+        leftMotors.move_voltage(5000);
+        rightMotors.move_voltage(5000);
+
+        pros::delay(600);
     }
 }
 
