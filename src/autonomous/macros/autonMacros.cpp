@@ -21,8 +21,8 @@ void scoreMacro(int scoreLevel) {
 
 void toggleMacro(int flips, int distance) {
     for (int i = 0; i < flips; i++) {
+        chassis.moveDistance(-distance, 300, {.forwards = false});
         chassis.moveDistance(distance, 300);
-        chassis.moveDistance(-distance, 300);
     }
 }
 
