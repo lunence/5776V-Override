@@ -12,7 +12,7 @@ void fourPinRight() {
         
         // reset and then toggles
         chassis.setPose(1, -1, 180);
-        chassis.distReset('F', 'L');
+        chassis.distReset('L', 'F');
         // flip pin twice
         toggleMacro(2, 5);
 

@@ -65,8 +65,8 @@ void autonomous() {
 	// set the autonomous to brake
 	chassis.setBrakeMode(pros::E_MOTOR_BRAKE_BRAKE);
 
-	chassis.setPose(-1, -1, 180);
-    chassis.distReset('F', 'R');
+	// chassis.setPose(-1, -1, 180);
+    // chassis.distReset('R', 'F');
 
 	// runAuton();
 	//toggleOneAuto();
