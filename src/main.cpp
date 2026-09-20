@@ -69,7 +69,6 @@ void autonomous() {
     // chassis.distReset('R', 'F');
 
 	// runAuton();
-	//toggleOneAuto();
 	toggleTwoAuto();
 	
 } 
