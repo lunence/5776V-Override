@@ -1,7 +1,7 @@
 {
   "py/object": "pros.conductor.project.Project",
   "py/state": {
-    "project_name": "5776",
+    "project_name": "5776V Saratoga",
     "target": "v5",
     "templates": {
       "kernel": {
@@ -592,7 +592,7 @@
       }
     },
     "upload_options": {
-      "description": "viridian",
+      "description": "Saratoga 9/19/2026",
       "icon": "pros"
     },
     "use_early_access": false
