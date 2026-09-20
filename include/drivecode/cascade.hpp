@@ -6,6 +6,7 @@ extern float cascadeTarget; //initializes at neutral
 
 extern bool manualControl; 
 extern bool autoCascade;
+extern double scoreHeights[];
 
 extern void updateCascadeControl();
 extern void updateCascadeManual();

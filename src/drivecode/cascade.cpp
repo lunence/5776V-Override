@@ -10,17 +10,16 @@
 bool manualControl = true; 
 bool controlPressed = false;
 
-double scoreHeights[2][8] = {
-    {3.25,10,17,23,30,37.5,43.5,47},
-    {5.77,12.5,19,26,32.5,39.5,46,49.5},
-};
+double scoreHeights[8] = 
+    {3.25,10,17,23,30,37.5,43.5,47};
+    //{5.77,12.5,19,26,32.5,39.5,46,49.5},
 // manual score height measurements for each pin/cup 
 
 float cascadeHeight = 0;
 int currentLevel = 0;
 int heightConstant = 0;
 int targetInches = 0;
-float cascadeTarget = scoreHeights[0][0]; 
+float cascadeTarget = scoreHeights[0]; 
 bool autoCascade = false;
 
 void updateCascadeControl() {
@@ -76,7 +75,7 @@ void updateCascadePID() {
             // tracking the level of pin/cup height that we're at. using integer division to truncate our level down
             currentLevel = static_cast<int>(cascadeHeight / heightConstant);
             // set snap target to the closest score height
-            targetInches = scoreHeights[0][currentLevel + 1]; 
+            targetInches = scoreHeights[currentLevel + 1]; 
         }
 
         autoCascade = true;
