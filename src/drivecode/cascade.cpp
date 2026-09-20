@@ -38,32 +38,16 @@ void updateCascadeControl() {
 }
 
 void updateCascadeManual() {
-    //if(true) {
-        if (controller.get_digital(cascadeUpControl)) {
-            if (distCascade.get_distance() < 100000) {
-                cascadeFulls.move_voltage(12000);
-                cascadeHalf.move_voltage(12000);
-            }
-            else {
-                cascadeFulls.move_voltage(0);
-                cascadeHalf.move_voltage(0);
-            }
-        }
-        
-        else if (controller.get_digital(cascadeDownControl)) {
-            if (distCascade.get_distance() > 30) {
-                cascadeFulls.move_voltage(-12000);
-                cascadeHalf.move_voltage(-12000);
-            }
-            else {
-                cascadeFulls.move_voltage(0);
-                cascadeHalf.move_voltage(0);
-            }
-        } else {
-            cascadeFulls.move_voltage(0);
-            cascadeHalf.move_voltage(0);
-        }
-    //}
+    if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) {
+            cascadeFulls.move_voltage(12000);
+            cascadeHalf.move_voltage(12000);
+    } else if (controller.get_digital(cascadeDownControl)) {
+            cascadeFulls.move_voltage(-12000);
+            cascadeHalf.move_voltage(-12000);
+    } else {
+        cascadeFulls.move_voltage(0);
+        cascadeHalf.move_voltage(0);
+    }
 }
 
 void updateCascadePID() {

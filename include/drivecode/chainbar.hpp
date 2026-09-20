@@ -6,3 +6,4 @@ extern int targetPos;
 
 extern void runChainBar();
 extern void updateChainBar();
+extern void updateChainBarManual();

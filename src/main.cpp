@@ -25,6 +25,8 @@
 // #include "sdcard/sdtest.hpp"
 // #include "sdcard/sdmain.hpp"
 
+#include <iostream>
+
 // // anti tip and all bs stuff
 // static constexpr float IMU_PITCH_SIGN = -1.0; // flip the sign of the pitch if the bot is flipped, shudnt be changed
 
@@ -85,7 +87,9 @@ void opcontrol() {
 
 		updateCascadeManual();
 		updateChainBar();
+		//updateChainBarManual();
 		updateManualClaw();
+
 
 		pros::delay(10);
 

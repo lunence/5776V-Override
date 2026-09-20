@@ -37,7 +37,7 @@ void taskInit() {
     pros::Task consoleTask(runConsole, "console task");
 
     pros::Task manualClawTask(runClaw, "manual claw task");
-    pros::Task cascadeTask(runCascadeAuto, "cascade pid task");
+    //pros::Task cascadeTask(runCascadeAuto, "cascade pid task");
     pros::Task chainbarTask(runChainBar, "chainbar pid task");
 }
 
@@ -63,7 +63,7 @@ void runScreen() {
         pros::screen::print(pros::E_TEXT_SMALL, 2, "cascade target: .%3f", cascadeTarget);
         pros::screen::print(pros::E_TEXT_SMALL, 3, "claw state: %d", clawState);
         pros::screen::print(pros::E_TEXT_SMALL, 4, "chainbar state: %d", chainBarState);
-        pros::screen::print(pros::E_TEXT_SMALL, 5, "chainbar rot: %.3f", chainBarRotation.get_position()/100.0);
+        pros::screen::print(pros::E_TEXT_SMALL, 5, "chainbar rot: %d", chainBarRotation.get_angle()/100);
 
 
         // pros::screen::print(pros::E_TEXT_SMALL, 2, "cascadeState: %d", cascadeState);
