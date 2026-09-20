@@ -8,7 +8,7 @@ void updateManualClaw() {
     if (controller.get_digital(clawControl)) { //TODO: replace with actual control
         if (!clawPressed) {
             // modulo fun
-            if (clawState != 0) {
+            if (clawState == 1) {
                 clawState = 0;
             } else {
                 clawState = 1;
