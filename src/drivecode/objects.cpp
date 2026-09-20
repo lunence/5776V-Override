@@ -14,9 +14,9 @@ pros::controller_digital_e_t cbUpControl = pros::E_CONTROLLER_DIGITAL_R1;
 pros::controller_digital_e_t cbDownControl = pros::E_CONTROLLER_DIGITAL_R2;
 pros::controller_digital_e_t cascadeUpControl = pros::E_CONTROLLER_DIGITAL_L1;
 pros::controller_digital_e_t cascadeDownControl = pros::E_CONTROLLER_DIGITAL_L2;
-
-// pros::controller_digital_e_t rollerInControl = pros::E_CONTROLLER_DIGITAL_Y;
-pros::controller_digital_e_t clawControl = pros::E_CONTROLLER_DIGITAL_B;
+pros::controller_digital_e_t cascadeManualControl = pros::E_CONTROLLER_DIGITAL_LEFT;
+pros::controller_digital_e_t clawControl = pros::E_CONTROLLER_DIGITAL_Y;
+pros::controller_digital_e_t clawOpenControl = pros::E_CONTROLLER_DIGITAL_B;
 
 // pros::controller_digital_e_t toggleControl = pros::E_CONTROLLER_DIGITAL_DOWN;
 
@@ -29,13 +29,13 @@ pros::Motor clawRoller(7, pros::MotorGearset::green);
 
 // TODO: Add actual cascade ports and rotation
 // cascade and chainbar motors
-pros::MotorGroup cascadeFulls({2, -3}, pros::MotorGearset::green);//all motors for cascade are green
+pros::MotorGroup cascadeFulls({-2, 3}, pros::MotorGearset::green);//all motors for cascade are green
 pros::Motor cascadeHalf(1, pros::MotorGearset::green); // 5.5 w
-pros::Motor chainBar (20, pros::MotorGearset::green);//chain bar has a green motor
+pros::Motor chainBar (19, pros::MotorGearset::green);//chain bar has a green motor
 
 // TODO: Add actual cascade sensor ports
 // cascade distance sensor for macro
-pros::Distance distCascade(19);
+pros::Distance distCascade(20);
 
 // chain bar/cascade rotation sensors
 pros::Rotation chainBarRotation(18);
@@ -43,8 +43,7 @@ pros::Rotation cascadeRotation(16);
 
 // TODO: Add actual claw ports
 // pistons
-pros::adi::DigitalOut clawPiston('A');
-// pros::adi::DigitalOut pistonToggle('A');
+pros::adi::DigitalOut clawPiston('H');
 
 // TODO: Add actual distance sensor ports
 // distance sensors for dsr
@@ -80,9 +79,9 @@ lemlib::Drivetrain drivetrain(
     &leftMotors,
     &rightMotors,
     11.44,
-    3.25,
+    2.75,
     450,
-    60 
+    99999 //we have tractions!
     //radius multiplier for movetopose angular constraint. more horizontaldrift allows more aggressive drifting
 );
 
@@ -129,11 +128,11 @@ lemlib::Chassis chassis(
 );
 
 // chain bar pid
-lemlib::PID chainBarPID(5,
+lemlib::PID chainBarPID(4,
                          // proportional gain (kP)
-                         0.01,
+                         0,
                          // integral gain (kI)
-                         20,
+                         0,
                          // derivative gain (kD)
                          5,
                          // antiwindup

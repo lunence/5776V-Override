@@ -1,10 +1,19 @@
 #include "drivecode/chainbar.hpp"
 #include "drivecode/cascade.hpp"
 #include "drivecode/claw.hpp"
+#include <iostream>
+#include <cmath>
 
 int chainBarState = 0;
 bool cbUpPressed = false;
 bool cbDownPressed = false;
+
+int targetPos = 0;
+
+int downPos = 2;
+int loadPos = 16;
+int lowerScorePos = 280;
+int upperScorePos = 214;
 
 void updateChainBar() {
     // if the chain bar up is pressed
@@ -28,7 +37,7 @@ void updateChainBar() {
             // cap chainbarstate to 0
             chainBarState = std::max(chainBarState, 0);
             //close claw on way back
-            clawPiston.set_value(true);
+            //clawState = 0;
         }
         cbDownPressed = true;
         // if chain bar down as already been pressed, then set back to false
@@ -37,22 +46,43 @@ void updateChainBar() {
 
 void runChainBar() {
     // adjust PID target positions based on chainbar states
+    
     while(true) {
         switch(chainBarState) {
-            case(0): targetPos = neutralPos;
-            case(1): targetPos = loadPos;
-            case(2): targetPos = upperScorePos;
-            case(3): targetPos = lowerScorePos;
-            break;
+            case(0): {
+                targetPos = downPos;
+                break;
+            }
+            case(1): {
+                targetPos = loadPos;
+                break;
+            }
+            case(2):{ 
+                targetPos = upperScorePos;
+                break;
+            }
+            case(3): {
+                targetPos = lowerScorePos;
+                break;
+            }
         }
 
-        float pos = chainBarRotation.get_position();
+        float pos = chainBarRotation.get_position()/100.0;
         // get current chain bar rotation
+
         float error = targetPos - pos;
+        std::cout<<"error: "<<error<<std::endl;
+
         // calculate your error
         float power = chainBarPID.update(error, true);
-        // calculate the PIDOutput based on error
+        std::cout<<"power: "<<power<<std::endl;
 
+        // calculate the PIDOutput based on error
+        if(std::abs(error) < 5) power = 0; 
+        if((error < 4 && power < 0)) power = 0;
+        
+
+        //here
         if(std::abs(power) > 127) {
             // if the pid output is greater than motor threshold
             // calculate what direction the chainbar must move
@@ -64,8 +94,10 @@ void runChainBar() {
             }
         }
 
+
         chainBar.move(power);
         // make it move to the PID output
         pros::delay(10);
     }
+        
 }

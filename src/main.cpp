@@ -25,8 +25,8 @@
 // #include "sdcard/sdtest.hpp"
 // #include "sdcard/sdmain.hpp"
 
-// anti tip and all bs stuff
-static constexpr float IMU_PITCH_SIGN = -1.0; // flip the sign of the pitch if the bot is flipped, shudnt be changed
+// // anti tip and all bs stuff
+// static constexpr float IMU_PITCH_SIGN = -1.0; // flip the sign of the pitch if the bot is flipped, shudnt be changed
 
 void on_center_button() {
 
@@ -70,18 +70,41 @@ void autonomous() {
 void opcontrol() {
 	// set the drive to coast
 	chassis.setBrakeMode(pros::E_MOTOR_BRAKE_COAST);
-	static bool antiTipping = false;
+	// static bool antiTipping = false;
+
+	//clawState = 0;
+	//clawPiston.set_value(true);
+
 
 	while (true) {
 		int throttle = controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);
 		int turn = controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X);
 
-		updateCascadeControl();
+		chassis.tank(throttle, turn);
+
+		//updateCascadeControl();
 		updateCascadeManual();
-		updateCascadePID();
+		//updateCascadePID();
 		updateChainBar();
 		updateManualClaw();
 
 		pros::delay(10);
+
+		/*
+
+		if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_UP)){
+			chainBar.move(127);
+		} else if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_LEFT)){
+			chainBar.move(-127);
+		} else chainBar.move(0);
+		 */
+
+		/*
+
+		if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_UP))
+		
+		*/
+
+
 	}
 }

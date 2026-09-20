@@ -1,39 +1,48 @@
 #include "drivecode/claw.hpp"
-// #include "pros/misc.h"
 #include "drivecode/objects.hpp"
-
-// initialize state variables
-int rollerState = 0;
-bool rollerPressedIn = false;
-bool rollerPressedOut = false;
 
 int clawState = 0;
 bool clawPressed = false;
 
 void updateManualClaw() {
+    if (controller.get_digital(clawControl)) { //TODO: replace with actual control
+        if (!clawPressed) {
+            // modulo fun
+            if (clawState != 0) {
+                clawState = 0;
+            } else {
+                clawState = 1;
+            }
+        }
+
+        clawPressed = true;
+    
+    } else {
+        clawPressed = false;
+    }
+
     // hold, not toggle control
-    if (controller.get_digital(clawControl)) { 
-        // claw open
-        clawState = 0;
+    if (controller.get_digital(clawOpenControl)) { 
+        // claw open no roller
+        clawState = 2;
     }
-    else {
-        //claw closed
-        clawState = 1;
-    }
+        
+    pros::delay(10);
 }
 
 void runClaw() {
     while(true) {
-        switch(clawState) {
-            case 0: { // claw open with rollers
-                clawPiston.set_value(false);
-                clawRoller.move_velocity(200);
-            }
-            case 1: { //claw closed w/o rollers
-                clawPiston.set_value(true);
-                clawRoller.move_velocity(0); 
-            }
-
+        if(clawState == 0) {
+            clawRoller.move(0);
+            clawPiston.set_value(false);
+        } else if(clawState == 1) {
+            clawRoller.move(127);
+            clawPiston.set_value(true);
+        } else if(clawState == 2) {
+            clawRoller.move(0);
+            clawPiston.set_value(true);
         }
+
+        pros::delay(10);
     }
 }

@@ -5,5 +5,4 @@
 extern int clawState;
 
 extern void runClaw();
-
 extern void updateManualClaw();

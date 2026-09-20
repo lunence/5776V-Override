@@ -19,10 +19,10 @@ int currentLevel = 0;
 int heightConstant = 0;
 int targetInches = 0;
 float cascadeTarget = scoreHeights[0][0]; 
-bool autoCascade;
+bool autoCascade = false;
 
 void updateCascadeControl() {
-    if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_A)) { //TODO: replace with actual control
+    if (cascadeManualControl) { //TODO: replace with actual control
         if (!controlPressed) {
             // modulo fun
             manualControl = !manualControl;
@@ -36,29 +36,32 @@ void updateCascadeControl() {
 }
 
 void updateCascadeManual() {
-    if(manualControl) {
+    //if(true) {
         if (controller.get_digital(cascadeUpControl)) {
-            if (cascadeRotation.get_position() < 100) {
-                cascadeFulls.move_velocity(600);
-                cascadeHalf.move_velocity(200);
+            if (distCascade.get_distance() < 100000) {
+                cascadeFulls.move_voltage(12000);
+                cascadeHalf.move_voltage(6000);
             }
             else {
-                cascadeFulls.move_velocity(0);
-                cascadeHalf.move_velocity(0);
+                cascadeFulls.move_voltage(0);
+                cascadeHalf.move_voltage(0);
             }
         }
         
         else if (controller.get_digital(cascadeDownControl)) {
-            if (cascadeRotation.get_position() > 0) {
-                cascadeFulls.move_velocity(-600);
-                cascadeHalf.move_velocity(-200);
+            if (distCascade.get_distance() > 30) {
+                cascadeFulls.move_voltage(-12000);
+                cascadeHalf.move_voltage(-6000);
             }
             else {
-                cascadeFulls.move_velocity(0);
-                cascadeHalf.move_velocity(0);
+                cascadeFulls.move_voltage(0);
+                cascadeHalf.move_voltage(0);
             }
+        } else {
+            cascadeFulls.move_voltage(0);
+            cascadeHalf.move_voltage(0);
         }
-    }
+    //}
 }
 
 void updateCascadePID() {
@@ -94,7 +97,7 @@ void runCascadeAuto() {
                 // set bounds to -127
                 power = -127;
             }
-            else  {
+            else {
                 // set bounds to 127
                 power = 127;
             }
@@ -107,5 +110,7 @@ void runCascadeAuto() {
         // move cascades with their power values
         cascadeFulls.move_velocity(fullsRPM);
         cascadeHalf.move_velocity(halfRPM);
+
+        pros::delay(10);
     }
 }

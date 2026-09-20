@@ -2,12 +2,7 @@
 #include "drivecode/objects.hpp"
 
 extern int chainBarState;
-
-inline int targetPos = 0;
-inline int loadPos = 0;
-inline int neutralPos = 0;
-inline int upperScorePos = 0;
-inline int lowerScorePos = 0;
+extern int targetPos;
 
 extern void runChainBar();
 extern void updateChainBar();

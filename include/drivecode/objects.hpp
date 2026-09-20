@@ -11,8 +11,9 @@ extern pros::controller_digital_e_t cbUpControl;
 extern pros::controller_digital_e_t cbDownControl;
 extern pros::controller_digital_e_t cascadeUpControl;
 extern pros::controller_digital_e_t cascadeDownControl;
+extern pros::controller_digital_e_t cascadeManualControl;
 
-extern pros::controller_digital_e_t rollerInControl;
+extern pros::controller_digital_e_t clawOpenControl;
 extern pros::controller_digital_e_t clawControl;
 
 extern pros::controller_digital_e_t toggleControl;
