@@ -66,7 +66,8 @@ void autonomous() {
 	chassis.setBrakeMode(pros::E_MOTOR_BRAKE_BRAKE);
 
 	// runAuton();
-	drc();
+	toggleTwoAuto();
+	
 } 
 
 void opcontrol() {
