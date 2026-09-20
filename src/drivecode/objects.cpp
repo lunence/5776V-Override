@@ -24,8 +24,8 @@ pros::controller_digital_e_t colorSwitchControl = pros::E_CONTROLLER_DIGITAL_A;
 
 // TODO: Add actual drivetrain motor ports
 // drivetrain
-pros::MotorGroup leftMotors({0, 0, 0}, pros::MotorGearset::blue);
-pros::MotorGroup rightMotors({-0, -0, -0}, pros::MotorGearset::blue);
+pros::MotorGroup leftMotors({17, 0}, pros::MotorGearset::blue);
+pros::MotorGroup rightMotors({-0, -0}, pros::MotorGearset::blue);
 
 // TODO: Add actual intake motor ports
 // intake
