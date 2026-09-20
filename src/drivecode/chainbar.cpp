@@ -16,13 +16,31 @@ int loadPos = 25;
 int lowerScorePos = 260;
 int upperScorePos = 200;
 
+bool manualPressed = false;
+bool manualControlCh = false;
+
 void updateChainBarManual() {
-    if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) {
-            chainBar.move_voltage(12000);
-    } else if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
-            chainBar.move_voltage(-12000);
+    if (pros::E_CONTROLLER_DIGITAL_DOWN) { //TODO: replace with actual control
+        if (!manualPressed) {
+            manualControlCh = !manualControlCh;
+        }
+
+        manualPressed = true;
+    
     } else {
-        chainBar.move_voltage(0);
+        manualPressed = false;
+    }
+
+    if(manualControlCh) {
+        if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) {
+                chainBar.move_voltage(12000);
+        } else if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
+                chainBar.move_voltage(-12000);
+        } else {
+            chainBar.move_voltage(0);
+        }
+    } else {
+        updateChainBar();
     }
 }
 
@@ -47,8 +65,6 @@ void updateChainBar() {
             chainBarState -= 1;
             // cap chainbarstate to 0
             chainBarState = std::max(chainBarState, 0);
-            //close claw on way back
-            //clawState = 0;
         }
         cbDownPressed = true;
         // if chain bar down as already been pressed, then set back to false
@@ -58,7 +74,7 @@ void updateChainBar() {
 void runChainBar() {
     // adjust PID target positions based on chainbar states
     
-    while(true) {
+    while(!manualControlCh) {
         switch(chainBarState) {
             case(0): {
                 targetPos = downPos;
@@ -70,10 +86,14 @@ void runChainBar() {
             }
             case(2):{ 
                 targetPos = upperScorePos;
+                //close claw 
+                clawState = 0;
                 break;
             }
             case(3): {
                 targetPos = lowerScorePos;
+                //close claw 
+                clawState = 0;
                 break;
             }
         }
