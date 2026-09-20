@@ -5,6 +5,8 @@
 //set controlType to 1 if you want to use pid
 //cascade pid currently inaccessible in driver
 
+//TODO: GROUNDED POS OF THE DIST SENSOR IS 130MM OR 5.1 IN
+
 bool manualControl = true; 
 bool controlPressed = false;
 
@@ -40,7 +42,7 @@ void updateCascadeManual() {
         if (controller.get_digital(cascadeUpControl)) {
             if (distCascade.get_distance() < 100000) {
                 cascadeFulls.move_voltage(12000);
-                cascadeHalf.move_voltage(6000);
+                cascadeHalf.move_voltage(12000);
             }
             else {
                 cascadeFulls.move_voltage(0);
@@ -51,7 +53,7 @@ void updateCascadeManual() {
         else if (controller.get_digital(cascadeDownControl)) {
             if (distCascade.get_distance() > 30) {
                 cascadeFulls.move_voltage(-12000);
-                cascadeHalf.move_voltage(-6000);
+                cascadeHalf.move_voltage(-12000);
             }
             else {
                 cascadeFulls.move_voltage(0);
@@ -101,6 +103,10 @@ void runCascadeAuto() {
                 // set bounds to 127
                 power = 127;
             }
+        }
+
+        if(std::abs(error) < 0.25) {
+            power = 0;
         }
 
         // set rpm for each motor to the power divided by 127 multiplied by the rotation

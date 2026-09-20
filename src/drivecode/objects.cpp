@@ -31,14 +31,14 @@ pros::Motor clawRoller(7, pros::MotorGearset::green);
 // cascade and chainbar motors
 pros::MotorGroup cascadeFulls({-2, 3}, pros::MotorGearset::green);//all motors for cascade are green
 pros::Motor cascadeHalf(1, pros::MotorGearset::green); // 5.5 w
-pros::Motor chainBar (19, pros::MotorGearset::green);//chain bar has a green motor
+pros::Motor chainBar (18, pros::MotorGearset::green);//chain bar has a green motor
 
 // TODO: Add actual cascade sensor ports
 // cascade distance sensor for macro
 pros::Distance distCascade(20);
 
 // chain bar/cascade rotation sensors
-pros::Rotation chainBarRotation(18);
+pros::Rotation chainBarRotation(19);
 pros::Rotation cascadeRotation(16);
 
 // TODO: Add actual claw ports
@@ -78,7 +78,7 @@ lemlib::OdomSensors odomSensorsDrive(
 lemlib::Drivetrain drivetrain(
     &leftMotors,
     &rightMotors,
-    11.44,
+    10.445,
     2.75,
     450,
     99999 //we have tractions!
@@ -128,11 +128,11 @@ lemlib::Chassis chassis(
 );
 
 // chain bar pid
-lemlib::PID chainBarPID(4,
+lemlib::PID chainBarPID(2,
                          // proportional gain (kP)
-                         0,
+                         0.3,
                          // integral gain (kI)
-                         0,
+                         20,
                          // derivative gain (kD)
                          5,
                          // antiwindup
@@ -141,11 +141,11 @@ lemlib::PID chainBarPID(4,
 );
 
 // cascade pid
-lemlib::PID cascadePID(5,
+lemlib::PID cascadePID(15,
                          // proportional gain (kP)
-                         0.01,
+                         0.0,
                          // integral gain (kI)
-                         20,
+                         2,
                          // derivative gain (kD)
                          5,
                          // antiwindup

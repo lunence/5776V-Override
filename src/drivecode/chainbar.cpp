@@ -11,9 +11,9 @@ bool cbDownPressed = false;
 int targetPos = 0;
 
 int downPos = 2;
-int loadPos = 16;
-int lowerScorePos = 280;
-int upperScorePos = 214;
+int loadPos = 25;
+int lowerScorePos = 260;
+int upperScorePos = 200;
 
 void updateChainBar() {
     // if the chain bar up is pressed
@@ -73,15 +73,20 @@ void runChainBar() {
         float error = targetPos - pos;
         std::cout<<"error: "<<error<<std::endl;
 
+        //start - increase power to go over
+        if(pos > 75 && pos < 170) {
+            error += pos-75;
+        }
+        //end
+
         // calculate your error
+
         float power = chainBarPID.update(error, true);
         std::cout<<"power: "<<power<<std::endl;
 
         // calculate the PIDOutput based on error
-        if(std::abs(error) < 5) power = 0; 
-        if((error < 4 && power < 0)) power = 0;
+        if(std::abs(error) < 2) power = 0;
         
-
         //here
         if(std::abs(power) > 127) {
             // if the pid output is greater than motor threshold
