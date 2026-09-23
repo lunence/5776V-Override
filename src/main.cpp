@@ -76,7 +76,7 @@ void autonomous() {
 void opcontrol() {
 	// set the drive to coast
 	chassis.setBrakeMode(pros::E_MOTOR_BRAKE_COAST);
-	autoCascade = false;
+	
 	// static bool antiTipping = false;
 
 	//clawState = 0;
@@ -89,39 +89,12 @@ void opcontrol() {
 
 		chassis.arcade(throttle, turn);
 
-		updateCascadeManual();
 		//updateChainBar();
-		updateChainBarManual();
+		
 		updateManualClaw();
 
 
 		pros::delay(10);
-
-		// if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_UP)) {
-		// 	cascadeTarget += 10;
-		// 	pros::delay(200);
-		// }
-
-		// if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_LEFT)) {
-		// 	cascadeTarget -= 10;
-		// 	pros::delay(200);
-		// }
-
-		/*
-		if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_UP)){
-			chainBar.move_voltage(12000);
-		} else if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_LEFT)){
-			chainBar.move_voltage(-12000);
-		} else chainBar.move_voltage(0);
-		 */
-		
-
-		/*
-
-		if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_UP))
-		
-		*/
-
 
 	}
 }

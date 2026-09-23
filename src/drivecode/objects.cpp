@@ -29,13 +29,12 @@ pros::Motor clawRoller(7, pros::MotorGearset::green);
 
 // TODO: Add actual cascade ports and rotation
 // cascade and chainbar motors
-pros::MotorGroup cascadeFulls({-2, 3}, pros::MotorGearset::green);//all motors for cascade are green
-pros::Motor cascadeHalf(1, pros::MotorGearset::green); // 5.5 w
-pros::Motor chainBar (20, pros::MotorGearset::green);//chain bar has a green motor
+pros::MotorGroup reversebar({-2, 3}, pros::MotorGearset::green);//all motors for cascade are green
 
 // TODO: Add actual cascade sensor ports
 // cascade distance sensor for macro
-pros::Distance distCascade(19);
+pros::Distance distLift(19);
+pros::Distance distLiftHeight(0);
 
 // chain bar/cascade rotation sensors
 pros::Rotation chainBarRotation(18);
@@ -127,21 +126,9 @@ lemlib::Chassis chassis(
     distSensors
 );
 
-// chain bar pid
-lemlib::PID chainBarPID(2,
-                         // proportional gain (kP)
-                         0.3,
-                         // integral gain (kI)
-                         20,
-                         // derivative gain (kD)
-                         5,
-                         // antiwindup
-                         true
-                         // sign flip reset boolean
-);
 
-// cascade pid
-lemlib::PID cascadePID(15,
+// double reverse four bar
+lemlib::PID reversePID(15,
                          // proportional gain (kP)
                          0.0,
                          // integral gain (kI)

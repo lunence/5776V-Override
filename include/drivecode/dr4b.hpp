@@ -1,12 +1,14 @@
-#include "main.h"
+#include "pros/misc.h"
 #include "drivecode/objects.hpp"
+#include "main.h"
 
-// TODO: dsun modified the cascade cpp to fix bugs
-extern float cascadeTarget; //initializes at neutral
+extern float liftTarget; //initializes at neutral
 
 extern bool manualControl; 
-extern bool autoCascade;
+extern bool autoLift;
 extern double scoreHeights[];
+extern bool liftMacro;
+extern const int topStack;
 
 extern void updateCascadeControl();
 extern void updateCascadeManual();

@@ -23,11 +23,10 @@ extern pros::MotorGroup rightMotors;
 
 extern pros::Motor clawRoller;
 
-extern pros::MotorGroup cascadeFulls;
-extern pros::Motor cascadeHalf;
-extern pros::Motor chainBar;
+extern pros::MotorGroup reversebar;
 
-extern pros::Distance distCascade;
+extern pros::Distance distLift;
+extern pros::Distance distLiftHeight;
 
 extern pros::Rotation chainBarRotation;
 extern pros::Rotation cascadeRotation;
@@ -59,5 +58,4 @@ extern pros::Controller controller;
 
 extern lemlib::Chassis chassis;
 
-extern lemlib::PID chainBarPID;
-extern lemlib::PID cascadePID;
+extern lemlib::PID reversePID;
