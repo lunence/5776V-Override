@@ -14,9 +14,9 @@ const int goalOpticRange = 0;
 //    {3.25,10,17,23,30,37.5,43.5,47},
 //    {5.77,12.5,19,26,32.5,39.5,46,49.5},
 //};
-// TODO: GET THE VALUES FOR THESE FROM THE CODE IN #harbor_bot
-std::vector<float> allianceGoalHeights = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
-std::vector<float> neutralGoalHeights = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
+
+std::vector<float> allianceGoalHeights = {3.25,10,17,23,30,37.5,43.5,47};
+std::vector<float> neutralGoalHeights = {5.77,12.5,19,26,32.5,39.5,46,49.5};
 
 // SOPHIYA USE THIS TO SET CURRENT GOAL HEIGHTS TO ALLIANCE/NEUTRAL GOAL HEIGHTS
 // std::vector<float> currentGoalHeights = allianceGoalHeights;
@@ -77,8 +77,9 @@ void macroLift() {
             case 1: {
                 //Blue goal optical sensor value: 184
                 //red goal optical sensor value: 00
+                std::vector<float> currentGoalHeights;
                 int currentHue = goalOptical.get_hue();
-                
+
                 if ((currentHue <= 184 + goalOpticRange && 184 - goalOpticRange <= currentHue) || // blue logic
                     (currentHue <= 2 * goalOpticRange)) {                                         // red logic
                     std::vector<float> currentGoalHeights = allianceGoalHeights;
@@ -88,14 +89,25 @@ void macroLift() {
 
                 while (lemlib::mmToIn(distLift.get()) <= macroMaxDist) {
                     reversebar.move_voltage(12000);
+                    pros::delay (10);
                 }
                 reversebar.move_voltage(0); 
                 
-                // i is write here
-                // TODO: FINISH WRITING LOGIC FOR SNAP HERE
-                
-                liftMacroState = 0;
-                break;
+                float currentHeight = lemlib::mmToIn(distLift.get());//gets the height in form of inches
+                float targetHeight = currentGoalHeights.back(); //grabs the last value in the list
+
+                //tells function to first look at the first value and continue looking at values until the amount of items in the list is up, prevents from reading/looking for items that don't exist
+                for (int i = 0; i < currentGoalHeights.size(); ++i) {
+                    targetHeight = currentGoalHeights[i]; //sets it to next hightest goal
+                    break;//stop going up immediatly 
+
+                    // i is write here
+                    // TODO: FINISH WRITING LOGIC FOR SNAP HERE
+                    reversebar.move_absolute(targetHeight, 180); //TODO: Double check velocity value here
+
+                    liftMacroState = 0;
+                    break;
+                }
             }
         }
     }
