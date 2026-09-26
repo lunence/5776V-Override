@@ -6,15 +6,16 @@
 #include "pros/rtos.hpp"
 #include "drivecode/objects.hpp"
 #include "pros/screen.h"
-#include "drivecode/cascade.hpp"
-#include "drivecode/chainbar.hpp"
+// #include "drivecode/cascade.hpp"
+// #include "drivecode/chainbar.hpp"
 #include "drivecode/claw.hpp"
 
 // initialize motors
 void motorInit() {
-    chainBar.set_brake_mode(pros::motor_brake_mode_e::E_MOTOR_BRAKE_BRAKE);
-    cascadeFulls.set_brake_mode(pros::motor_brake_mode_e::E_MOTOR_BRAKE_BRAKE);
-    cascadeHalf.set_brake_mode(pros::motor_brake_mode_e::E_MOTOR_BRAKE_BRAKE);
+    // chainBar.set_brake_mode(pros::motor_brake_mode_e::E_MOTOR_BRAKE_BRAKE);
+    // cascadeFulls.set_brake_mode(pros::motor_brake_mode_e::E_MOTOR_BRAKE_BRAKE);
+    // cascadeHalf.set_brake_mode(pros::motor_brake_mode_e::E_MOTOR_BRAKE_BRAKE);
+    reversebar.set_brake_mode(pros::motor_brake_mode_e::E_MOTOR_BRAKE_BRAKE);
 }
 
 // sensor settings
@@ -59,10 +60,10 @@ void runScreen() {
         // printMotorVoltages(0)
 
         pros::screen::print(pros::E_TEXT_SMALL, 0, "X: %.3f Y: %.3f Theta: %.3f", pose.x, pose.y, pose.theta);
-        pros::screen::print(pros::E_TEXT_SMALL, 1, "cascade dist: %.3f", lemlib::mmToIn(distCascade.get_distance()));
-        pros::screen::print(pros::E_TEXT_SMALL, 2, "cascade target: .%3f", cascadeTarget);
+        //pros::screen::print(pros::E_TEXT_SMALL, 1, "cascade dist: %.3f", lemlib::mmToIn(distCascade.get_distance()));
+        //pros::screen::print(pros::E_TEXT_SMALL, 2, "cascade target: .%3f", cascadeTarget);
         pros::screen::print(pros::E_TEXT_SMALL, 3, "claw state: %d", clawState);
-        pros::screen::print(pros::E_TEXT_SMALL, 4, "chainbar state: %d", chainBarState);
+        //pros::screen::print(pros::E_TEXT_SMALL, 4, "chainbar state: %d", chainBarState);
         pros::screen::print(pros::E_TEXT_SMALL, 5, "chainbar rot: %d", chainBarRotation.get_angle()/100);
 
 

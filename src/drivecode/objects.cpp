@@ -12,7 +12,7 @@
 // Buttons on the controller that control assigned subsystems
 pros::controller_digital_e_t cbUpControl = pros::E_CONTROLLER_DIGITAL_R1;
 pros::controller_digital_e_t cbDownControl = pros::E_CONTROLLER_DIGITAL_R2;
-pros::controller_digital_e_t cascadeUpControl = pros::E_CONTROLLER_DIGITAL_L1;
+pros::controller_digital_e_t liftMacroControl = pros::E_CONTROLLER_DIGITAL_L1;
 pros::controller_digital_e_t cascadeDownControl = pros::E_CONTROLLER_DIGITAL_L2;
 pros::controller_digital_e_t cascadeManualControl = pros::E_CONTROLLER_DIGITAL_LEFT;
 pros::controller_digital_e_t clawControl = pros::E_CONTROLLER_DIGITAL_Y;
@@ -35,6 +35,7 @@ pros::MotorGroup reversebar({-2, 3}, pros::MotorGearset::green);//all motors for
 // cascade distance sensor for macro
 pros::Distance distLift(19);
 pros::Distance distLiftHeight(0);
+pros::Optical goalOptical(0);
 
 // chain bar/cascade rotation sensors
 pros::Rotation chainBarRotation(18);
@@ -128,7 +129,7 @@ lemlib::Chassis chassis(
 
 
 // double reverse four bar
-lemlib::PID reversePID(15,
+lemlib::PID liftPID(15,
                          // proportional gain (kP)
                          0.0,
                          // integral gain (kI)
