@@ -18,7 +18,7 @@ std::vector<float> neutralGoalHeights = {5.77,12.5,19,26,32.5,39.5,46,49.5};
 float liftHeight;
 
 bool liftMacroPressed = false;
-int liftMacroState = 1;
+int liftMacroState = 0;
 
 float closestGoalValue(const std::vector<float> &goaldistHeights, float distHeight) {
     // set closest value to the first value as a fallback
@@ -93,7 +93,7 @@ void macroLift() {
                     // TODO REMOVE THIS TEST RUMBLE
                     controller.rumble(".");
 
-                    pros::delay(100);
+                    // pros::delay(100);
                 }
                 // temp stop if we see nothing
                 reversebar.move_voltage(0);
