@@ -39,10 +39,22 @@ float closestGoalValue(const std::vector<float> &goaldistHeights, float distHeig
 void updateLift() {
     if (controller.get_digital(liftMacroControl)) {
         if (!liftMacroPressed) {
-            liftMacroState = (liftMacroState == 1) ? 0 : 1;
+            // if it is on turn it off
+            if(liftMacroState == 1) {
+                liftMacroState = 0;
+            }
+
+            // if it is off turn it on
+            else {
+                liftMacroState = 1;
+            }
         }
+        // intake was just toggled just now
         liftMacroPressed = true;
-    } else {
+
+    } 
+    // intake was not toggled just now
+    else {
         liftMacroPressed = false;
     }
 
@@ -51,44 +63,57 @@ void updateLift() {
 
 void macroLift() {
     while (true) {
-        if (liftMacroState != 1) {
-            pros::delay(10);
-            continue;
+        switch (liftMacroState) {
+            // macro is off
+            case 0: {
+                break;
+            }
+
+            // macro is on
+            case 1: {
+                //Blue goal optical sensor value: 184
+                //red goal optical sensor value: 00
+                int currentHue = goalOptical.get_hue();
+                std::vector<float> currentGoalHeights;
+
+                if ((currentHue <= 184 + goalOpticRange && 184 - goalOpticRange <= currentHue) || // blue logic
+                    (currentHue <= goalOpticRange)) {                                             // red logic
+                    // if it is alliance goals set it to alliance heights
+                    currentGoalHeights = allianceGoalHeights;
+                } else {
+                    // set to neutral goal heights
+                    currentGoalHeights = neutralGoalHeights;
+                }
+
+                // while we still see pins in front of us keep moving up
+                while (lemlib::mmToIn(distLift.get_distance()) <= macroMaxDist) {
+                    reversebar.move_voltage(12000);
+
+                    // TODO REMOVE THIS TEST RUMBLE
+                    controller.rumble(".");
+
+                    pros::delay(100);
+                }
+                // temp stop if we see nothing
+                reversebar.move_voltage(0);
+
+                // TODO REMOVE THIS TEST RUMBLE
+                controller.rumble(" ");
+
+                // set cascade height to current height from floor
+                liftHeight = lemlib::mmToIn(distLiftHeight.get_distance());
+
+                // run function to run lift to the closest goal value based on the set
+                // currentGoalHeights based on the current liftheight plus 1 inch as
+                // offset so we can actually drop it
+                runLiftAuto(closestGoalValue(currentGoalHeights, liftHeight) + 1);
+
+                // switch back to non lift macro state
+                liftMacroState = 0;
+                // exit so that we're not locked
+                break;
+            }
         }
-
-        //Blue goal optical sensor value: 184
-        //red goal optical sensor value: 00
-        int currentHue = goalOptical.get_hue();
-        std::vector<float> currentGoalHeights;
-
-        if ((currentHue <= 184 + goalOpticRange && 184 - goalOpticRange <= currentHue) ||
-            (currentHue <= goalOpticRange)) {
-            currentGoalHeights = allianceGoalHeights;
-        } else {
-            currentGoalHeights = neutralGoalHeights;
-        }
-
-        // while we still see pins in front of us keep moving up
-        while (lemlib::mmToIn(distLift.get_distance()) <= macroMaxDist) {
-            reversebar.move_voltage(12000);
-            controller.rumble(".");
-            pros::delay(100);
-        }
-
-        reversebar.move_voltage(0);
-        controller.rumble(" ");
-
-        // set cascade height to current height from floor
-        liftHeight = lemlib::mmToIn(distLiftHeight.get_distance());
-
-        // run function to run lift to the closest goal value based on the set
-        // currentGoalHeights based on the current liftheight plus 1 inch as
-        // offset so we can actually drop it
-        runLiftAuto(closestGoalValue(currentGoalHeights, liftHeight) + 1);
-
-        // switch back to non lift macro state
-        liftMacroState = 0;
-        pros::delay(10);
     }
 }
 
