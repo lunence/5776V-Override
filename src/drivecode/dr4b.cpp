@@ -6,20 +6,17 @@
 #include <cmath>
 #include <vector>
 
+// TODO: MODIFY THESE BASED ON ACTUAL ROBOT OR DISTANCE FROM CAD
 const int macroMaxDist = 0;
 const int goalOpticRange = 0;
-
-
-//float scoreHeights[2][8] = {
-//    {3.25,10,17,23,30,37.5,43.5,47},
-//    {5.77,12.5,19,26,32.5,39.5,46,49.5},
-//};
 
 std::vector<float> allianceGoalHeights = {3.25,10,17,23,30,37.5,43.5,47};
 std::vector<float> neutralGoalHeights = {5.77,12.5,19,26,32.5,39.5,46,49.5};
 
-// SOPHIYA USE THIS TO SET CURRENT GOAL HEIGHTS TO ALLIANCE/NEUTRAL GOAL HEIGHTS
-// std::vector<float> currentGoalHeights = allianceGoalHeights;
+float liftHeight;
+
+bool liftMacroPressed = false;
+int liftMacroState = 0;
 
 float closestGoalValue(const std::vector<float> &goaldistHeights, float distHeight) {
     // set closest value to the first value as a fallback
@@ -62,9 +59,6 @@ void updateLift() {
     pros::delay(10);
 }
 
-// float get_hue();
-
-
 void macroLift() {
     while (true) {
         switch (liftMacroState) {
@@ -96,7 +90,13 @@ void macroLift() {
                 // temp stop if we see nothing
                 reversebar.move_voltage(0); 
                 
-                // TODO: DSUN ADD IN SNAP LOGIC USING FUNCTIONS
+                // set cascade height to current height from floor
+                liftHeight = lemlib::mmToIn(distLiftHeight.get_distance());
+                
+                // run function to run lift to the closest goal value based on the set
+                // currentGoalHeights based on the current liftheight plus 1 inch as
+                // offset so we can actually drop it
+                runLiftAuto(closestGoalValue(currentGoalHeights, liftHeight) + 1);
 
                 // switch back to non lift macro state
                 liftMacroState = 0;
@@ -111,21 +111,24 @@ void runLiftAuto(float liftTarget) {
     // set a constant value for accepted error range, 0.25
     const float errorRange = 0.25;
 
-    // set cascade height to current height from floor
-    float liftHeight = lemlib::mmToIn(distLiftHeight.get_distance());
-    // set error to the difference between target and height
-    float error = liftTarget - liftHeight;
-    // set power to the power we need to give the cascade to get to target
-    float power = liftPID.update(error, true);
-
     // while the error is greater than the acceptable error range
-    while (std::abs(error) > errorRange) {
+    while (true) {
         // set the lift height to the value we pull from the lift height dist sensor
         liftHeight = lemlib::mmToIn(distLiftHeight.get_distance());
         // set error to the difference between the target and the current height
-        error = liftTarget - liftHeight;
+        float error = liftTarget - liftHeight;
+
+        if (std::abs(error) < errorRange) {
+            // force stop the reverse bar's power because error will still produce a power
+            // which may still be running, so we can stop the motor here
+            reversebar.move_velocity(0);
+
+            // exit function
+            return;
+        }
+
         // feed in error to the pid to have a value
-        power = liftPID.update(error, true);
+        float power = liftPID.update(error, true);
 
         // if power is over/under 127/-127 set to 127/-127 as a bound
         if (std::abs(power) > 127) {
@@ -147,11 +150,4 @@ void runLiftAuto(float liftTarget) {
 
         pros::delay(10);
     }
-
-    // force stop the reverse bar's power because error will still produce a power
-    // which may still be running, so we can stop the motor here
-    reversebar.move_velocity(0);
-
-    // exit function
-    return;
 }

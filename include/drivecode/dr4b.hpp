@@ -2,26 +2,17 @@
 #include "drivecode/objects.hpp"
 #include "main.h"
 
+extern const int macroMaxDist;
+extern const int goalOpticRange;
+
+extern std::vector<float> allianceGoalHeights;
+extern std::vector<float> neutralGoalHeights;
+
+extern float liftHeight;
+
 extern bool liftMacroPressed;
 extern int liftMacroState;
 
+extern float closestGoalValue(const std::vector<float> &goaldistHeights, float distHeight);
 extern void updateLift();
-extern void macroLift();
-
-/*
-// TODO: SOMEBODY MADE THIS THING IT IS COMMENTED DUE TO UNCERTAINTY
-
-extern float liftTarget; //initializes at neutral
-
-extern bool manualControl; 
-extern bool autoLift;
-extern double scoreHeights[];
-extern bool liftMacro;
-extern const int topStack;
-
-extern void updateCascadeControl();
-extern void updateCascadeManual();
-extern void updateCascadePID();
-
-extern void runCascadeAuto();
-*/
+extern void runLiftAuto(float liftTarget);
