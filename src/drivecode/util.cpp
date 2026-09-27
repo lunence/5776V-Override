@@ -2,13 +2,13 @@
 #include "autonomous/autonSelector.hpp"
 // #include "pros/misc.h"
 // #include "pros/motors.h"
+#include "lemlib/util.hpp"
 #include "pros/motors.h"
 #include "pros/rtos.hpp"
 #include "drivecode/objects.hpp"
 #include "pros/screen.h"
-// #include "drivecode/cascade.hpp"
-// #include "drivecode/chainbar.hpp"
 #include "drivecode/claw.hpp"
+#include "drivecode/dr4b.hpp"
 
 // initialize motors
 void motorInit() {
@@ -38,45 +38,19 @@ void taskInit() {
     pros::Task consoleTask(runConsole, "console task");
 
     pros::Task manualClawTask(runClaw, "manual claw task");
-    //pros::Task cascadeTask(runCascadeAuto, "cascade pid task");
-    //pros::Task chainbarTask(runChainBar, "chainbar pid task");
+    pros::Task macroLiftTask(macroLift, "macro lift task");
 }
-
-// // function to print motor voltages given a line to start on
-// void printMotorVoltages(int line) {
-//     pros::screen::print(pros::E_TEXT_SMALL, line+0, "leftFront: %d", leftFront.get_power());
-//     // pros::screen::print(pros::E_TEXT_SMALL, line+1, "leftMid: %d", leftMid.get_power());
-//     pros::screen::print(pros::E_TEXT_SMALL, line+2, "leftBack: %d", leftBack.get_power());
-//     pros::screen::print(pros::E_TEXT_SMALL, line+3, "rightFront: %d", rightFront.get_power());
-//     // pros::screen::print(pros::E_TEXT_SMALL, line+4, "rightMid: %d", rightMid.get_power());
-//     pros::screen::print(pros::E_TEXT_SMALL, line+5, "rightBack: %d", rightBack.get_power());
-// }
 
 // print screen task
 void runScreen() {
     while(true) {
         lemlib::Pose pose = chassis.getPose();
 
-        // printMotorVoltages(0)
-
         pros::screen::print(pros::E_TEXT_SMALL, 0, "X: %.3f Y: %.3f Theta: %.3f", pose.x, pose.y, pose.theta);
-        //pros::screen::print(pros::E_TEXT_SMALL, 1, "cascade dist: %.3f", lemlib::mmToIn(distCascade.get_distance()));
-        //pros::screen::print(pros::E_TEXT_SMALL, 2, "cascade target: .%3f", cascadeTarget);
-        pros::screen::print(pros::E_TEXT_SMALL, 3, "claw state: %d", clawState);
-        //pros::screen::print(pros::E_TEXT_SMALL, 4, "chainbar state: %d", chainBarState);
-        pros::screen::print(pros::E_TEXT_SMALL, 5, "chainbar rot: %d", chainBarRotation.get_angle()/100);
+        pros::screen::print(pros::E_TEXT_SMALL, 1, "lift state: %d", liftMacroState);
+        pros::screen::print(pros::E_TEXT_SMALL, 2, "lift distance: %.2f", lemlib::mmToIn(distLift.get_distance()));
+        pros::screen::print(pros::E_TEXT_SMALL, 3, "lift optical: %.3f", goalOptical.get_hue());
 
-
-        // pros::screen::print(pros::E_TEXT_SMALL, 2, "cascadeState: %d", cascadeState);
-        // pros::screen::print(pros::E_TEXT_SMALL, 3, "chainBarState: %d", chainBarState);
-        // pros::screen::print(pros::E_TEXT_SMALL, 4, "resetState: %d", resetState);
-        // pros::screen::print(pros::E_TEXT_SMALL, 5, "controlType: %d", controlType);
-
-        // pros::screen::print(pros::E_TEXT_SMALL, 7, "rollerState: %d", rollerState);
-        // pros::screen::print(pros::E_TEXT_SMALL, 8, "clawState: %d", clawState);
-
-        // pros::screen::print(pros::E_TEXT_SMALL, 10, "incrementWorks3: %d", cascadePID_target);
-        
         pros::delay(50);
     }
 }
@@ -87,4 +61,3 @@ void runConsole() {
         pros::delay(50);
     }
 }
-

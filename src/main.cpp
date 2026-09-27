@@ -13,6 +13,7 @@
 // #include "drivecode/cascade.hpp"
 // #include "drivecode/chainbar.hpp"
 #include "drivecode/claw.hpp"
+#include "drivecode/dr4b.hpp"
 #include "drivecode/toggle.hpp"
 
 // lemlib & pros
@@ -92,7 +93,7 @@ void opcontrol() {
 		//updateChainBar();
 		
 		updateManualClaw();
-
+		updateLift();
 
 		pros::delay(10);
 

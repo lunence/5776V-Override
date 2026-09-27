@@ -15,4 +15,5 @@ extern int liftMacroState;
 
 extern float closestGoalValue(const std::vector<float> &goaldistHeights, float distHeight);
 extern void updateLift();
+extern void macroLift();
 extern void runLiftAuto(float liftTarget);

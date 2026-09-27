@@ -21,41 +21,41 @@ pros::controller_digital_e_t clawOpenControl = pros::E_CONTROLLER_DIGITAL_B;
 // pros::controller_digital_e_t toggleControl = pros::E_CONTROLLER_DIGITAL_DOWN;
 
 // TODO: Add actual drivetrain motor ports
-pros::MotorGroup leftMotors({13, -14}, pros::MotorGearset::blue);
-pros::MotorGroup rightMotors({12, -11}, pros::MotorGearset::blue);
+pros::MotorGroup leftMotors({0, -0}, pros::MotorGearset::blue);
+pros::MotorGroup rightMotors({0, -0}, pros::MotorGearset::blue);
 
 // TODO: Add actual intake motor ports
-pros::Motor clawRoller(7, pros::MotorGearset::green);
+pros::Motor clawRoller(0, pros::MotorGearset::green);
 
 // TODO: Add actual cascade ports and rotation
 // cascade and chainbar motors
-pros::MotorGroup reversebar({-2, 3}, pros::MotorGearset::green);//all motors for cascade are green
+pros::MotorGroup reversebar({0, 0}, pros::MotorGearset::green);//all motors for cascade are green
 
 // TODO: Add actual cascade sensor ports
 // cascade distance sensor for macro
-pros::Distance distLift(19);
+pros::Distance distLift(17);
 pros::Distance distLiftHeight(0);
-pros::Optical goalOptical(0);
+pros::Optical goalOptical(14);
 
 // chain bar/cascade rotation sensors
-pros::Rotation chainBarRotation(18);
-pros::Rotation cascadeRotation(16);
+pros::Rotation chainBarRotation(0);
+pros::Rotation cascadeRotation(0);
 
 // TODO: Add actual claw ports
 // pistons
-pros::adi::DigitalOut clawPiston('H');
+pros::adi::DigitalOut clawPiston(' ');
 
 // TODO: Add actual distance sensor ports
 // distance sensors for dsr
-pros::Distance distFront(17);
-pros::Distance distBack(6);
-pros::Distance distLeft(9);
-pros::Distance distRight(4);
+pros::Distance distFront(0);
+pros::Distance distBack(0);
+pros::Distance distLeft(0);
+pros::Distance distRight(0);
 
 // TODO: Add actual odometry ports
 // odometry sensors for chassis
-pros::Rotation horizRotation(16);
-pros::Imu imu(15);
+pros::Rotation horizRotation(0);
+pros::Imu imu(0);
 
 // odom objects
 lemlib::TrackingWheel horizOdom(

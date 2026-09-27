@@ -7,11 +7,13 @@
 #include <vector>
 
 // TODO: MODIFY THESE BASED ON ACTUAL ROBOT OR DISTANCE FROM CAD
-const int macroMaxDist = 0;
-const int goalOpticRange = 0;
+const int macroMaxDist = 3;
+const int goalOpticRange = 30;
 
 std::vector<float> allianceGoalHeights = {3.25,10,17,23,30,37.5,43.5,47};
 std::vector<float> neutralGoalHeights = {5.77,12.5,19,26,32.5,39.5,46,49.5};
+// slight issue with the 49.5 is that we may not be allowed to go that far because we go up
+// higher than 50in after 1 inch extra height
 
 float liftHeight;
 
@@ -84,11 +86,24 @@ void macroLift() {
                 }
 
                 // while we still see pins in front of us keep moving up
-                while (lemlib::mmToIn(distLift.get()) <= macroMaxDist) {
+                while (lemlib::mmToIn(distLift.get_distance()) <= macroMaxDist) {
                     reversebar.move_voltage(12000);
+
+                    // TODO REMOVE THIS TEST RUMBLE
+                    controller.rumble(".");
+
+                    pros::delay(100);
                 }
                 // temp stop if we see nothing
-                reversebar.move_voltage(0); 
+                reversebar.move_voltage(0);
+
+                // TODO REMOVE THIS TEST RUMBLE
+                controller.rumble(" ");
+
+                // TODO: REMOVE THIS TEST RETURN
+                // switch back to non lift macro state
+                liftMacroState = 0;
+                break;
                 
                 // set cascade height to current height from floor
                 liftHeight = lemlib::mmToIn(distLiftHeight.get_distance());
