@@ -77,37 +77,31 @@ void macroLift() {
             case 1: {
                 //Blue goal optical sensor value: 184
                 //red goal optical sensor value: 00
-                std::vector<float> currentGoalHeights;
                 int currentHue = goalOptical.get_hue();
+                std::vector<float> currentGoalHeights;
 
                 if ((currentHue <= 184 + goalOpticRange && 184 - goalOpticRange <= currentHue) || // blue logic
                     (currentHue <= 2 * goalOpticRange)) {                                         // red logic
-                    std::vector<float> currentGoalHeights = allianceGoalHeights;
+                    // if it is alliance goals set it to alliance heights
+                    currentGoalHeights = allianceGoalHeights;
                 } else {
-                    std::vector<float> currentGoalHeights = neutralGoalHeights;
+                    // set to neutral goal heights
+                    currentGoalHeights = neutralGoalHeights;
                 }
 
+                // while we still see pins in front of us keep moving up
                 while (lemlib::mmToIn(distLift.get()) <= macroMaxDist) {
                     reversebar.move_voltage(12000);
-                    pros::delay (10);
                 }
+                // temp stop if we see nothing
                 reversebar.move_voltage(0); 
                 
-                float currentHeight = lemlib::mmToIn(distLift.get());//gets the height in form of inches
-                float targetHeight = currentGoalHeights.back(); //grabs the last value in the list
+                // TODO: DSUN ADD IN SNAP LOGIC USING FUNCTIONS
 
-                //tells function to first look at the first value and continue looking at values until the amount of items in the list is up, prevents from reading/looking for items that don't exist
-                for (int i = 0; i < currentGoalHeights.size(); ++i) {
-                    targetHeight = currentGoalHeights[i]; //sets it to next hightest goal
-                    break;//stop going up immediatly 
-
-                    // i is write here
-                    // TODO: FINISH WRITING LOGIC FOR SNAP HERE
-                    reversebar.move_absolute(targetHeight, 180); //TODO: Double check velocity value here
-
-                    liftMacroState = 0;
-                    break;
-                }
+                // switch back to non lift macro state
+                liftMacroState = 0;
+                // exit so that we're not locked
+                break;
             }
         }
     }
