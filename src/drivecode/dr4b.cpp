@@ -7,7 +7,7 @@
 #include <vector>
 
 // TODO: MODIFY THESE BASED ON ACTUAL ROBOT OR DISTANCE FROM CAD
-const int macroMaxDist = 3;
+const int macroMaxDist = 5;
 const int goalOpticRange = 30;
 
 std::vector<float> allianceGoalHeights = {3.25,10,17,23,30,37.5,43.5,47};
@@ -66,6 +66,7 @@ void macroLift() {
         switch (liftMacroState) {
             // macro is off
             case 0: {
+                pros::delay(10);
                 break;
             }
 
@@ -106,7 +107,8 @@ void macroLift() {
                 // run function to run lift to the closest goal value based on the set
                 // currentGoalHeights based on the current liftheight plus 1 inch as
                 // offset so we can actually drop it
-                runLiftAuto(closestGoalValue(currentGoalHeights, liftHeight) + 1);
+                // TODO: UNCOMMENT THIS OUT AFTER TESTING
+                // runLiftAuto(closestGoalValue(currentGoalHeights, liftHeight) + 1);
 
                 // switch back to non lift macro state
                 liftMacroState = 0;
