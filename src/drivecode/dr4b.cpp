@@ -108,18 +108,23 @@ void macroLift() {
 }
 
 void runLiftAuto(float liftTarget) {
-    float errorRange = 0.00;
+    // set a constant value for accepted error range, 0.25
+    const float errorRange = 0.25;
 
     // set cascade height to current height from floor
+    float liftHeight = lemlib::mmToIn(distLiftHeight.get_distance());
     // set error to the difference between target and height
+    float error = liftTarget - liftHeight;
     // set power to the power we need to give the cascade to get to target
-    float cascadeHeight = lemlib::mmToIn(distLiftHeight.get_distance());
-    float error = liftTarget - cascadeHeight;
     float power = liftPID.update(error, true);
 
+    // while the error is greater than the acceptable error range
     while (std::abs(error) > errorRange) {
-        cascadeHeight = lemlib::mmToIn(distLiftHeight.get_distance());
-        error = liftTarget - cascadeHeight;
+        // set the lift height to the value we pull from the lift height dist sensor
+        liftHeight = lemlib::mmToIn(distLiftHeight.get_distance());
+        // set error to the difference between the target and the current height
+        error = liftTarget - liftHeight;
+        // feed in error to the pid to have a value
         power = liftPID.update(error, true);
 
         // if power is over/under 127/-127 set to 127/-127 as a bound
@@ -134,10 +139,6 @@ void runLiftAuto(float liftTarget) {
             }
         }
 
-        if(std::abs(error) < 0.25) {
-            return;
-        }
-
         // set rpm for each motor to the power divided by 127 multiplied by the rotation
         float fullsRPM = power / 127 * 600;
 
@@ -147,49 +148,10 @@ void runLiftAuto(float liftTarget) {
         pros::delay(10);
     }
 
+    // force stop the reverse bar's power because error will still produce a power
+    // which may still be running, so we can stop the motor here
+    reversebar.move_velocity(0);
+
+    // exit function
     return;
 }
-
-/*
-// TODO: SOMEBODY MADE THIS THING IT IS COMMENTED DUE TO UNCERTAINTY
-bool liftMacro = false;
-const int topStack = 0;
-float targetMacro = 0;
-
-void distLiftMacro() {
-    if (liftMacro) {
-        // send voltage until dist sensor doesnt see anything
-        // it will be seeing the stack while going up
-        while (distLift.get_distance() < 10) {
-            reversebar.move_voltage(127);
-        }
-
-        targetMacro = (distLiftdistHeight.get_distance()/25.4) + topStack;
-
-        // get to the right position to score
-
-        while (targetMacro > (distLiftdistHeight.get_distance()/25.4)) {
-            // PID error calculation
-            float error = targetMacro - (distLiftdistHeight.get_distance()/25.4);
-            float power = reversePID.update(error, false);
-
-            // power
-            if(std::abs(power) > 127) {
-                // if the pid output is greater than motor threshold
-                // calculate what direction the chainbar must move
-                // then set it to max volts to motors
-                if(power < 0) {
-                    power = -127;
-                } else {
-                    power = 127;
-                }
-            }
-            reversebar.move_voltage(power);
-        }
-
-        // then to get to the right distHeight
-    
-    }
-    liftMacro = false;
-} 
-*/
