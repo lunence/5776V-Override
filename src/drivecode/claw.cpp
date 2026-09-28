@@ -35,10 +35,14 @@ void runClaw() {
         if(clawState == 0) {
             clawRoller.move(0);
             clawPiston.set_value(false);
-        } else if(clawState == 1) {
+        } 
+        
+        else if(clawState == 1) {
             clawRoller.move(127);
             clawPiston.set_value(true);
-        } else if(clawState == 2) {
+        } 
+        
+        else if(clawState == 2) {
             clawRoller.move(0);
             clawPiston.set_value(true);
         }

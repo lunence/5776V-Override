@@ -1,5 +1,6 @@
 #include "main.h"
 #include "drivecode/dr4b.hpp"
+#include "drivecode/claw.hpp"
 #include "drivecode/objects.hpp"
 #include "pros/optical.hpp"
 #include <iostream>
@@ -40,8 +41,19 @@ void updateLift() {
     if (controller.get_digital(liftMacroControl)) {
         if (!liftMacroPressed) {
             // if it is on turn it off
-            if(liftMacroState == 1) {
+            if (liftMacroState == 1) {
                 liftMacroState = 0;
+            }
+
+            // if the lift macro finishes and you press to activate score macro button monitoring
+            else if (liftMacroState == 2) {
+                liftMacroState = 3;
+            }
+
+            // if the button monitoring is running and you press to confirm score
+            else if (liftMacroState == 3) {
+                // this is score macro; it will switch to 0 after finished
+                // no manual override for this though
             }
 
             // if it is off turn it on
@@ -121,7 +133,62 @@ void macroLift() {
                 // TODO: UNCOMMENT THIS OUT AFTER TESTING
                 // runLiftAuto(closestGoalValue(currentGoalHeights, liftHeight) + 1);
 
-                // switch back to non lift macro state
+                // switch to the score macro
+                liftMacroState = 2;
+                // exit so that we're not locked
+                break;
+            }
+
+            // macro is waiting to click to 3
+            case 2: {
+                pros::delay(10);
+                break;
+            }
+
+            // score macro
+            case 3: {
+                // TODO: WRITE SCORE MACRO HERE
+                // set cascade height to current height from floor
+                liftHeight = lemlib::mmToIn(distLiftHeight.get_distance());
+
+                // run function to run lift to the closest goal value based on the set
+                // currentGoalHeights based on the current liftheight minus 3 inches as
+                // offset so we can put it inside, then lift by 4 to go to liftheight
+                // minus 1 and get out
+                // TODO: UNCOMMENT THIS OUT AFTER TESTING
+                // runLiftAuto(closestGoalValue(currentGoalHeights, liftHeight) - 3);
+                
+                // TODO: REMOVE THIS TEST MOTOR MOVEMENTS
+                reversebar.move_voltage(6000);
+                pros::delay(500);
+                reversebar.move_voltage(0);
+                // open claw
+                clawState = 1;
+                pros::delay(100);
+
+                // TODO: REMOVE THIS TEST MOTOR MOVEMENTS
+                reversebar.move_voltage(-6000);
+                pros::delay(250);
+                reversebar.move_voltage(0);
+                // TODO: UNCOMMENT THIS OUT AFTER TESTING
+                // runLiftAuto(closestGoalValue(currentGoalHeights, liftHeight) + 1);
+                
+                // set cascade height to current height from floor
+                liftHeight = lemlib::mmToIn(distLiftHeight.get_distance());
+
+                // run function to run lift to the closest goal value based on the set
+                // currentGoalHeights based on the current liftheight minus 3 inches as
+                // offset so we can put it inside, then lift by 4 to go to liftheight
+                // minus 1 and get out
+                // TODO: UNCOMMENT THIS OUT AFTER TESTING
+                // runLiftAuto(0);
+
+                // TODO: REMOVE THIS TEST MOTOR MOVEMENTS
+                reversebar.move_voltage(12000);
+                pros::delay(5000);
+                reversebar.move_voltage(0);
+
+                // switch to the score macro
                 liftMacroState = 0;
                 // exit so that we're not locked
                 break;
