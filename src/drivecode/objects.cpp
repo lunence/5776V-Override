@@ -29,7 +29,7 @@ pros::Motor clawRoller(0, pros::MotorGearset::green);
 
 // TODO: Add actual cascade ports and rotation
 // cascade and chainbar motors
-pros::MotorGroup reversebar({0, 0}, pros::MotorGearset::green);//all motors for cascade are green
+pros::MotorGroup reversebar({1, 0}, pros::MotorGearset::blue);//all motors for cascade are green
 
 // TODO: Add actual cascade sensor ports
 // cascade distance sensor for macro

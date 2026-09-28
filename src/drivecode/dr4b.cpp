@@ -94,6 +94,17 @@ void macroLift() {
                     controller.rumble(".");
 
                     // pros::delay(100);
+
+                    if (liftMacroState == 0) {
+                        // stop to terminate the macro
+                        reversebar.move_voltage(0);
+                        // TODO REMOVE THIS TEST RUMBLE
+                        controller.rumble(" ");
+                        // switch back to non lift macro state
+                        liftMacroState = 0;
+                        // exit so that we're not locked
+                        break;
+                    }
                 }
                 // temp stop if we see nothing
                 reversebar.move_voltage(0);
