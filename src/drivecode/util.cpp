@@ -39,6 +39,7 @@ void taskInit() {
 
     pros::Task manualClawTask(runClaw, "manual claw task");
     pros::Task macroLiftTask(macroLift, "macro lift task");
+    pros::Task manualLiftTask(runLift, "manual lift task");
 }
 
 // print screen task
@@ -50,6 +51,8 @@ void runScreen() {
         pros::screen::print(pros::E_TEXT_SMALL, 1, "lift state: %d", liftMacroState);
         pros::screen::print(pros::E_TEXT_SMALL, 2, "lift distance: %.2f", lemlib::mmToIn(distLift.get_distance()));
         pros::screen::print(pros::E_TEXT_SMALL, 3, "lift optical: %.3f", goalOptical.get_hue());
+        pros::screen::print(pros::E_TEXT_SMALL, 4, "manual lift state: %d", manualLiftState);
+        pros::screen::print(pros::E_TEXT_SMALL, 5, "manual lifting: %d", manualControl);
 
         pros::delay(50);
     }

@@ -1,11 +1,6 @@
 #include "main.h"
 #include "drivecode/dr4b.hpp"
 #include "drivecode/claw.hpp"
-#include "drivecode/objects.hpp"
-#include "pros/optical.hpp"
-#include <iostream>
-#include <cmath>
-#include <vector>
 
 // TODO: MODIFY THESE BASED ON ACTUAL ROBOT OR DISTANCE FROM CAD
 const int macroMaxDist = 5;
@@ -20,6 +15,9 @@ float liftHeight;
 
 bool liftMacroPressed = false;
 int liftMacroState = 0;
+
+int manualLiftState = 0;
+bool manualControl = false;
 
 float closestGoalValue(const std::vector<float> &goaldistHeights, float distHeight) {
     // set closest value to the first value as a fallback
@@ -70,6 +68,22 @@ void updateLift() {
         liftMacroPressed = false;
     }
 
+    // if lift manual up pressed
+    if (controller.get_digital(cbUpControl)) {
+        manualLiftState = 1;
+        manualControl = true;
+    } 
+    // if lift manual down pressed
+    else if (controller.get_digital(cbDownControl)) {
+        manualLiftState = 2;
+        manualControl = true;
+    } 
+    // lift manual was not toggled
+    else {
+        manualLiftState = 0;
+        manualControl = false;
+    }
+
     pros::delay(10);
 }
 
@@ -78,7 +92,6 @@ void macroLift() {
         switch (liftMacroState) {
             // macro is off
             case 0: {
-                pros::delay(10);
                 break;
             }
 
@@ -107,13 +120,13 @@ void macroLift() {
 
                     // pros::delay(100);
 
-                    if (liftMacroState == 0) {
+                    if (liftMacroState == 0 || manualControl == true) {
                         // stop to terminate the macro
                         reversebar.move_voltage(0);
                         // TODO REMOVE THIS TEST RUMBLE
                         controller.rumble(" ");
-                        // switch back to non lift macro state
-                        liftMacroState = 0;
+                        // switch to manual control state
+                        liftMacroState = 2;
                         // exit so that we're not locked
                         break;
                     }
@@ -159,7 +172,7 @@ void macroLift() {
                 // runLiftAuto(closestGoalValue(currentGoalHeights, liftHeight) - 3);
                 
                 // TODO: REMOVE THIS TEST MOTOR MOVEMENTS
-                reversebar.move_voltage(6000);
+                reversebar.move_voltage(1000);
                 pros::delay(500);
                 reversebar.move_voltage(0);
                 // open claw
@@ -167,7 +180,7 @@ void macroLift() {
                 pros::delay(100);
 
                 // TODO: REMOVE THIS TEST MOTOR MOVEMENTS
-                reversebar.move_voltage(-6000);
+                reversebar.move_voltage(-1000);
                 pros::delay(250);
                 reversebar.move_voltage(0);
                 // TODO: UNCOMMENT THIS OUT AFTER TESTING
@@ -185,7 +198,7 @@ void macroLift() {
 
                 // TODO: REMOVE THIS TEST MOTOR MOVEMENTS
                 reversebar.move_voltage(12000);
-                pros::delay(5000);
+                pros::delay(1000);
                 reversebar.move_voltage(0);
 
                 // switch to the score macro
@@ -194,6 +207,41 @@ void macroLift() {
                 break;
             }
         }
+        
+        pros::delay(10);
+    }
+}
+
+void runLift() {
+    while (true) {
+        switch (manualLiftState) {
+            case 0: {
+                if (liftMacroState != 3) {
+                    reversebar.move_voltage(0);
+                }
+                break;
+            }
+
+            case 1: {
+                // cannot manual override in score because that would tamper with scoring
+                // and can cause stacks to drop
+                if (liftMacroState != 3) {
+                    reversebar.move_voltage(12000);
+                }
+                break;
+            }
+
+            case 2: {
+                // cannot manual override in score because that would tamper with scoring
+                // and can cause stacks to drop
+                if (liftMacroState != 3) {
+                    reversebar.move_voltage(-12000);
+                }
+                break;
+            }
+        }
+        
+        pros::delay(10);
     }
 }
 
