@@ -59,11 +59,11 @@ void updateLift() {
                 liftMacroState = 1;
             }
         }
-        // intake was just toggled just now
+        // lift macro was just toggled just now
         liftMacroPressed = true;
 
     } 
-    // intake was not toggled just now
+    // lift macro was not toggled just now
     else {
         liftMacroPressed = false;
     }
@@ -280,11 +280,8 @@ void runLiftAuto(float liftTarget) {
             }
         }
 
-        // set rpm for each motor to the power divided by 127 multiplied by the rotation
-        float fullsRPM = power / 127 * 600;
-
-        // move cascades with their power values
-        reversebar.move_velocity(fullsRPM);
+        // move lift based on a calculated power
+        reversebar.move_voltage(power / 127 * 12000);
 
         pros::delay(10);
     }
