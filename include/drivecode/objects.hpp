@@ -30,6 +30,7 @@ extern pros::Optical goalOptical;
 
 extern pros::Rotation liftRotation;
 
+extern pros::Motor toggleRoller;
 extern pros::Optical toggleOptical;
 
 extern pros::Distance distFront;

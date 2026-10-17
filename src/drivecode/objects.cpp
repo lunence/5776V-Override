@@ -36,6 +36,9 @@ pros::Optical goalOptical(0);
 // lift rotation sensor for lift PID
 pros::Rotation liftRotation(0);
 
+// toggle roller motor
+pros::Motor toggleRoller(0, pros::MotorGearset::green);
+
 // toggle optical sensor for autotoggle
 pros::Optical toggleOptical(0);
 

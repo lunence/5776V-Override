@@ -10,8 +10,7 @@
 // drivecode
 #include "drivecode/objects.hpp"
 #include "drivecode/util.hpp"
-// #include "drivecode/cascade.hpp"
-// #include "drivecode/chainbar.hpp"
+
 #include "drivecode/claw.hpp"
 #include "drivecode/dr4b.hpp"
 #include "drivecode/toggle.hpp"
@@ -22,14 +21,7 @@
 #include "pros/motors.h"
 #include "pros/misc.h"
 
-// sdcard
-// #include "sdcard/sdtest.hpp"
-// #include "sdcard/sdmain.hpp"
-
 #include <iostream>
-
-// // anti tip and all bs stuff
-// static constexpr float IMU_PITCH_SIGN = -1.0; // flip the sign of the pitch if the bot is flipped, shudnt be changed
 
 void on_center_button() {
 
@@ -70,7 +62,6 @@ void autonomous() {
     // chassis.distReset('R', 'F');
 
 	// runAuton();
-	toggleTwoAuto();
 	
 } 
 
@@ -92,8 +83,9 @@ void opcontrol() {
 
 		//updateChainBar();
 		
-		updateManualClaw();
 		updateLift();
+		updateClaw();
+		updateToggle();
 
 		pros::delay(10);
 
