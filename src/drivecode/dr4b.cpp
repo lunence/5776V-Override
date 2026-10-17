@@ -36,7 +36,7 @@ float closestGoalValue(const std::vector<float> &goaldistHeights, float distHeig
 }
 
 void updateLift() {
-    if (controller.get_digital(liftMacroControl)) {
+    if (controller.get_digital(CONTROL2)) {
         if (!liftMacroPressed) {
             // if it is on turn it off
             if (liftMacroState == 1) {
@@ -69,12 +69,12 @@ void updateLift() {
     }
 
     // if lift manual up pressed
-    if (controller.get_digital(cbUpControl)) {
+    if (controller.get_digital(CONTROL3)) {
         manualLiftState = 1;
         manualControl = true;
     } 
     // if lift manual down pressed
-    else if (controller.get_digital(cbDownControl)) {
+    else if (controller.get_digital(CONTROL4)) {
         manualLiftState = 2;
         manualControl = true;
     } 
