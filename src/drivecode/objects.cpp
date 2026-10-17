@@ -1,49 +1,43 @@
-#include "lemlib/chassis/chassis.hpp"
-#include <climits>
 #include "drivecode/objects.hpp"
 #include "drivecode/util.hpp"
-#include "pros/abstract_motor.hpp"
-#include "pros/distance.hpp"
-#include "pros/misc.h"
-#include "pros/motor_group.hpp"
-#include "pros/rotation.hpp"
 
 // TODO: CONTROLS
 // Buttons on the controller that control assigned subsystems
-pros::controller_digital_e_t cbUpControl = pros::E_CONTROLLER_DIGITAL_R1;
-pros::controller_digital_e_t cbDownControl = pros::E_CONTROLLER_DIGITAL_R2;
-pros::controller_digital_e_t liftMacroControl = pros::E_CONTROLLER_DIGITAL_L1;
-pros::controller_digital_e_t cascadeDownControl = pros::E_CONTROLLER_DIGITAL_L2;
-pros::controller_digital_e_t cascadeManualControl = pros::E_CONTROLLER_DIGITAL_LEFT;
-pros::controller_digital_e_t clawControl = pros::E_CONTROLLER_DIGITAL_Y;
-pros::controller_digital_e_t clawOpenControl = pros::E_CONTROLLER_DIGITAL_B;
+pros::controller_digital_e_t CONTROL1 = pros::E_CONTROLLER_DIGITAL_R1;
+pros::controller_digital_e_t CONTROL2 = pros::E_CONTROLLER_DIGITAL_R2;
+pros::controller_digital_e_t CONTROL3 = pros::E_CONTROLLER_DIGITAL_L1;
+pros::controller_digital_e_t CONTROL4 = pros::E_CONTROLLER_DIGITAL_L2;
 
-// pros::controller_digital_e_t toggleControl = pros::E_CONTROLLER_DIGITAL_DOWN;
+pros::controller_digital_e_t CONTROL5 = pros::E_CONTROLLER_DIGITAL_LEFT;
+pros::controller_digital_e_t CONTROL6 = pros::E_CONTROLLER_DIGITAL_DOWN;
+pros::controller_digital_e_t CONTROL7 = pros::E_CONTROLLER_DIGITAL_Y;
+pros::controller_digital_e_t CONTROL8 = pros::E_CONTROLLER_DIGITAL_B;
 
 // TODO: Add actual drivetrain motor ports
-pros::MotorGroup leftMotors({0, -0}, pros::MotorGearset::blue);
-pros::MotorGroup rightMotors({0, -0}, pros::MotorGearset::blue);
-
-// TODO: Add actual intake motor ports
-pros::Motor clawRoller(0, pros::MotorGearset::green);
-
-// TODO: Add actual cascade ports and rotation
-// cascade and chainbar motors
-pros::MotorGroup reversebar({1, 0}, pros::MotorGearset::blue);//all motors for cascade are green
-
-// TODO: Add actual cascade sensor ports
-// cascade distance sensor for macro
-pros::Distance distLift(17);
-pros::Distance distLiftHeight(0);
-pros::Optical goalOptical(14);
-
-// chain bar/cascade rotation sensors
-pros::Rotation chainBarRotation(0);
-pros::Rotation cascadeRotation(0);
+// 55w, 2x 11w 5.5w each side
+pros::MotorGroup leftMotors({0, -0, 0}, pros::MotorGearset::blue);
+pros::MotorGroup rightMotors({0, -0, 0}, pros::MotorGearset::blue);
 
 // TODO: Add actual claw ports
-// pistons
-pros::adi::DigitalOut clawPiston(' ');
+// 5.5w motor
+pros::Motor clawRoller(0, pros::MotorGearset::green);
+
+// TODO: Add actual reverse bar ports and rotation
+// 2x 11w motors
+pros::MotorGroup reversebar({0, 0}, pros::MotorGearset::blue);//all motors for cascade are green
+
+// TODO: Add actual lift sensor ports
+// lift distance sensors for autolift/score macro
+pros::Distance distLift(0);
+pros::Distance distLiftHeight(0);
+// goal type optical sensor
+pros::Optical goalOptical(0);
+
+// lift rotation sensor for lift PID
+pros::Rotation liftRotation(0);
+
+// toggle optical sensor for autotoggle
+pros::Optical toggleOptical(0);
 
 // TODO: Add actual distance sensor ports
 // distance sensors for dsr
@@ -55,11 +49,17 @@ pros::Distance distRight(0);
 // TODO: Add actual odometry ports
 // odometry sensors for chassis
 pros::Rotation horizRotation(0);
+pros::Rotation vertRotation(0);
 pros::Imu imu(0);
 
 // odom objects
 lemlib::TrackingWheel horizOdom(
     &horizRotation, 
+    2.75,
+    0
+);
+lemlib::TrackingWheel vertOdom(
+    &vertRotation, 
     2.75,
     0
 );
@@ -69,7 +69,7 @@ lemlib::OdomSensors odomSensorsDrive(
     nullptr,
     nullptr,
     &horizOdom,
-    nullptr,
+    &vertOdom,
     &imu
 );
 
@@ -110,10 +110,10 @@ lemlib::ControllerSettings angularController(6, // proportional gain (kP)
 );
 
 // distance sensors
-lemlib::DistanceSensors distSensors(distFront, -4.13, 5.27,
-                                    distBack, 2.99, 4.66,
-                                    distLeft, 2.04, 4.80,
-                                    distRight, -3.18, 4.80);
+lemlib::DistanceSensors distSensors(distFront, 0, 0,
+                                    distBack, 0, 0,
+                                    distLeft, 0, 0,
+                                    distRight, 0, 0);
 
 // controller
 pros::Controller controller(pros::E_CONTROLLER_MASTER);
@@ -127,16 +127,15 @@ lemlib::Chassis chassis(
     distSensors
 );
 
-
 // double reverse four bar
 lemlib::PID liftPID(15,
-                         // proportional gain (kP)
-                         0.0,
-                         // integral gain (kI)
-                         2,
-                         // derivative gain (kD)
-                         5,
-                         // antiwindup
-                         true
-                         // sign flip reset boolean
+                    // proportional gain (kP)
+                    0.0,
+                    // integral gain (kI)
+                    2,
+                    // derivative gain (kD)
+                    5,
+                    // antiwindup
+                    true
+                    // sign flip reset boolean
 );

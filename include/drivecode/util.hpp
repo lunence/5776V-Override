@@ -1,9 +1,11 @@
 #include "main.h"
 #include "drivecode/objects.hpp"
-#include "drivecode/claw.hpp"
-#include "drivecode/toggle.hpp"
-#include "drivecode/objects.hpp"
-// #include "pros/screen.h"
+#include "autonomous/autonSelector.hpp"
+#include "lemlib/util.hpp"
+#include "pros/motors.h"
+#include "pros/rtos.hpp"
+#include "pros/screen.h"
+#include "pros/misc.h"
 
 // initialize motors
 extern void motorInit();
@@ -13,9 +15,6 @@ extern void sensorInit();
 
 // begin all tasks
 extern void taskInit();
-
-// // function to print motor voltages given a line to start on
-// extern void printMotorVoltages(int line);
 
 // print screen task
 extern void runScreen();
