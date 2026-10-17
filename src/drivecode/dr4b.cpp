@@ -6,6 +6,9 @@
 const int macroMaxDist = 5;
 const int goalOpticRange = 30;
 
+const float maxLiftHeight = 50;
+const float minLiftHeight = 0;
+
 std::vector<float> allianceGoalHeights = {3.25,10,17,23,30,37.5,43.5,47};
 std::vector<float> neutralGoalHeights = {5.77,12.5,19,26,32.5,39.5,46,49.5};
 // slight issue with the 49.5 is that we may not be allowed to go that far because we go up
@@ -259,6 +262,17 @@ void runLiftAuto(float liftTarget) {
         if (std::abs(error) < errorRange) {
             // force stop the reverse bar's power because error will still produce a power
             // which may still be running, so we can stop the motor here
+            reversebar.move_velocity(0);
+
+            // exit function
+            return;
+        }
+
+        // lift motion limits
+        // if it is above max or below min and error is not stopping,
+        // force stop the lift in order to prevent damaging the lift
+        if (liftHeight >= maxLiftHeight && error > 0 ||
+            liftHeight <= minLiftHeight && error < 0) {
             reversebar.move_velocity(0);
 
             // exit function

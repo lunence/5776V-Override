@@ -10,6 +10,9 @@
 extern const int macroMaxDist;
 extern const int goalOpticRange;
 
+extern const float maxLiftHeight;
+extern const float minLiftHeight;
+
 extern std::vector<float> allianceGoalHeights;
 extern std::vector<float> neutralGoalHeights;
 
