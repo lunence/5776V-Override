@@ -7,11 +7,15 @@ bool clawPressed = false;
 void updateClaw() {
     if (controller.get_digital(CONTROL1)) {
         if (!clawPressed) {
-            // if it is on turn it off
+            // if it is rolling in turn it rolling out
             if (clawState == 1) {
+                clawState = 2;
+            }
+            // if it is rolling out turn it off
+            if (clawState == 2) {
                 clawState = 0;
             }
-            // if it is off turn it on
+            // if it is off turn it rolling in
             else {
                 clawState = 1;
             }
@@ -34,11 +38,15 @@ void runClaw() {
                 break;
             }
 
-            // claw rolling
+            // claw rolling in
             case 1: {
-                // not as fast so it doesn't
-                // fall over or anything
-                clawRoller.move_voltage(6000);
+                clawRoller.move_voltage(12000);
+                break;
+            }
+
+            // claw rolling out
+            case 2: {
+                clawRoller.move_voltage(-6000);
                 break;
             }
         }

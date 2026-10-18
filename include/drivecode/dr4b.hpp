@@ -25,7 +25,8 @@ extern int manualLiftState;
 extern bool manualControl;
 
 extern float closestGoalValue(const std::vector<float> &goaldistHeights, float distHeight);
-extern void updateLift();
+extern void updateMacroLift();
+extern void updateManualLift();
 extern void macroLift();
 extern void runLift();
 extern void runLiftAuto(float liftTarget);

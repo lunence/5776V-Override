@@ -81,9 +81,8 @@ void opcontrol() {
 
 		chassis.arcade(throttle, turn);
 
-		//updateChainBar();
-		
-		updateLift();
+		updateManualLift();
+		updateMacroLift();
 		updateClaw();
 		updateToggle();
 
