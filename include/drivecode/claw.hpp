@@ -2,7 +2,6 @@
 #include "drivecode/objects.hpp"
 
 extern int clawState;
-extern bool clawPressed;
 
 extern void updateClaw();
 extern void runClaw();

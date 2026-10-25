@@ -24,6 +24,18 @@ void updateToggle() {
     pros::delay(10);
 }
 
+void updateToggleTest() {
+    // if lift manual up pressed
+    if (controller.get_digital(CONTROL6)) {
+        toggleState = 1;
+    } 
+    else {
+        toggleState = 0;
+    }
+
+    pros::delay(10);
+}
+
 void runToggle() {
     while (true) {
         switch (toggleState) {

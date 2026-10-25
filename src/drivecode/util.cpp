@@ -31,7 +31,7 @@ void runScreen() {
         lemlib::Pose pose = chassis.getPose();
 
         pros::screen::print(pros::E_TEXT_SMALL, 0, "X: %.3f Y: %.3f Theta: %.3f", pose.x, pose.y, pose.theta);
-        pros::screen::print(pros::E_TEXT_SMALL, 1, "clawPressed: %d clawState: %d", clawPressed, clawState);
+        // pros::screen::print(pros::E_TEXT_SMALL, 1, "clawOpenPressed: %d clawState: %d", clawOpenPressed, clawState);
         pros::screen::print(pros::E_TEXT_SMALL, 2, "toggleState: %d", toggleState);
         pros::screen::print(pros::E_TEXT_SMALL, 3, "liftHeight: %d", liftHeight);
         pros::screen::print(pros::E_TEXT_SMALL, 4, "manualLiftState: %d manualControl: %d", manualLiftState, manualControl);

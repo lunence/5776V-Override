@@ -4,5 +4,6 @@
 extern const int toggleOpticRange;
 extern int toggleState;
 
-extern void updateToggle();
-extern void runToggle();
+void updateToggle();
+void updateToggleTest();
+void runToggle();

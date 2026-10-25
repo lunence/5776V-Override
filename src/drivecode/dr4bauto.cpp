@@ -33,7 +33,7 @@ float closestGoalValue(const std::vector<float> &goaldistHeights, float distHeig
 }
 
 void updateMacroLift() {
-    if (controller.get_digital(CONTROL2)) {
+    if (controller.get_digital(CONTROL5)) {
         if (!liftMacroPressed) {
             // if it is on turn it off
             if (liftMacroState == 1) {

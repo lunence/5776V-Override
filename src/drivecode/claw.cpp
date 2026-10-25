@@ -2,28 +2,43 @@
 #include "drivecode/objects.hpp"
 
 int clawState = 0;
-bool clawPressed = false;
+bool clawOpenPressed = false;
+bool clawClosePressed = false;
 
 void updateClaw() {
     if (controller.get_digital(CONTROL1)) {
-        if (!clawPressed) {
-            // if it is rolling in turn it rolling out
-            if (clawState == 1) {
+        if (!clawOpenPressed) {
+            // if it is not rolling in turn it rolling in
+            if (clawState != 2) {
                 clawState = 2;
             }
-            // if it is rolling out turn it off
+            // if it is rolling in turn it off
             if (clawState == 2) {
                 clawState = 0;
             }
-            // if it is off turn it rolling in
-            else {
-                clawState = 1;
-            }
         }
-        clawPressed = true;
+        clawOpenPressed = true;
     } 
     else {
-        clawPressed = false;
+        clawOpenPressed = false;
+    }
+
+    if (controller.get_digital(CONTROL2)) {
+        if (!clawClosePressed) {
+            // if it is not rolling in turn it rolling in
+            if (clawState != 1) {
+                clawState = 1;
+            }
+            // if it is rolling in turn it off
+            if (clawState == 1) {
+                clawState = 0;
+            }
+
+        }
+        clawClosePressed = true;
+    } 
+    else {
+        clawClosePressed = false;
     }
 
     pros::delay(10);
