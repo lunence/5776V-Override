@@ -94,6 +94,12 @@ void runLift() {
                     reset = false;
                     break;
                 }
+
+                case 4: {
+                    lift.move_voltage(-4000);
+                    reset = false;
+                    break;
+                }
             }
             
             pros::delay(10);

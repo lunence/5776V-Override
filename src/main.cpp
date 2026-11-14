@@ -68,11 +68,12 @@ void autonomous() {
 	// chassis.moveToPoint(0, 0, 1000, {.forwards = false});
 	
 
-	manualControl = false;
-	liftTarget = 45;
-
-	//preloadAuto();
-	
+	// manualControl = false;
+	// // liftTarget = 45;
+	// chassis.setPose(-1, -1, 90);
+    // chassis.distReset('F', 'R');
+	// //preloadAuto();
+	fourPinRight();
 
 	// chassis.setPose(-1, -1, 180);
     // chassis.distReset('R', 'F');

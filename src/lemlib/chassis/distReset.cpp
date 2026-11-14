@@ -146,9 +146,9 @@ void lemlib::Chassis::distReset1D(char dir, char distSen) {
 
     //reset
     if(dir == 'x' || dir == 'X') {
-        if(currentPose.x > 0){ //pos
+        if(currentPose.x < 0){ //pos
             pose.x = lemlib::halfWidth - perpDistance;
-        } else if(currentPose.x < 0) { //neg
+        } else if(currentPose.x > 0) { //neg
             pose.x = perpDistance - lemlib::halfWidth;
         }
     }

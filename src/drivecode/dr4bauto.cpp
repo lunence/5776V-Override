@@ -68,7 +68,7 @@ void runPidLift() {
     // set a constant value for accepted error range, 0.25
     const float errorRange = 0.25;
     // TODO set a value for liftError of what we want error to be until reaching target
-    const float setLiftError = 100;
+    const float setLiftError = 0;
     float error = 0;
 
     // while the error is greater than the acceptable error range
