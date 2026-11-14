@@ -93,7 +93,8 @@ void opcontrol() {
 		// updateToggle();
 		updateManualToggle();
 
-		// angularPIDTuning(90);
+		angularPIDTuning(90);
+		linearPIDTuning(24);
 
 		pros::delay(10);
 

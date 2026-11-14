@@ -5,9 +5,9 @@ void preloadAuto() {
     rightMotors.move_voltage(4000);
     manualLiftState = 1;
     pros::delay(500);
+    pros::delay(800);
     leftMotors.move_voltage(0);
     rightMotors.move_voltage(0);
-    pros::delay(800);
     manualLiftState = 3;
     pros::delay(1500);
     clawState = 2;
@@ -17,7 +17,7 @@ void preloadAuto() {
     rightMotors.move_voltage(4000);
     pros::delay(500);
     toggleState = 1;
-    pros::delay(1000);
+    pros::delay(800);
     toggleState = 0;
     leftMotors.move_voltage(0);
     rightMotors.move_voltage(0);

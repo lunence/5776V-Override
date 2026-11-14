@@ -34,6 +34,7 @@ extern pros::Motor toggle;
 extern pros::Distance distClaw;
 extern pros::Distance distLiftHeight;
 extern pros::Optical goalOptical;
+extern pros::Rotation liftRot;
 
 extern pros::Optical toggleOptical;
 

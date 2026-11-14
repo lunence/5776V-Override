@@ -1,5 +1,6 @@
 #include "drivecode/objects.hpp"
 #include "drivecode/util.hpp"
+#include "pros/rotation.hpp"
 
 // TODO: CONTROLS
 // Buttons on the controller that control assigned subsystems
@@ -48,6 +49,7 @@ pros::Motor toggle(11, pros::MotorGearset::green);
 // TODO: Add actual lift sensor ports
 // lift distance sensors for autolift/score macro
 pros::Distance distLiftHeight(0);
+pros::Rotation liftRot(-10);
 // goal type optical sensor
 pros::Optical goalOptical(0);
 
@@ -64,8 +66,8 @@ pros::Distance distRight(6);
 // TODO: Add actual odometry ports
 // odometry sensors for chassis
 pros::Rotation horizRotation(9);
-pros::Rotation vertRotation(17);
-pros::Imu imu(10);
+pros::Rotation vertRotation(0);
+pros::Imu imu(17);
 
 // odom objects
 lemlib::TrackingWheel horizOdom(

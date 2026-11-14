@@ -18,7 +18,7 @@ void motorInit() {
 void sensorInit() {
     lift.tare_position_all();
     lift.set_encoder_units(pros::motor_encoder_units_e::E_MOTOR_ENCODER_DEGREES);
-    
+    liftRot.reset_position();
 }
 
 // begin all tasks
@@ -39,7 +39,7 @@ void runScreen() {
         lemlib::Pose pose = chassis.getPose();
 
         pros::screen::print(pros::E_TEXT_SMALL, 0, "X: %.3f Y: %.3f Theta: %.3f", pose.x, pose.y, pose.theta);
-        pros::screen::print(pros::E_TEXT_SMALL, 1, "lift deg: %.3f", lift.get_position());
+        pros::screen::print(pros::E_TEXT_SMALL, 1, "lift deg: %.3f", liftRot.get_position()/100.0);
         pros::screen::print(pros::E_TEXT_SMALL, 2, "color: %.3f", toggleOptical.get_hue());
         pros::screen::print(pros::E_TEXT_SMALL, 3, "lift pid target: %.3f", liftTarget);
         pros::screen::print(pros::E_TEXT_SMALL, 4, "toggle state: %d", toggleState);
@@ -54,11 +54,11 @@ void runConsole() {
     }
 }
 
-
+bool buttonPressed0 = false;
 void liftPIDTuning(float target) {
-    bool buttonPressed = false;
-    if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_X)) {
-        if (!buttonPressed) {
+    
+    if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_UP)) {
+        if (!buttonPressed0) {
             if (liftTarget != target) {
                 liftTarget = target;
             }
@@ -67,16 +67,16 @@ void liftPIDTuning(float target) {
             }
 
         }
-        buttonPressed = true;
+        buttonPressed0 = true;
     } 
     else {
-        buttonPressed = false;
+        buttonPressed0 = false;
     }
 }
 
+bool buttonPressed = false;
 void linearPIDTuning(float target) {
-    bool buttonPressed = false;
-    if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_X)) {
+    if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_RIGHT)) {
         if (!buttonPressed) {
             if (std::abs(chassis.getPose().y - target) < 0.5) {
                 chassis.moveToPoint(0, target, 1000);
@@ -93,10 +93,11 @@ void linearPIDTuning(float target) {
     }
 }
 
+bool buttonPressed1 = false;
+
 void angularPIDTuning(float target) {
-    bool buttonPressed = false;
-    if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_X)) {
-        if (!buttonPressed) {
+    if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_A)) {
+        if (!buttonPressed1) {
             if (std::abs(chassis.getPose().theta - target) < 0.5) {
                 chassis.turnToHeading(target, 1000);
             }
@@ -105,9 +106,9 @@ void angularPIDTuning(float target) {
             }
 
         }
-        buttonPressed = true;
+        buttonPressed1 = true;
     } 
     else {
-        buttonPressed = false;
+        buttonPressed1 = false;
     }
 }

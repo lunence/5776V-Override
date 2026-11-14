@@ -4,7 +4,7 @@
 #include "pros/motors.h"
 #include <cmath>
 
-const float maxLiftHeight = 900;
+const float maxLiftHeight = 88;
 const float minLiftHeight = 0;
 
 float liftHeight;
@@ -36,6 +36,7 @@ void updateManualLift() {
         liftTarget = initialHeight;
     }
 
+
     pros::delay(10); 
 }
 
@@ -45,16 +46,21 @@ bool reset = false;
 void runLift() {
     while (true) {
         //TODO: UNCOMMENT FOR LIFT LIMITS
+
+        float liftDeg = (liftRot.get_position()/100+3600)%360; //lift.get_position();
+
         // if liftheight is over the limits AND you want to manual control then do not allow the lift to move past bounds
-        if (lift.get_position() >= maxLiftHeight && manualLiftState == 1 || lift.get_position() <= minLiftHeight && manualLiftState == 3) {
+        if (manualControl && liftDeg >= maxLiftHeight && manualLiftState == 1) {
             manualLiftState = 0;
         }
 
-        if(lift.get_position() < 100 && manualLiftState == 0 && !reset) {
-            manualLiftState = 2;
-            pros::delay(10);
-            manualLiftState = 0;
-            lift.tare_position_all();
+        if((liftDeg < 8 || liftDeg > 140) && manualLiftState == 0) {
+            // manualLiftState = 2;
+            // pros::delay(50);
+            // manualLiftState = 0;
+            //lift.tare_position_all();
+            lift.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
+            liftRot.set_position(0);
             reset = true;
         }
 
@@ -69,6 +75,7 @@ void runLift() {
 
                 // manual lift up
                 case 1: {
+                    lift.set_brake_mode(pros::E_MOTOR_BRAKE_BRAKE);
                     lift.move_voltage(12000);
                     reset = false;
                     break;
@@ -76,6 +83,7 @@ void runLift() {
 
                 // manual lift down
                 case 2: {
+                    lift.set_brake_mode(pros::E_MOTOR_BRAKE_BRAKE);
                     lift.move_voltage(-6000);
                     break;
                 }
