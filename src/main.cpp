@@ -37,10 +37,10 @@ void initialize() {
 
 	// initialize the sensors
 	sensorInit();
+	liftTarget = 0;
 
 	// initialize the tasks after hardware initialization
 	taskInit();
-	liftTarget = lemlib::mmToIn(distLiftHeight.get_distance());
 	
 	teamColor = 'R';
 
@@ -59,9 +59,20 @@ void competition_initialize() {
 void autonomous() {
 	// set the autonomous to brake
 	chassis.setBrakeMode(pros::E_MOTOR_BRAKE_BRAKE);
-	// chassis.turnToHeading(90, 1000);	
-	manualControl = true;
-	preloadAuto();
+	// chassis.turnToHeading(90, 1000);
+	// chassis.turnToHeading(180, 1000);
+	// chassis.turnToHeading(0,1000);	
+	
+	// chassis.moveToPoint(0, 48, 1000);
+	// chassis.moveToPoint(0, 12, 1000, {.forwards = false});
+	// chassis.moveToPoint(0, 0, 1000, {.forwards = false});
+	
+
+	manualControl = false;
+	liftTarget = 45;
+
+	//preloadAuto();
+	
 
 	// chassis.setPose(-1, -1, 180);
     // chassis.distReset('R', 'F');
@@ -73,7 +84,7 @@ void autonomous() {
 void opcontrol() {
 	// set the drive to coast
 	chassis.setBrakeMode(pros::E_MOTOR_BRAKE_COAST);
-	manualControl = false;
+	manualControl = true;
 	
 	// static bool antiTipping = false;
 

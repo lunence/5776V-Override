@@ -7,7 +7,7 @@
 #include "pros/misc.h"
 #include "pros/motors.h"
 #include "util.hpp"
-#include <cmath>
+#include <iostream>
 
 // initialize motors
 void motorInit() {
@@ -29,7 +29,7 @@ void taskInit() {
     pros::Task clawTask(runClaw, "claw task");
     pros::Task toggleTask(runToggle, "toggle task");
     pros::Task liftTask(runLift, "dr4b task");
-    // pros::Task pidLiftTask(runPidLift, "pid lift task");
+    pros::Task pidLiftTask(runPidLift, "pid lift task");
     // pros::Task autoToggleTask(autoToggle, "auto toggle task");
 }
 
@@ -50,6 +50,8 @@ void runScreen() {
 // gamepad task
 void runConsole() {
     while(true) {
+        lemlib::Pose pose = chassis.getPose();
+        std::cout<<"X: "<<pose.x<<" Y: "<<pose.y<<" Theta: "<<pose.theta<<"\n";
         pros::delay(10);
     }
 }

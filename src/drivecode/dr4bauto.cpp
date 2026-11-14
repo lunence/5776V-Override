@@ -68,19 +68,20 @@ void runPidLift() {
     // set a constant value for accepted error range, 0.25
     const float errorRange = 0.25;
     // TODO set a value for liftError of what we want error to be until reaching target
-    const float setLiftError = 0;
+    const float setLiftError = 100;
     float error = 0;
 
     // while the error is greater than the acceptable error range
     while (!manualControl) { 
         // set the lift height to the value we pull from the lift height dist sensor
-       float liftHeight = lemlib::mmToIn(distLiftHeight.get_distance());
+       float liftHeight = liftRot.get_position()/100.0;
         // set error to the difference between the target and the current height
         if ((liftTarget - liftHeight) < setLiftError) {
             error = liftTarget - liftHeight;
         }
         else {
             error = setLiftError;
+
         }
 
         if (std::abs(error) < errorRange) {

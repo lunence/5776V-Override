@@ -103,9 +103,9 @@ lemlib::Drivetrain drivetrain(
 );
 
 // lateral pid controller
-lemlib::ControllerSettings lateralController(2, // proportional gain (kP)
+lemlib::ControllerSettings lateralController(8, // proportional gain (kP)
                                               0, // integral gain (kI)
-                                              4, // derivative gain (kD)
+                                              0, // derivative gain (kD)
                                               3, // anti windup
                                               1, // small error range, in inches
                                               100, // small error range timeout, in milliseconds
@@ -115,9 +115,9 @@ lemlib::ControllerSettings lateralController(2, // proportional gain (kP)
 );
 
 // angular pid controller
-lemlib::ControllerSettings angularController(2, // proportional gain (kP)
+lemlib::ControllerSettings angularController(4, // proportional gain (kP)
                                               0, // integral gain (kI)
-                                              4, // derivative gain (kD)
+                                              16, // derivative gain (kD)
                                               3, // anti windup
                                               1, // small error range, in inches
                                               100, // small error range timeout, in milliseconds
@@ -145,14 +145,14 @@ lemlib::Chassis chassis(
 );
 
 // double reverse four bar
-lemlib::PID liftPID(15,
+lemlib::PID liftPID(20,
                     // proportional gain (kP)
                     0.0,
                     // integral gain (kI)
-                    2,
+                    7.5,
                     // derivative gain (kD)
                     5,
                     // antiwindup
-                    true
+                    false
                     // sign flip reset boolean
 );
