@@ -8,7 +8,7 @@ void fourPinRight() {
 
     // 
     toggleState = 1;
-    pros::delay(500);
+    pros::delay(1000);
     toggleState = 0;
     chassis.turnToHeading(55, 1000);
     //chassis.moveToPose(-12, -53, 90, 1000, {.lead = 0.75}, true);
@@ -16,6 +16,7 @@ void fourPinRight() {
     manualLiftState = 1;
     pros::delay(250);
     chassis.waitUntilDone();
+    chassis.sendVoltage(2000, 500);
     manualLiftState = 4;
     pros::delay(300);
     clawState = 2;
@@ -35,6 +36,7 @@ void fourPinRight() {
     manualLiftState = 1;
     pros::delay(500);
     chassis.waitUntilDone();
+    chassis.sendVoltage(2000, 500);
     manualLiftState = 4;
     pros::delay(650);
     clawState = 2;

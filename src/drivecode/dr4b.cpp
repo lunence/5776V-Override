@@ -96,7 +96,7 @@ void runLift() {
                 }
 
                 case 4: {
-                    lift.move_voltage(-4000);
+                    lift.move_voltage(-2000);
                     reset = false;
                     break;
                 }
