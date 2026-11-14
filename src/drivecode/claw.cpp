@@ -66,6 +66,12 @@ void runClaw() {
                 claw.move_voltage(-6000);
                 break;
             }
+
+            // half speed intake 
+            case 3:  {
+                claw.move_voltage(3000);
+                break;
+            }
         }
         
         pros::delay(10);
