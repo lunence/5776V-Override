@@ -26,6 +26,8 @@ void fourPinRight() {
     clawState = 2;
     manualLiftState = 0;
 
+    return;
+
     //approach first floor pin
     chassis.moveDistance(-18, 1000, {.forwards = false});
     chassis.distReset('F', 'R');
