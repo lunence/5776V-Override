@@ -49,7 +49,7 @@ pros::Motor toggle(11, pros::MotorGearset::green);
 // TODO: Add actual lift sensor ports
 // lift distance sensors for autolift/score macro
 pros::Distance distLiftHeight(0);
-pros::Rotation liftRot(-10);
+pros::Rotation liftRot(-8);
 // goal type optical sensor
 pros::Optical goalOptical(0);
 
@@ -59,7 +59,7 @@ pros::Optical toggleOptical(0);
 // TODO: Add actual distance sensor ports
 // distance sensors for dsr
 pros::Distance distFront(21);
-pros::Distance distBack(8);
+pros::Distance distBack(10);
 pros::Distance distLeft(2);
 pros::Distance distRight(6);
 

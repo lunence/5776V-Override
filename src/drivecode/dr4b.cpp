@@ -11,6 +11,7 @@ float liftHeight;
 
 int manualLiftState = 0;
 bool manualControl = false;
+bool override = false;
 
 // how do i solve this 
 
@@ -32,8 +33,9 @@ void updateManualLift() {
     }
 
     if (controller.get_digital(liftFullDown)) {
-        manualControl = false;
-        liftTarget = initialHeight;
+        // manualControl = false;
+        // liftTarget = initialHeight;
+        override = true;
     }
 
 
@@ -42,27 +44,48 @@ void updateManualLift() {
 
 bool reset = false;
 
-//16 degrees to -722
 void runLift() {
     while (true) {
         //TODO: UNCOMMENT FOR LIFT LIMITS
 
         float liftDeg = (liftRot.get_position()/100+3600)%360; //lift.get_position();
 
-        // if liftheight is over the limits AND you want to manual control then do not allow the lift to move past bounds
-        if (manualControl && liftDeg >= maxLiftHeight && manualLiftState == 1) {
-            manualLiftState = 0;
+        //when it gets to close to the ground it should coast and not let you go down anymore
+        //when it has coasted and settled, it is good to reset
+
+        if(!override) {
+
+
+            // if liftheight is over the limits AND you want to manual control then do not allow the lift to move past bounds
+            if (manualControl && liftDeg >= maxLiftHeight && manualLiftState == 1) {
+                manualLiftState = 0;
+            }
+
+            if((liftDeg < 8 || liftDeg > 140) && manualLiftState == 0 && manualControl) {
+                // manualLiftState = 2;
+                // pros::delay(50);
+                // manualLiftState = 0;
+                //lift.tare_position_all();
+                lift.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
+                liftRot.set_position(0);
+                reset = true;
+            }
+
+
+            // if (liftDeg >= maxLiftHeight && manualLiftState == 1) {
+            //     manualLiftState = 0;
+            // }
+            
+            // if (liftDeg < 5 && manualLiftState == 2) {
+            //     manualLiftState = 0;
+            //     lift.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
+            //     pros::delay(100);
+            //     liftRot.set_position(0);
+            // } else {
+            //     lift.set_brake_mode(pros::E_MOTOR_BRAKE_BRAKE);
+            // }
         }
 
-        if((liftDeg < 8 || liftDeg > 140) && manualLiftState == 0) {
-            // manualLiftState = 2;
-            // pros::delay(50);
-            // manualLiftState = 0;
-            //lift.tare_position_all();
-            lift.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
-            liftRot.set_position(0);
-            reset = true;
-        }
 
         // otherwise it's ok to go and lift up/down
         // else {
@@ -75,7 +98,7 @@ void runLift() {
 
                 // manual lift up
                 case 1: {
-                    lift.set_brake_mode(pros::E_MOTOR_BRAKE_BRAKE);
+                    // lift.set_brake_mode(pros::E_MOTOR_BRAKE_BRAKE);
                     lift.move_voltage(12000);
                     reset = false;
                     break;
@@ -83,7 +106,7 @@ void runLift() {
 
                 // manual lift down
                 case 2: {
-                    lift.set_brake_mode(pros::E_MOTOR_BRAKE_BRAKE);
+                    // lift.set_brake_mode(pros::E_MOTOR_BRAKE_BRAKE);
                     lift.move_voltage(-6000);
                     break;
                 }
