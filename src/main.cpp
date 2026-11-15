@@ -73,7 +73,10 @@ void autonomous() {
 	// chassis.setPose(-1, -1, 90);
     // chassis.distReset('F', 'R');
 	// //preloadAuto();
+	
 	fourPinRight();
+	// wallPin();
+
 
 	// chassis.setPose(-1, -1, 180);
     // chassis.distReset('R', 'F');
@@ -105,8 +108,8 @@ void opcontrol() {
 		// updateToggle();
 		updateManualToggle();
 
-		angularPIDTuning(90);
-		linearPIDTuning(24);
+		// angularPIDTuning(90);
+		// linearPIDTuning(24);
 
 		pros::delay(10);
 

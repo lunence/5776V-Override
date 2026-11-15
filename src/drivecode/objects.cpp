@@ -44,7 +44,7 @@ pros::Motor claw(7, pros::MotorGearset::green);
 pros::MotorGroup lift({-3, 1}, pros::MotorGearset::green);//all motors for cascade are green
 
 // toggle roller motor
-pros::Motor toggle(11, pros::MotorGearset::green);
+pros::Motor toggle(2, pros::MotorGearset::green);
 
 // TODO: Add actual lift sensor ports
 // lift distance sensors for autolift/score macro
@@ -60,7 +60,7 @@ pros::Optical toggleOptical(0);
 // distance sensors for dsr
 pros::Distance distFront(21);
 pros::Distance distBack(10);
-pros::Distance distLeft(2);
+pros::Distance distLeft(11);
 pros::Distance distRight(6);
 
 // TODO: Add actual odometry ports

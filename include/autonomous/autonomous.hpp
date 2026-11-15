@@ -9,3 +9,4 @@ void fourPinRight();
 void toggleOneAuto();
 void toggleTwoAuto();
 void preloadAuto();
+void wallPin();
