@@ -65,63 +65,100 @@ void updatePidLift() {
 }
 
 void runPidLift() {
-    // set a constant value for accepted error range, 0.25
     const float errorRange = 0.25;
-    // TODO set a value for liftError of what we want error to be until reaching target
-    const float setLiftError = 0;
-    float error = 0;
-
-    // while the error is greater than the acceptable error range
-    while (!manualControl) { 
-        // set the lift height to the value we pull from the lift height dist sensor
-       float liftHeight = liftRot.get_position()/100.0;
-        // set error to the difference between the target and the current height
-        if ((liftTarget - liftHeight) < setLiftError) {
-            error = liftTarget - liftHeight;
+    
+    while (true) {
+        if(manualControl) {
+            pros::delay(10);
+            continue;
         }
-        else {
-            error = setLiftError;
 
-        }
+        float liftHeight = liftRot.get_position()/100.0;
+        float error = liftTarget-liftHeight;
 
         if (std::abs(error) < errorRange) {
-            // force stop the reverse bar's power because error will still produce a power
-            // which may still be running, so we can stop the motor here
             lift.move_velocity(0);
-
-            // exit function
-            return;
+            pros::delay(10);
+            continue;
         }
 
-        // lift motion limits
-        // if it is above max or below min and error is not stopping,
-        // force stop the lift in order to prevent damaging the lift
-        if (liftHeight >= maxLiftHeight && error > 0 ||
-            liftHeight <= minLiftHeight && error < 0) {
+        if ((liftHeight >= maxLiftHeight && error > 0) || (liftHeight <= minLiftHeight && error < 0)) {
             lift.move_velocity(0);
-
-            // exit function
-            return;
+            pros::delay(10);
+            continue;
         }
 
-        // feed in error to the pid to have a value
         float power = liftPID.update(error, true);
-
-        // if power is over/under 127/-127 set to 127/-127 as a bound
-        if (std::abs(power) > 127) {
-            if (power < 0) {
-                // set bounds to -127
-                power = -127;
-            }
-            else {
-                // set bounds to 127
-                power = 127;
-            }
+        if (power > 127) {
+            power = 127;
+        } else if (power < -127) {
+            power = -127;
         }
 
-        // move lift based on a calculated power
         lift.move_voltage(power / 127 * 12000);
-
         pros::delay(10);
+        
     }
 }
+
+// void runPidLift() {
+//     // set a constant value for accepted error range, 0.25
+//     const float errorRange = 0.25;
+//     // TODO set a value for liftError of what we want error to be until reaching target
+//     const float setLiftError = 0;
+//     float error = 0;
+
+//     // while the error is greater than the acceptable error range
+//     while (!manualControl) { 
+//         // set the lift height to the value we pull from the lift height dist sensor
+//        float liftHeight = liftRot.get_position()/100.0;
+//         // set error to the difference between the target and the current height
+//         if ((liftTarget - liftHeight) < setLiftError) {
+//             error = liftTarget - liftHeight;
+//         }
+//         else {
+//             error = setLiftError;
+
+//         }
+
+//         if (std::abs(error) < errorRange) {
+//             // force stop the reverse bar's power because error will still produce a power
+//             // which may still be running, so we can stop the motor here
+//             lift.move_velocity(0);
+
+//             // exit function
+//             return;
+//         }
+
+//         // lift motion limits
+//         // if it is above max or below min and error is not stopping,
+//         // force stop the lift in order to prevent damaging the lift
+//         if (liftHeight >= maxLiftHeight && error > 0 ||
+//             liftHeight <= minLiftHeight && error < 0) {
+//             lift.move_velocity(0);
+
+//             // exit function
+//             return;
+//         }
+
+//         // feed in error to the pid to have a value
+//         float power = liftPID.update(error, true);
+
+//         // if power is over/under 127/-127 set to 127/-127 as a bound
+//         if (std::abs(power) > 127) {
+//             if (power < 0) {
+//                 // set bounds to -127
+//                 power = -127;
+//             }
+//             else {
+//                 // set bounds to 127
+//                 power = 127;
+//             }
+//         }
+
+//         // move lift based on a calculated power
+//         lift.move_voltage(power / 127 * 12000);
+
+//         pros::delay(10);
+//     }
+// }
