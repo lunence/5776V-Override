@@ -58,7 +58,7 @@ void opcontrol() {
 	// set the drive to coast
 	chassis.setBrakeMode(pros::E_MOTOR_BRAKE_COAST);
 	lift.set_brake_mode_all(pros::E_MOTOR_BRAKE_COAST);
-	manualControl = true;
+	manualControl = false;
 
 	while (true) {
 		int throttle = controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);
@@ -69,6 +69,9 @@ void opcontrol() {
 		updateManualLift();
 		updateManualToggle();
 		updateClaw();
+
+		if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_A))
+			liftRot.set_position(0);
 
 		pros::delay(10);
 	}

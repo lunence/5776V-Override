@@ -77,11 +77,14 @@ void runLift() {
 
         // pid control
         else {
+
             float error = target - liftPos;
             power = liftPID.update(error, true);
             power = std::clamp(power, -127.0f, 127.0f);
 
             if(std::abs(error) < errorRange) power = 0;
+            pros::screen::print(pros::E_TEXT_SMALL, 8, "error: %.3f", error);
+
         }
 
         // upper limit check
@@ -96,6 +99,7 @@ void runLift() {
 
         // send power
         std::cout << "Lift Power: " << power << std::endl;
+        pros::screen::print(pros::E_TEXT_SMALL, 7, "Lift power %.3f", power);
         lift.move(power);
         
         pros::delay(10);
