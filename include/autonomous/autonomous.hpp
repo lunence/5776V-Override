@@ -4,8 +4,12 @@
 #include "drivecode/toggle.hpp"
 #include "drivecode/dr4b.hpp"
 
-void fourPinLeft();
-void fourPinRight();
+void fourPinBack();
+void fourPinSide();
+
+void preloadBack();
+void preloadSide();
+
 void toggleOneAuto();
 void toggleTwoAuto();
 void preloadAuto();

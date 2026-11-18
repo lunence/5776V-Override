@@ -1,30 +1,22 @@
-#include "pros/misc.h"
 #include "drivecode/objects.hpp"
 #include "main.h"
-#include "pros/optical.hpp"
-#include <iostream>
 #include <cmath>
+#include "drivecode/claw.hpp"
 #include <vector>
 
 // // TODO: MODIFY THESE BASED ON ACTUAL ROBOT OR DISTANCE FROM CAD
 // extern const int macroMaxDist;
 // extern const int goalOpticRange;
 
-extern const float maxLiftHeight;
-extern const float minLiftHeight;
+extern const float maxLiftRot;
+extern const float errorRange;
 
-// extern std::vector<float> allianceGoalHeights;
-// extern std::vector<float> neutralGoalHeights;
-
-extern float liftTarget;
-extern const float initialHeight;
+extern float target;
+extern float liftPos;
 
 extern int manualLiftState;
 extern bool manualControl;
+extern bool override;
 
-extern float closestGoalValue(const std::vector<float> &goaldistHeights, float distHeight);
-extern void updatePidLift();
 extern void updateManualLift();
-extern void runPidLift();
 extern void runLift();
-extern void runLiftAuto(float liftTarget);

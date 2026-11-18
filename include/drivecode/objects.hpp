@@ -6,8 +6,8 @@
 #include "pros/optical.hpp"
 #include "pros/rotation.hpp"
 
-extern pros::controller_digital_e_t clawButton;
-extern pros::controller_digital_e_t clawSpinToggle;
+extern pros::controller_digital_e_t clawOpen;
+extern pros::controller_digital_e_t clawSpin;
 
 extern pros::controller_digital_e_t liftUp;
 extern pros::controller_digital_e_t liftDown;
@@ -35,6 +35,7 @@ extern pros::Distance distClaw;
 extern pros::Distance distLiftHeight;
 extern pros::Optical goalOptical;
 extern pros::Rotation liftRot;
+extern pros::ADIButton liftLimit;
 
 extern pros::Optical toggleOptical;
 

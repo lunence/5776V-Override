@@ -1,11 +1,5 @@
 #include "main.h"
 #include "drivecode/objects.hpp"
-#include "autonomous/autonSelector.hpp"
-#include "lemlib/util.hpp"
-#include "pros/motors.h"
-#include "pros/rtos.hpp"
-#include "pros/screen.h"
-#include "pros/misc.h"
 
 // initialize motors
 extern void motorInit();

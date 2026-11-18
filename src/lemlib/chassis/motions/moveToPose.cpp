@@ -107,7 +107,7 @@ void lemlib::Chassis::moveToPose(float x, float y, float theta, int timeout, Mov
 
         // get output from PIDs
         float lateralOut = lateralPID.update(lateralError, true);
-        float angularOut = angularPID.update(radToDeg(angularError), false); //TODO: no angular integral
+        float angularOut = angularPID.update(radToDeg(angularError), true); //TODO: yes angular integral
 
         // apply restrictions on angular speed
         angularOut = std::clamp(angularOut, -127.0f, 127.0f); //TODO: only restriction on angular speed is robot limit

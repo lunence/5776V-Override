@@ -52,7 +52,7 @@ void wallPin() {
     return;
 }
 
-void fourPinRight() { //OLD ONE
+void fourPinBack() { //OLD ONE
     chassis.setPose(1, -1, 180);
     chassis.distReset('L', 'F');
 
@@ -127,7 +127,7 @@ void fourPinRight() { //OLD ONE
 }
 
 /*
-void fourPinRight() { //TODO: NEW
+void fourPinBack() { //TODO: NEW
     //L unreliable
 
     // reset
