@@ -18,8 +18,7 @@ void sensorInit() {
 // begin all tasks
 void taskInit() {
     pros::Task screenTask(runScreen, "screen task");
-    pros::Task consoleTask(runConsole, "console task");
-
+    // pros::Task consoleTask(runConsole, "console task");
     pros::Task clawTask(runClaw, "claw task");
     pros::Task toggleTask(runToggle, "toggle task");
     pros::Task liftTask(runLift, "dr4b task");
@@ -41,13 +40,13 @@ void runScreen() {
 }
 
 // gamepad task
-void runConsole() {
-    while(true) {
-        lemlib::Pose pose = chassis.getPose();
-        std::cout<<"X: "<<pose.x<<" Y: "<<pose.y<<" Theta: "<<pose.theta<<"\n";
-        pros::delay(10);
-    }
-}
+// void runConsole() {
+//     while(true) {
+//         lemlib::Pose pose = chassis.getPose();
+//         std::cout<<"X: "<<pose.x<<" Y: "<<pose.y<<" Theta: "<<pose.theta<<"\n";
+//         pros::delay(10);
+//     }
+// }
 
 // bool buttonPressed0 = false;
 // void liftPIDTuning(float target) {
