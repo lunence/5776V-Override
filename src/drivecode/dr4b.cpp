@@ -1,14 +1,15 @@
 #include "main.h"
 #include "drivecode/dr4b.hpp"
+#include <iostream>
 
 const float maxLiftRot = 88;
 const float errorRange = 2;
 
-float target = 0;
+float target = 20;
 float liftPos = 0;
 
 int manualLiftState = 0;
-bool manualControl = false; //true and it's manual, false and it's pid
+bool manualControl = true; //true and it's manual, false and it's pid
 bool override = false;
 
 void updateManualLift() {
@@ -94,6 +95,7 @@ void runLift() {
         }
 
         // send power
+        std::cout << "Lift Power: " << power << std::endl;
         lift.move(power);
         
         pros::delay(10);

@@ -31,7 +31,7 @@ pros::MotorGroup lift({-3, 1}, pros::MotorGearset::green);
 pros::Motor toggle(2, pros::MotorGearset::green);
 
 // lift rot, toggle colors
-pros::Rotation liftRot(-8);
+pros::Rotation liftRot(-3);
 pros::adi::Button liftLimit(0);
 pros::Optical toggleOptical(0);
 

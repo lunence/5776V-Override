@@ -31,10 +31,11 @@ void runScreen() {
 
         pros::screen::print(pros::E_TEXT_SMALL, 0, "X: %.3f Y: %.3f Theta: %.3f", pose.x, pose.y, pose.theta);
         pros::screen::print(pros::E_TEXT_SMALL, 1, &"Lift mode: " [manualControl]);
-        pros::screen::print(pros::E_TEXT_SMALL, 2, "Lift pos: %.3f Lift target: .%3f", liftRot.get_position()/100.0);
-        pros::screen::print(pros::E_TEXT_SMALL, 3, "Color: %.3f", toggleOptical.get_hue());
-        pros::screen::print(pros::E_TEXT_SMALL, 4, "Toggle state: %d", toggleState);
-        pros::screen::print(pros::E_TEXT_SMALL, 5, "Lift limit state: %d", liftLimit.get_value());
+        pros::screen::print(pros::E_TEXT_SMALL, 2, "Lift pos: %.3f", liftRot.get_position()/100.0);
+        pros::screen::print(pros::E_TEXT_SMALL, 3, "Lift target: %.3f", target);    
+        pros::screen::print(pros::E_TEXT_SMALL, 4, "Color: %.3f", toggleOptical.get_hue());
+        pros::screen::print(pros::E_TEXT_SMALL, 5, "Toggle state: %d", toggleState);
+        pros::screen::print(pros::E_TEXT_SMALL, 6, "Lift limit state: %d", liftLimit.get_value());
         pros::delay(10);
     }
 }
