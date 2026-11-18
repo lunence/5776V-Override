@@ -36,13 +36,19 @@ void updateManualLift() {
 }
 
 void runLift() {
+    float power = 0;
     while (true) {
-        float power = 0;
 
         // sanitize lift rotation
         liftPos = fmodf(liftRot.get_position() / 100.0f, 360.0f);
         if (liftPos > 180) liftPos -= 360;
         else if (liftPos < -180) liftPos += 360;
+        
+        if(target > maxLiftRot)
+            target = maxLiftRot;
+        if(target < 0)
+            target = 0;
+            
 
         // manual control code
         if(manualControl) {
@@ -75,14 +81,17 @@ void runLift() {
             power = std::clamp(power, -127.0f, 127.0f);
 
             if(std::abs(error) < errorRange) power = 0;
-            else lift.move(power);
         }
 
         // upper limit check
         if(!override && liftPos >= maxLiftRot && power > 0) power = 0;
         
-        //lower limit check
-        if(!override && liftLimit.get_value() == 1 && power < 0) power = 0;
+        // lower limit check
+        // if(!override && liftLimit.get_value() == 1 && power < 0) power = 0;
+        if(!override && liftPos <= 0 && power < 0) {
+            //add reset here if necessary
+            power = 0;
+        }
 
         // send power
         lift.move(power);
