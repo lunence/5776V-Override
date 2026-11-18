@@ -15,7 +15,7 @@ pros::controller_digital_e_t toggleButton = pros::E_CONTROLLER_DIGITAL_Y;
 
 // pros::controller_digital_e_t CONTROL5 = pros::E_CONTROLLER_DIGITAL_LEFT;
 // pros::controller_digital_e_t CONTROL6 = pros::E_CONTROLLER_DIGITAL_DOWN; //pid dr4b down
-// pros::controller_digital_e_t liftFullDown = pros::E_CONTROLLER_DIGITAL_DOWN; 
+pros::controller_digital_e_t overrideButton = pros::E_CONTROLLER_DIGITAL_DOWN; 
 
 //TODO: ALL READINGS WILL BE SKEWED BY 5.5s SO DON'T USE THEM
 pros::MotorGroup leftMotors({12, -13, -14}, pros::MotorGearset::blue);

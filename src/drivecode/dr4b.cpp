@@ -28,7 +28,7 @@ void updateManualLift() {
     }
 
     //override
-    if (controller.get_digital(liftFullDown)) {
+    if (controller.get_digital(overrideButton)) {
         override = true;
     }
 
