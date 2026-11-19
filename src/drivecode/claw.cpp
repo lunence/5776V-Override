@@ -42,7 +42,7 @@ void runClaw() {
 
             // open claw, half power
             case 2: {
-                claw.move_voltage(-4000);
+                claw.move_voltage(-6000);
                 break;
             }
 

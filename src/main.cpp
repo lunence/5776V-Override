@@ -32,7 +32,7 @@ void autonomous() {
 	manualControl = false;
 
 	// auton functions!
-	fourPinBack();
+	skills();
 } 
 
 void opcontrol() {

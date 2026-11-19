@@ -5,6 +5,7 @@
 #include "drivecode/dr4b.hpp"
 
 void fourPinBack();
+void skills();
 void fourPinSide();
 
 void preloadBack();
