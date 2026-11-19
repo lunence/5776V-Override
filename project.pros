@@ -1,7 +1,7 @@
 {
   "py/object": "pros.conductor.project.Project",
   "py/state": {
-    "project_name": "5776V Berkeley",
+    "project_name": "5776v vidonk",
     "target": "v5",
     "templates": {
       "kernel": {
@@ -592,7 +592,7 @@
       }
     },
     "upload_options": {
-      "description": "Berkeley 11/21/26",
+      "description": "exc please thanks!",
       "icon": "pros"
     },
     "use_early_access": false

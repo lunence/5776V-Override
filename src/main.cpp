@@ -1,26 +1,11 @@
 // imports
-
-// main.h
 #include "main.h"
-
-// autonomous
 #include "autonomous/autonomous.hpp"
-
-// drivecode
 #include "drivecode/objects.hpp"
 #include "drivecode/util.hpp"
-
 #include "drivecode/claw.hpp"
 #include "drivecode/dr4b.hpp"
 #include "drivecode/toggle.hpp"
-
-// lemlib & pros
-#include "lemlib/chassis/chassis.hpp"
-#include "lemlib/intersect.hpp"
-#include "pros/motors.h"
-#include "pros/misc.h"
-
-#include <iostream>
 
 void on_center_button() {}
 
@@ -45,14 +30,19 @@ void autonomous() {
 	lift.set_brake_mode_all(pros::E_MOTOR_BRAKE_BRAKE);
 	manualControl = false;
 
-	// auton function!
+	// auton functions!
 } 
 
 void opcontrol() {
 	// set the drive to coast
 	chassis.setBrakeMode(pros::E_MOTOR_BRAKE_COAST);
-	lift.set_brake_mode_all(pros::E_MOTOR_BRAKE_COAST); //TODO: reconsider this
-	manualControl = true;
+	lift.set_brake_mode_all(pros::E_MOTOR_BRAKE_BRAKE); //TODO: reconsider this
+	manualControl = false;
+	
+	bool l1Pressed = false;
+	bool l2Pressed = false;
+	bool r1Pressed = false;
+	bool r2Pressed = false;
 
 	while (true) {
 		int throttle = controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);
@@ -60,9 +50,29 @@ void opcontrol() {
 
 		chassis.arcade(throttle, turn);
 
-		updateManualLift();
-		updateManualToggle();
-		updateClaw();
+		if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) {
+			if (!l1Pressed) target += 20;
+			l1Pressed  = true;
+		} else l1Pressed = false;
+
+		if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) {
+			if (!l2Pressed) target -= 20;
+			l2Pressed  = true;
+		} else l2Pressed = false;
+
+		if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) {
+			if (!r1Pressed) target += 50;
+			r1Pressed  = true;
+		} else r1Pressed = false;
+
+		if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
+			if (!r2Pressed) target -= 50;
+			r2Pressed  = true;
+		} else r2Pressed = false;
+
+		// updateManualLift();
+		// updateManualToggle();
+		// updateClaw();
 
 		if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_A)) liftRot.set_position(0);
 

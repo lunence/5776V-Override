@@ -5,7 +5,7 @@
 const float maxLiftRot = 88;
 const float errorRange = 2;
 
-float target = 20;
+float target = 0;
 float liftPos = 0;
 
 int manualLiftState = 0;
@@ -89,13 +89,7 @@ void runLift() {
 
         // upper limit check
         if(!override && liftPos >= maxLiftRot && power > 0) power = 0;
-        
-        // lower limit check
-        // if(!override && liftLimit.get_value() == 1 && power < 0) power = 0;
-        if(!override && liftPos <= 0 && power < 0) {
-            //add reset here if necessary
-            power = 0;
-        }
+        if(!override && liftPos <= 0 && power < 0) power = 0;
 
         // send power
         std::cout << "Lift Power: " << power << std::endl;
