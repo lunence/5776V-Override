@@ -1,8 +1,20 @@
 #include "autonomous/autonomous.hpp"
 #include "lemlib/chassis/chassis.hpp"
 
+/* AUTON SUMMARY
+
+1. do toggle
+2. move back from toggle
+3. turn to goal, move to goal, score preload
+4. back out of goal, turn to first pin, take first pin
+5. turn to goal, move to goal, score first pin
+6. back out of goal, turn to second pin, take second pin
+7. turn to goal, move to goal, score second pin
+
+*/
+
 void wallPin() {
-    //L unreliable
+
 
     // reset
     chassis.setPose(100, -100, 90); //guarantees second quadrant reset

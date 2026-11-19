@@ -61,10 +61,12 @@ void lemlib::Chassis::moveToPose(float x, float y, float theta, int timeout, Mov
         // check if the robot is close enough to the target to start settling
         if (distTarget < 7.5 && close == false) {
             close = true; //TODO: close distance 7.5
+            params.maxSpeed = fmax(fabs(prevLateralOut), 60);
         }
 
         // check if the lateral controller has settled
-        if (lateralLargeExit.getExit() && lateralSmallExit.getExit()) lateralSettled = true;
+        //TODO: claude added close parameter
+        if (close && lateralLargeExit.getExit() && lateralSmallExit.getExit()) lateralSettled = true;
 
         // calculate the carrot point
         Pose carrot = target - Pose(cos(target.theta), sin(target.theta)) * params.lead * distTarget;
@@ -88,8 +90,6 @@ void lemlib::Chassis::moveToPose(float x, float y, float theta, int timeout, Mov
 
         //TODO: NEW LATERAL ERROR CODE
         lateralError *= cos(angleError(pose.theta, pose.angle(carrot)));
-
-        //TODO: uhhh why do we only multiply lateral error by cos when settling? that seems a bit strange...
 
         /* //TODO: OLD LATERAL ERROR CODE
         // only use cos when settling
@@ -124,9 +124,18 @@ void lemlib::Chassis::moveToPose(float x, float y, float theta, int timeout, Mov
         // const float maxSlipSpeed(sqrt(params.horizontalDrift * radius)); //TODO: anti-slip horizontal drift code
         // lateralOut = std::clamp(lateralOut, -maxSlipSpeed, maxSlipSpeed);
         
-        // prioritize angular movement over lateral movement
-        const float overturn = fabs(angularOut) + fabs(lateralOut) - params.maxSpeed;
-        if (overturn > 0) lateralOut -= lateralOut > 0 ? overturn : -overturn;
+        // // prioritize angular movement over lateral movement
+        // const float overturn = fabs(angularOut) + fabs(lateralOut) - params.maxSpeed;
+        // if (overturn > 0) lateralOut -= lateralOut > 0 ? overturn : -overturn;
+
+        //TODO: claude overturn
+        // motor limit instead of params.maxSpeed (lateral is still clamped to maxSpeed earlier)
+        const float wheelLimit = close ? params.maxSpeed : 127.0f;
+        const float overturn = fabs(angularOut) + fabs(lateralOut) - wheelLimit;
+        if (overturn > 0) {
+            const float cut = std::fmin(overturn, fabs(lateralOut));
+            lateralOut -= (lateralOut > 0) ? cut : -cut;
+        }
 
         // prevent moving in the wrong direction
         if (params.forwards && !close) lateralOut = std::fmax(lateralOut, 0);
@@ -146,7 +155,7 @@ void lemlib::Chassis::moveToPose(float x, float y, float theta, int timeout, Mov
         // ratio the speeds to respect the max speed
         float leftPower = lateralOut + angularOut;
         float rightPower = lateralOut - angularOut;
-        const float ratio = std::max(std::fabs(leftPower), std::fabs(rightPower)) / params.maxSpeed;
+        const float ratio = std::max(std::fabs(leftPower), std::fabs(rightPower)) / wheelLimit;
         if (ratio > 1) {
             leftPower /= ratio;
             rightPower /= ratio;

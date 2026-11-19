@@ -55,6 +55,7 @@ void lemlib::Chassis::moveToPoint(float x, float y, int timeout, MoveToPointPara
         // check if the robot is close enough to the target to start settling
         if (distTarget < 7.5 && close == false) { //TODO: close distance 7.5
             close = true;
+            params.maxSpeed = fmax(fabs(prevLateralOut), 60);
         }
 
         // motion chaining
@@ -90,6 +91,15 @@ void lemlib::Chassis::moveToPoint(float x, float y, int timeout, MoveToPointPara
         // but not for decelerating, since that would interfere with settling
         if (!close) lateralOut = slew(lateralOut, prevLateralOut, lateralSettings.slew);
 
+        //TODO: claude overturn
+        // motor limit instead of params.maxSpeed (lateral is still clamped to maxSpeed earlier)
+        const float wheelLimit = close ? params.maxSpeed : 127.0f;
+        const float overturn = fabs(angularOut) + fabs(lateralOut) - wheelLimit;
+        if (overturn > 0) {
+            const float cut = std::fmin(overturn, fabs(lateralOut));
+            lateralOut -= (lateralOut > 0) ? cut : -cut;
+        }
+
         // prevent moving in the wrong direction
         if (params.forwards && !close) lateralOut = std::fmax(lateralOut, 0);
         else if (!params.forwards && !close) lateralOut = std::fmin(lateralOut, 0);
@@ -108,7 +118,7 @@ void lemlib::Chassis::moveToPoint(float x, float y, int timeout, MoveToPointPara
         // ratio the speeds to respect the max speed
         float leftPower = lateralOut + angularOut;
         float rightPower = lateralOut - angularOut;
-        const float ratio = std::max(std::fabs(leftPower), std::fabs(rightPower)) / params.maxSpeed;
+        const float ratio = std::max(std::fabs(leftPower), std::fabs(rightPower)) / wheelLimit;
         if (ratio > 1) {
             leftPower /= ratio;
             rightPower /= ratio;

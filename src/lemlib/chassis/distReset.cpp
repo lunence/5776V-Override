@@ -2,9 +2,10 @@
 #include "lemlib/util.hpp"
 #include <cmath>
 
+//TODO: claude is complaining about the two .get() calls being redundant but not that deep
 void lemlib::Chassis::distReset(char xDirection, char yDirection) {
     //treat as lemlib motion so doesnt interfere with motions in progress
-    // this->requestMotionStart();
+    this->requestMotionStart();
 
     float rotated = 0;
 
@@ -38,33 +39,26 @@ void lemlib::Chassis::distReset(char xDirection, char yDirection) {
         rotated = M_PI_2;
     }
 
-    if(xDist != nullptr && mmToIn(xDist->distance.get())>300) {
-        xDist = nullptr;
-    }
-
-    if(yDist != nullptr && mmToIn(yDist->distance.get())>300) {
-        yDist = nullptr;
-    }
-
-    //if both/essential distance sensors are bad, don't reset
-    if(xDist == nullptr || yDist == nullptr) {
+    if (xDist == nullptr || yDist == nullptr) {
         this->endMotion();
         return;
-    }
+    } else if(mmToIn(xDist->distance.get())>300 || mmToIn(yDist->distance.get())>300) {
+        this->endMotion();
+        return;
+    } 
 
     //get current position
     lemlib::Pose currentPose = this->getPose(true);
     //this is going to be the reset pose with theta in degrees
     lemlib::Pose pose(0, 0, this->getPose(false).theta);
 
-    //gets acute angle from axis
-    //subtract rotated to either keep same angle or rotate by 90 degrees
-    //sanitizes rotated angle (if it ends up being rotated)
-    //gets reference angle from x axis (y axis becomes x axis if rotated)
-    const float correctedAngle = lemlib::refAngle(true, lemlib::sanitizeAngle(currentPose.theta-rotated, true)); 
-    //determine if robot is to the left or right of closest axis (determines if you add or subtract offset distance calculated with tangent term)
-    //if to the left, subtract, if to the right, add
-    const int offsetMultiplier = (std::sin(currentPose.theta-rotated) >= 0) ? -1 : 1;
+    // TODO: claude fixed!
+    // signed deviation (CW +) of the sensor ray from its wall normal, in [-pi/2, pi/2]
+    const float delta = std::remainder(currentPose.theta - rotated, M_PI);
+    const float correctedAngle = std::fabs(delta);
+
+    // ray rotated CW from normal (delta >= 0) => subtract; CCW => add
+    const int offsetMultiplier = (delta >= 0) ? -1 : 1;
 
     //calculate perpendicular distance from center to perimeter
     //cosine of entire distance from center of bot to perimeter (not perpendicular)
@@ -88,78 +82,6 @@ void lemlib::Chassis::distReset(char xDirection, char yDirection) {
         pose.y = lemlib::halfWidth - yPerpDistance;
     } else if(currentPose.y < 0){ //neg
         pose.y = yPerpDistance - lemlib::halfWidth;
-    }
-
-    this->setPose(pose);
-    this->endMotion();
-    return;
-}
-
-void lemlib::Chassis::distReset1D(char dir, char distSen) {
-    //treat as lemlib motion so doesnt interfere with motions in progress
-    // this->requestMotionStart();
-
-    float rotated = 0;
-
-    //pick active dist sensor for side
-    DistResetSensors* dist = nullptr;
-
-    //if using front or back as x direction, rotate angle by adding 90 degrees
-    if(distSen == 'F') {
-        dist = &distSensors.front;
-        if(dir == 'x' || dir == 'X') rotated = M_PI_2;
-    } else if(dir == 'B') {
-        dist = &distSensors.back;
-        if(dir == 'x' || dir == 'X') rotated = M_PI_2;
-    } else if(dir == 'R') {
-        dist = &distSensors.right;
-        if(dir =='y' || dir == 'Y') rotated = M_PI_2;
-    } else if(dir == 'L') {
-        dist = &distSensors.left;
-        if(dir =='y' || dir == 'Y') rotated = M_PI_2;
-    }
-
-    if(dist != nullptr && mmToIn(dist->distance.get())>300) {
-        this->endMotion();
-        return;
-    }
-
-    //get current position
-    lemlib::Pose currentPose = this->getPose(true);
-    //this is going to be the reset pose with theta in degrees
-    lemlib::Pose pose(0, 0, this->getPose(false).theta);
-
-    //gets acute angle from axis
-    //subtract rotated to either keep same angle or rotate by 90 degrees
-    //sanitizes rotated angle (if it ends up being rotated)
-    //gets reference angle from x axis (y axis becomes x axis if rotated)
-    const float correctedAngle = lemlib::refAngle(true, lemlib::sanitizeAngle(currentPose.theta-rotated, true)); 
-    //determine if robot is to the left or right of closest axis (determines if you add or subtract offset distance calculated with tangent term)
-    //if to the left, subtract, if to the right, add
-    const int offsetMultiplier = (std::sin(currentPose.theta-rotated) >= 0) ? -1 : 1;
-
-    //calculate perpendicular distance from center to perimeter
-    //cosine of entire distance from center of bot to perimeter (not perpendicular)
-    //entire distance = distance sensor in inches + discrepancy from offset distance sensor + distance from center of bot
-    float perpDistance = 0;
-    perpDistance = cos(correctedAngle) * (mmToIn(dist->distance.get()) + tan(correctedAngle) * dist->offsetX * offsetMultiplier + dist->offsetY);
-
-    //reset
-    if(dir == 'x' || dir == 'X') {
-        if(currentPose.x < 0){ //pos
-            pose.x = lemlib::halfWidth - perpDistance;
-        } else if(currentPose.x > 0) { //neg
-            pose.x = perpDistance - lemlib::halfWidth;
-        }
-    }
-
-    //y reset
-    if(dir == 'y' || dir == 'Y') {
-        if(currentPose.y > 0){ //pos
-            pose.y = lemlib::halfWidth - perpDistance;
-        } else if(currentPose.y < 0){ //neg
-            pose.y = perpDistance - lemlib::halfWidth;
-        }
     }
 
     this->setPose(pose);

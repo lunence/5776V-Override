@@ -13,9 +13,8 @@ pros::controller_digital_e_t liftDown = pros::E_CONTROLLER_DIGITAL_L2;
 
 pros::controller_digital_e_t toggleButton = pros::E_CONTROLLER_DIGITAL_Y;
 
-// pros::controller_digital_e_t CONTROL5 = pros::E_CONTROLLER_DIGITAL_LEFT;
-// pros::controller_digital_e_t CONTROL6 = pros::E_CONTROLLER_DIGITAL_DOWN; //pid dr4b down
 pros::controller_digital_e_t overrideButton = pros::E_CONTROLLER_DIGITAL_DOWN; 
+//additional binds: A=zero lift
 
 //TODO: ALL READINGS WILL BE SKEWED BY 5.5s SO DON'T USE THEM
 pros::MotorGroup leftMotors({12, -13, -14}, pros::MotorGearset::blue);
@@ -80,34 +79,38 @@ lemlib::Drivetrain drivetrain(
 );
 
 // lateral pid controller
+//TODO: tune error ranges + windup
 lemlib::ControllerSettings lateralController(0, // proportional gain (kP)
                                               0, // integral gain (kI)
                                               0, // derivative gain (kD)
                                               3, // anti windup
                                               0.5, // small error range, in inches
-                                              50, // small error range timeout, in milliseconds
-                                              3, // large error range, in inches
-                                              500, // large error range timeout, in milliseconds
+                                              200, // small error range timeout, in milliseconds
+                                              0, // large error range, in inches
+                                              0, // large error range timeout, in milliseconds
                                               0 // maximum acceleration (slew)
 );
 
 // angular pid controller
+//TODO: tune error ranges + windup
 lemlib::ControllerSettings angularController(4, // proportional gain (kP)
                                               0, // integral gain (kI)
                                               20, // derivative gain (kD)
-                                              5, // anti windup
-                                              2, // small error range, in inches
-                                              50, // small error range timeout, in milliseconds
-                                              3, // large error range, in inches
-                                              500, // large error range timeout, in milliseconds
+                                              15, // anti windup
+                                              2.5, // small error range, in deg
+                                              200, // small error range timeout, in milliseconds
+                                              0, // large error range, in deg
+                                              0, // large error range timeout, in milliseconds
                                               0 // maximum acceleration (slew)
 );
 
 // distance sensors
-lemlib::DistanceSensors distSensors(distFront, 4.054, 4.663,
-                                    distBack, 5.954, 5.226,
+lemlib::DistanceSensors distSensors(distFront, 4.507, 4.663,
+                                    distBack, -5.44, 5.226, 
                                     distLeft, -3.454, 5.176,
-                                    distRight, -3.454, 5.176);
+                                    distRight, 3.454, 5.176);
+
+                                    //TODO: left and right will be biased off bc towers bent outward on purpose
 
 // controller
 pros::Controller controller(pros::E_CONTROLLER_MASTER);

@@ -22,9 +22,7 @@
 
 #include <iostream>
 
-void on_center_button() {
-
-}
+void on_center_button() {}
 
 void initialize() {
 	// reset the chassis position
@@ -38,18 +36,14 @@ void initialize() {
 	teamColor = 'R';
 }
 
-void disabled() {
-
-}
-
-void competition_initialize() {
-
-}
+void disabled() {}
+void competition_initialize() {}
 
 void autonomous() {
 	// auton motor modes
 	chassis.setBrakeMode(pros::E_MOTOR_BRAKE_BRAKE);
 	lift.set_brake_mode_all(pros::E_MOTOR_BRAKE_BRAKE);
+	manualControl = false;
 
 	// auton function!
 } 
@@ -57,8 +51,8 @@ void autonomous() {
 void opcontrol() {
 	// set the drive to coast
 	chassis.setBrakeMode(pros::E_MOTOR_BRAKE_COAST);
-	lift.set_brake_mode_all(pros::E_MOTOR_BRAKE_COAST);
-	manualControl = false;
+	lift.set_brake_mode_all(pros::E_MOTOR_BRAKE_COAST); //TODO: reconsider this
+	manualControl = true;
 
 	while (true) {
 		int throttle = controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);
@@ -70,8 +64,7 @@ void opcontrol() {
 		updateManualToggle();
 		updateClaw();
 
-		if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_A))
-			liftRot.set_position(0);
+		if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_A)) liftRot.set_position(0);
 
 		pros::delay(10);
 	}
