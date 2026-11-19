@@ -747,11 +747,11 @@ class Chassis {
         /**
          * @brief Send in a constant voltage to the chassis
          *
-         * @param voltage voltage to send, in millivolts
+         * @param voltage voltage to send, from -127 to 127
          * @param time time to send voltage for
          * @endcode
          */
-        void sendVoltage(float voltage, int time);
+        void sendVoltage(float leftPower, float rightPower, int time, bool async = false);
         /**
          * @brief oops i deleted the descriptive paragraph for follow
          * @endcode
