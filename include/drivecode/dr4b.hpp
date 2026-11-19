@@ -11,7 +11,7 @@
 extern const float maxLiftRot;
 extern const float errorRange;
 
-extern float target;
+extern float liftTarget;
 extern float liftPos;
 
 extern int manualLiftState;

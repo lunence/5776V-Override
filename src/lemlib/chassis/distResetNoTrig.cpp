@@ -49,11 +49,7 @@ void lemlib::Chassis::distResetNoTrig(char xDirection, char yDirection) {
     //this is going to be the reset pose with theta in degrees
     lemlib::Pose pose(0, 0, this->getPose(false).theta);
 
-    //if both/essential distance sensors are bad, don't reset
-    if(xDist == nullptr || yDist == nullptr || currentPose.theta > degToRad(5)) {
-        this->endMotion();
-        return;
-    }
+    //TODO: REMOVED CHECK
 
     //x perpDistance 
     float xSensorRay = mmToIn(xDist->distance.get());
@@ -114,11 +110,11 @@ void lemlib::Chassis::distResetX(char xDirection) {
     //this is going to be the reset pose with theta in degrees
     lemlib::Pose pose(0, currentPose.y, this->getPose(false).theta);
 
-    //invalidate out-of-range readings
-    if(xDist == nullptr || mmToIn(xDist->distance.get())>300 || currentPose.theta > degToRad(5)) {
-        this->endMotion();
-        return;
-    }
+    // //invalidate out-of-range readings
+    // if(xDist == nullptr || mmToIn(xDist->distance.get())>300 || currentPose.theta > degToRad(5)) {
+    //     this->endMotion();
+    //     return;
+    // }
 
     //x perpDistance 
     float xSensorRay = mmToIn(xDist->distance.get());
@@ -163,11 +159,11 @@ void lemlib::Chassis::distResetY(char yDirection) {
     //this is going to be the reset pose with theta in degrees
     lemlib::Pose pose(currentPose.x, 0, this->getPose(false).theta);
 
-    //invalidate out-of-range readings
-    if(yDist == nullptr || mmToIn(yDist->distance.get())>300 || currentPose.theta > degToRad(5)) {
-        this->endMotion();
-        return;
-    }
+    // //invalidate out-of-range readings
+    // if(yDist == nullptr || mmToIn(yDist->distance.get())>300 || currentPose.theta > degToRad(5)) {
+    //     this->endMotion();
+    //     return;
+    // }
 
     //y perpDistance 
     float ySensorRay = mmToIn(yDist->distance.get());

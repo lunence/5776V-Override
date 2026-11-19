@@ -2,10 +2,10 @@
 #include "drivecode/dr4b.hpp"
 #include <iostream>
 
-const float maxLiftRot = 88;
-const float errorRange = 2;
+const float maxLiftRot = 87;
+const float errorRange = 1.5;
 
-float target = 0;
+float liftTarget = 0;
 float liftPos = 0;
 
 int manualLiftState = 0;
@@ -45,11 +45,10 @@ void runLift() {
         if (liftPos > 180) liftPos -= 360;
         else if (liftPos < -180) liftPos += 360;
         
-        if(target > maxLiftRot)
-            target = maxLiftRot;
-        if(target < 0)
-            target = 0;
-            
+        if(liftTarget > maxLiftRot)
+            liftTarget = maxLiftRot;
+        if(liftTarget < 0)
+            liftTarget = 0;
 
         // manual control code
         if(manualControl) {
@@ -77,14 +76,11 @@ void runLift() {
 
         // pid control
         else {
-
-            float error = target - liftPos;
+            float error = liftTarget - liftPos;
             power = liftPID.update(error, true);
             power = std::clamp(power, -127.0f, 127.0f);
 
             if(std::abs(error) < errorRange) power = 0;
-            pros::screen::print(pros::E_TEXT_SMALL, 8, "error: %.3f", error);
-
         }
 
         // upper limit check
@@ -92,8 +88,6 @@ void runLift() {
         if(!override && liftPos <= 0 && power < 0) power = 0;
 
         // send power
-        std::cout << "Lift Power: " << power << std::endl;
-        pros::screen::print(pros::E_TEXT_SMALL, 7, "Lift power %.3f", power);
         lift.move(power);
         
         pros::delay(10);

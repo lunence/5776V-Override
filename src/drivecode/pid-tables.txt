@@ -1,0 +1,52 @@
+// PID table
+
+Lift:
+
+P: 8, 6, 5.5, 5.5, 5.5, 5.5, 5.5
+
+I: 0, 0.1, 0.2, 0, 0.1, 0.3, 0.2
+
+D: 0, 0, 0, 0 ----- 
+
+antiwindup: 0, 10, 10, 10, 7, 4, 6
+
+no I because want to see if osciclation is because I or changes in P
+
+dont wanna tune it aggresively so no D
+in the fifth trial went away from tuning i as aggressively to tuning the windup rang instead
+sixth trials and onward: windup range needs to be smaller but the i term more aggressive because the the lift was overshooting and coming up very slowly, want this to happen very quickly
+
+Target Value (constant) = 
+
+overall we want it to be snappy and fast without overshooting and minimize error range 
+bounce down is imminent because gravity is pulling us down, can implement a break later if we want to correct this but depends on the efficacy of our autons
+
+
+angularPID:
+
+P: 4, 2, 1.5, 1.4, 1.2, 1.3 (changed when changed I to 0.04), 2, 3, 2.5
+
+I: 0, 0,----------------- 0.1 (it started oscillating like shit), 0.05, 0.04, 0.05, back to 0 tune bobby way (tuned after we got 2.5 P 20 D), 0.02, 0.03, 0.04, 0.08
+
+D: 0, 0, 2 (when we changed P to 2.5),4, 8, 12, 14, 16, 20
+
+anti windup: 15, 10, 6 (when had D of 20),
+
+small error range in deg: 2
+
+small error range timeout, milliseconds: 200, 150
+
+//if we can do it without a d term, our autons will be a lot snappier and less "bullshit", making it prone to overshooting and going past our target. turns out this wasnt working so we decided to revert back to bobby method
+// started changing i term because small error is really weak we barely pushing forward
+
+
+lateralPID:
+
+P: 4, 6, 8
+
+I:
+
+D: 
+
+anti windup: 3
+if the angular error is less than a certain amount do not do an angular output

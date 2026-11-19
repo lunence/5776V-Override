@@ -6,6 +6,7 @@
 #include "drivecode/claw.hpp"
 #include "drivecode/dr4b.hpp"
 #include "drivecode/toggle.hpp"
+#include "pros/misc.h"
 
 void on_center_button() {}
 
@@ -31,14 +32,15 @@ void autonomous() {
 	manualControl = false;
 
 	// auton functions!
+	fourPinBack();
 } 
 
 void opcontrol() {
 	// set the drive to coast
 	chassis.setBrakeMode(pros::E_MOTOR_BRAKE_COAST);
 	lift.set_brake_mode_all(pros::E_MOTOR_BRAKE_BRAKE); //TODO: reconsider this
-	manualControl = false;
-	
+	manualControl = true;
+
 	bool l1Pressed = false;
 	bool l2Pressed = false;
 	bool r1Pressed = false;
@@ -50,32 +52,52 @@ void opcontrol() {
 
 		chassis.arcade(throttle, turn);
 
-		if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) {
-			if (!l1Pressed) target += 20;
-			l1Pressed  = true;
-		} else l1Pressed = false;
-
-		if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) {
-			if (!l2Pressed) target -= 20;
-			l2Pressed  = true;
-		} else l2Pressed = false;
-
-		if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) {
-			if (!r1Pressed) target += 50;
-			r1Pressed  = true;
-		} else r1Pressed = false;
-
-		if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
-			if (!r2Pressed) target -= 50;
-			r2Pressed  = true;
-		} else r2Pressed = false;
-
-		// updateManualLift();
-		// updateManualToggle();
-		// updateClaw();
+		updateManualLift();
+		updateManualToggle();
+		updateClaw();
 
 		if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_A)) liftRot.set_position(0);
 
 		pros::delay(10);
+
+		// if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) {
+		// 	if (!l1Pressed) target += 20;
+		// 	l1Pressed  = true;
+		// } else l1Pressed = false;
+
+		// if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) {
+		// 	if (!l2Pressed) target -= 20;
+		// 	l2Pressed  = true;
+		// } else l2Pressed = false;
+
+		// if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) {
+		// 	if (!r1Pressed) target += 50;
+		// 	r1Pressed  = true;
+		// } else r1Pressed = false;
+
+		// if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
+		// 	if (!r2Pressed) target -= 50;
+		// 	r2Pressed  = true;
+		// } else r2Pressed = false;
+
+		// if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) {
+		// 	chassis.setPose(0, 0, 0);
+		// 	chassis.moveToPoint(0, 12, 2000);
+		// } else l1Pressed = false;
+
+		// if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) {
+		// 	chassis.setPose(0, 0, 0);
+		// 	chassis.moveToPoint(0, 24, 2000);
+		// } else l2Pressed = false;
+
+		// if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) {
+		// 	chassis.setPose(0, 0, 0);
+		// 	chassis.moveToPoint(0, 36, 2000);
+		// } else r1Pressed = false;
+
+		// if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
+		// 	chassis.setPose(0, 0, 0);
+		// 	chassis.moveToPoint(0, 48, 2000);
+		// } else r2Pressed = false;
 	}
 }

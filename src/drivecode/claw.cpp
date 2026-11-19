@@ -8,7 +8,9 @@ void updateClaw() {
     // constantly checks if clawButton held; if not then set claw to temp roller
     if (controller.get_digital(clawOpen)) {
         clawState = 2;
-    } else if (controller.get_digital(clawSpin)) {
+    } else if (clawState != 1) clawState = 0;
+    
+    if (controller.get_digital(clawSpin)) {
 
         if (!clawSpinPressed) {
             // if it is not rolling in turn it rolling in
@@ -38,9 +40,9 @@ void runClaw() {
                 break;
             }
 
-            // open claw, quarter power
+            // open claw, half power
             case 2: {
-                claw.move_voltage(-3000);
+                claw.move_voltage(-4000);
                 break;
             }
 

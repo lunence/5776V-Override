@@ -84,6 +84,7 @@ void lemlib::Chassis::moveToPoint(float x, float y, int timeout, MoveToPointPara
         // apply restrictions on angular speed
         angularOut = std::clamp(angularOut, -127.0f, 127.0f); //TODO: angular output clamped only by robot limits
         angularOut = slew(angularOut, prevAngularOut, angularSettings.slew);
+        if(std::fabs(angularError) < 1.5) angularOut = 0; //TODO: avoid wiggle
 
         // apply restrictions on lateral speed
         lateralOut = std::clamp(lateralOut, -params.maxSpeed, params.maxSpeed);
