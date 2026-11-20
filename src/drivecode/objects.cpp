@@ -17,7 +17,7 @@ pros::controller_digital_e_t overrideButton = pros::E_CONTROLLER_DIGITAL_DOWN;
 //additional binds: A=zero lift
 
 //TODO: ALL READINGS WILL BE SKEWED BY 5.5s SO DON'T USE THEM
-pros::MotorGroup leftMotors({-11, -12, 13}, pros::MotorGearset::blue);
+pros::MotorGroup leftMotors({-11, -15, 13}, pros::MotorGearset::blue);
 pros::MotorGroup rightMotors({20, -18, 19}, pros::MotorGearset::blue);
 
 // 1 half motor on claw
@@ -36,8 +36,8 @@ pros::Optical toggleOptical(0); //TODO: not added
 
 // 4 distance sensors for dsr
 pros::Distance distFront(7);
-pros::Distance distBack(15);
-pros::Distance distLeft(3);
+pros::Distance distBack(12);
+pros::Distance distLeft(2);
 pros::Distance distRight(10);
 
 // odometry sensors

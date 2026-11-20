@@ -10,7 +10,7 @@ float liftPos = 0;
 
 int manualLiftState = 0;
 bool manualControl = true; //true and it's manual, false and it's pid
-bool override = false;
+bool overrideMotionLimits = false;
 
 void updateManualLift() {
     // if lift manual up pressed
@@ -30,7 +30,7 @@ void updateManualLift() {
 
     //override
     if (controller.get_digital(overrideButton)) {
-        override = true;
+        overrideMotionLimits = true;
     }
 
     pros::delay(10); 
@@ -84,8 +84,8 @@ void runLift() {
         }
 
         // upper limit check
-        if(!override && liftPos >= maxLiftRot && power > 0) power = 0;
-        if(!override && liftPos <= -3 && power < 0) power = 0; //lower limit check
+        if(!overrideMotionLimits && liftPos >= maxLiftRot && power > 0) power = 0;
+        if(!overrideMotionLimits && liftPos <= -1 && power < 0) power = 0; //lower limit check
 
         // send power
         lift.move(power);

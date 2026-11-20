@@ -16,7 +16,7 @@ extern float liftPos;
 
 extern int manualLiftState;
 extern bool manualControl;
-extern bool override;
+extern bool overrideMotionLimits;
 
 extern void updateManualLift();
 extern void runLift();
