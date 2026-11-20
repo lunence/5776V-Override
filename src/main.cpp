@@ -27,7 +27,7 @@ void competition_initialize() {}
 
 void autonomous() {
 	// auton motor modes
-	chassis.setBrakeMode(pros::E_MOTOR_BRAKE_BRAKE);
+	chassis.setBrakeMode(pros::E_MOTOR_BRAKE_HOLD);
 	lift.set_brake_mode_all(pros::E_MOTOR_BRAKE_BRAKE);
 	manualControl = false;
 

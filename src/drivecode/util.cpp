@@ -35,7 +35,7 @@ void runScreen() {
         pros::screen::print(pros::E_TEXT_SMALL, 3, "Lift target: %.3f", liftTarget);    
         pros::screen::print(pros::E_TEXT_SMALL, 4, "Color: %.3f", toggleOptical.get_hue());
         pros::screen::print(pros::E_TEXT_SMALL, 5, "Toggle state: %d", toggleState);
-        // pros::screen::print(pros::E_TEXT_SMALL, 6, "Lift limit state: %d", liftLimit.get_value());
+        pros::screen::print(pros::E_TEXT_SMALL, 6, "claw actual vel: %.3f", claw.get_actual_velocity());
         pros::delay(10);
     }
 }

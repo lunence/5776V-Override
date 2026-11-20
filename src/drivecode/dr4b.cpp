@@ -85,7 +85,7 @@ void runLift() {
 
         // upper limit check
         if(!override && liftPos >= maxLiftRot && power > 0) power = 0;
-        if(!override && liftPos <= 0 && power < 0) power = 0;
+        if(!override && liftPos <= -3 && power < 0) power = 0; //lower limit check
 
         // send power
         lift.move(power);
