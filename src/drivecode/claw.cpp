@@ -1,9 +1,12 @@
 #include "drivecode/claw.hpp"
 #include "drivecode/objects.hpp"
+#include "pros/abstract_motor.hpp"
 #include "pros/motors.h"
+#include <cmath>
 
 int clawState = 0;
 bool clawSpinPressed = false;
+int stallTime = 0;
 
 void updateClaw() {
     // constantly checks if clawButton held; if not then set claw to temp roller
@@ -28,6 +31,9 @@ void updateClaw() {
 
 void runClaw() {
     while (true) {
+        if(std::fabs(claw.get_actual_velocity()) < 10) stallTime++; //stall code
+        else stallTime = 0;
+
         switch (clawState) {
             // claw off
             case 0: {
@@ -43,7 +49,13 @@ void runClaw() {
 
             // open claw, full power
             case 2: {
-                claw.move_voltage(-12000);
+                if(stallTime >= 100) { //stall out at 100 ticks/1 second, hold motor
+                    claw.move(0);
+                    claw.set_brake_mode(pros::E_MOTOR_BRAKE_BRAKE); //TODO: brake or hold
+                } else { //if stall not reached do ts
+                    claw.move_voltage(-12000);
+                    claw.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
+                }
                 break;
             }
 
@@ -53,11 +65,6 @@ void runClaw() {
                 break;
             }
         }
-
-        // if(clawState == 2 && std::abs(claw.get_actual_velocity()) < 1) {
-        //     claw.set_brake_mode(pros::E_MOTOR_BRAKE_BRAKE);
-        //     clawState = 0;
-        // }
         
         pros::delay(10);
     }
