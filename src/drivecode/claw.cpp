@@ -7,21 +7,27 @@
 int clawState = 0;
 bool clawSpinPressed = false;
 int stallTime = 0;
+int prevClawState = 0;
 
 void updateClaw() {
     // constantly checks if clawButton held; if not then set claw to temp roller
     if (controller.get_digital(clawOpen)) {
         clawState = 2;
-    } else if (clawState != 1) clawState = 0;
+    } else clawState = prevClawState;
     
     if (controller.get_digital(clawSpin)) {
 
         if (!clawSpinPressed) {
             // if it is not rolling in turn it rolling in
-            if (clawState != 1) clawState = 1;
-
+            if (clawState != 1) {
+                clawState = 1;
+                prevClawState = 1;
+            }
             // if it is rolling in turn it off
-            else if (clawState == 1) clawState = 0;
+            else if (clawState == 1) {
+                clawState = 0;
+                prevClawState = 0;
+            }
         }
 
         clawSpinPressed = true;

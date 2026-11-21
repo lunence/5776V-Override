@@ -15,10 +15,10 @@ void mlCloseGoal(float prescore, float score) {
     
     //score ml pin stack
     //TODO: replace movedistances maybe
-    chassis.moveDistance(-12, 1000, {.forwards = false, .maxSpeed = 90});
+    chassis.moveDistance(-12, 1000, {.forwards = false});
     liftTarget = prescore;
     chassis.turnToHeading(-90, 1000);
-    chassis.moveDistance(32, 1500, {.maxSpeed = 60, .minSpeed = 10}); //TODO: change maybe
+    chassis.moveDistance(30, 1500, {.maxSpeed = 80, .minSpeed = 15}); //TODO: old 32
     liftTarget = score;
     pros::delay(400); //TODO: score time?
     clawState = 2;
@@ -26,24 +26,27 @@ void mlCloseGoal(float prescore, float score) {
 }
 
 void mlFarGoal(float prescore, float score) {
-    chassis.moveToPoint(54, -40, 1000, {.forwards = false, .maxSpeed = 100}); //TODO: REVIEW REVIEW
-    clawState = 1;
+    chassis.moveToPoint(55, -40, 1000, {.forwards = false, .maxSpeed = 90}, true); //TODO: REVIEW REVIEW
     pros::delay(400);
+    clawState = 1;
+    pros::delay(200);
     liftTarget = -5;
     chassis.waitUntilDone();
-    chassis.turnToHeading(180, 1000); //TODO: see if this works
+
+    chassis.turnToPoint(58, -59.5, 1000, {.maxSpeed = 100}); //TODO: see if this works
     chassis.distReset('L', 'F');
-    chassis.moveToPoint(58, -59, 1000, {.maxSpeed = 90});
+    chassis.moveToPoint(58, -59.5, 1000, {.maxSpeed = 90});
     liftTarget = 3;
     pros::delay(200);
 
     // exit ml and score first pin
-    chassis.moveToPoint(54, -45, 1000, {.forwards = false});
+    //prev 58
+    chassis.moveToPoint(56, -45, 1000, {.forwards = false}); //TODO: this is not good but idc
     liftTarget = prescore;
     chassis.turnToPoint(50, -26, 1000);
-    chassis.moveToPoint(50, -26, 1000, {.maxSpeed = 70, .minSpeed = 15});
+    chassis.moveToPoint(50, -26, 1000, {.maxSpeed = 80, .minSpeed = 15});
     liftTarget = score;
-    pros::delay(500);
+    pros::delay(300);
     clawState = 2;
     
     // //perform ml, starting at goal
@@ -69,6 +72,7 @@ void mlFarGoal(float prescore, float score) {
 //TODO: generally, might be going too fast into goals
 void skills() {
     overrideMotionLimits = true;
+    
     // initialize
     /*
     chassis.setPose(100, -100, 180);
@@ -99,8 +103,8 @@ void skills() {
     liftTarget = -5; // not zero to get a little extra power going down
     clawState = 1;
     chassis.distReset('F', 'R');
-    chassis.turnToPoint(20, -27, 1000); //check exit here
-    chassis.moveDistance(18, 1000, {.minSpeed = 20}); //tune for speed
+    chassis.turnToPoint(20, -27, 1000); //TODO: exits slow
+    chassis.moveDistance(21, 1000, {.minSpeed = 20}); //tune for speed //TODO: prev 18
     chassis.moveToPoint(20, -27, 1000, {.maxSpeed = 20});
     leftMotors.move(0);
     rightMotors.move(0);
@@ -109,7 +113,7 @@ void skills() {
     // score pin stack 1
     liftTarget = 27;
     chassis.turnToPoint(23, -44, 1000);
-    chassis.moveToPoint(23, -44, 1000, {.maxSpeed = 70, .minSpeed = 15});
+    chassis.moveToPoint(23, -44, 1000, {.maxSpeed = 80, .minSpeed = 15});
     liftTarget = 11;
     pros::delay(400);
     clawState = 2;
@@ -120,7 +124,7 @@ void skills() {
     clawState = 1;
     liftTarget = -5;
     chassis.turnToPoint(47, -46, 1000);
-    chassis.moveDistance(23, 1000, {.minSpeed = 20});
+    chassis.moveDistance(26, 1000, {.minSpeed = 20}); //TODO: prev 23
     chassis.moveToPoint(47, -46, 1000, {.maxSpeed = 20});
     chassis.turnToPoint(29, -48.5, 1000); 
     chassis.distReset('B', 'L');
@@ -128,7 +132,7 @@ void skills() {
     // score pin stack 2
     liftTarget = 42;
     pros::delay(400);
-    chassis.moveToPoint(29, -48.5, 1000, {.maxSpeed = 70, .minSpeed = 15});
+    chassis.moveToPoint(29, -48.5, 1000, {.maxSpeed = 80, .minSpeed = 15});
     liftTarget = 28;
     pros::delay(500);
     clawState = 2;
@@ -137,42 +141,68 @@ void skills() {
     //two following pins
     mlCloseGoal(60, 43);
     mlCloseGoal(88, 62);
-
     */
     chassis.setPose(100, -100, -90);
-    chassis.distReset('B','L');
+    chassis.distReset('B', 'L');
 
     // ml first pin for second pin stack
     chassis.moveToPose(65, -48, -90, 1000, {.forwards = false}, true);
-    pros::delay(200); //TODO: tune
-    clawState = 1;
     pros::delay(400);
+    clawState = 1;
+    pros::delay(200);
     liftTarget = -5;
     chassis.waitUntilDone();
-    chassis.turnToHeading(175, 1000); //TODO: see if this works
-    chassis.moveDistance(13, 1000, {.maxSpeed = 90});
-    pros::delay(200);
-    liftTarget = 5;
 
-    // exit ml and score first pin
-    chassis.moveDistance(-18, 1000, {.forwards = false});
+    chassis.turnToPoint(58, -59.5, 1000, {.maxSpeed = 100}); //TODO: see if this works
     chassis.distReset('L', 'F');
+    chassis.moveToPoint(58, -59.5, 1000, {.maxSpeed = 90});
+    liftTarget = 3;
+    pros::delay(200);
+
+    // exit ml and score first pin 2nd alliance goal
+    chassis.moveToPoint(56, -45, 1000, {.forwards = false}); //TODO: this is not good but idc
     liftTarget = 20;
     chassis.turnToPoint(50, -26, 1000);
-    chassis.moveToPoint(50, -26, 1000, {.maxSpeed = 70, .minSpeed = 15});
+    chassis.moveToPoint(50, -26, 1000, {.maxSpeed = 80, .minSpeed = 15});
     liftTarget = 3;
-    pros::delay(500);
+    pros::delay(300);
     clawState = 2;
 
-    mlFarGoal(30, 20); //TODO: i lwk js added 3 to all lift heights
-    mlFarGoal(50, 40);
-    mlFarGoal(70, 60);
+    //next pins
+    mlFarGoal(35, 20); //TODO: i lwk js added 3 to all lift heights
+    // mlFarGoal(50, 35);
+    // mlFarGoal(73, 50);
 
-    return;
-    chassis.moveToPoint(65, -40, 2000, {.forwards = false});
-    chassis.turnToHeading(0, 1000);
-    chassis.distReset('R', 'B');
-    chassis.moveDistance(60, 1000);
+    // grab pin for center
+    chassis.moveToPoint(55, -40, 1000, {.forwards = false, .maxSpeed = 90}, true); //TODO: REVIEW REVIEW
+    pros::delay(400);
+    clawState = 1;
+    pros::delay(200);
+    liftTarget = -5;
+    chassis.waitUntilDone();
+    chassis.turnToPoint(58, -59.5, 1000, {.maxSpeed = 100}); //TODO: see if this works
+    chassis.distReset('L', 'F');
+    chassis.moveToPoint(58, -59.5, 1000, {.maxSpeed = 90});
+    liftTarget = 3;
+    pros::delay(200);
+
+    //leave for toggle
+    chassis.moveToPose(60, -14, 180, 3000, {.forwards = false, .minSpeed = 50});
+    chassis.moveToPose(55, 0, 90, 2000, {.forwards = false, .minSpeed = 30});
+    chassis.turnToHeading(90, 1000, {.minSpeed = 30});
+    toggleState = 1;
+    pros::delay(600);
+    toggleState = 0;
+    chassis.moveDistance(-20, 1000, {.forwards = false});
+    chassis.turnToHeading(-90, 1000);
+    chassis.distReset('B', 'L');
+
+    //go to center and score
+    liftTarget = 20;
+    chassis.moveToPoint(0, 0, 1000, {.maxSpeed = 80, .minSpeed = 20});
+    liftTarget = 10;
+    pros::delay(200);
+    clawState = 2;
     return;
 }
 
