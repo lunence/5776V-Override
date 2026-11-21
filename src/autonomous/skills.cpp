@@ -35,18 +35,18 @@ void mlFarGoal(float prescore, float score) {
     chassis.waitUntilDone();
 
     chassis.turnToHeading(180, 1000, {.direction = lemlib::AngularDirection::CCW_COUNTERCLOCKWISE,.minSpeed = 40}); //TODO: this needs to be here for the dist reset statement
-    chassis.distReset('R', 'B'); //TODO: swapped with dist reset statement below
-    chassis.turnToPoint(57, -59.5, 1000, {.minSpeed = 30}); //TODO: see if this works
+    chassis.distReset('L', 'F'); //TODO: swapped with dist reset statement below
+    chassis.turnToPoint(58.5, -59.5, 1000, {.minSpeed = 30}); //TODO: see if this works
     // chassis.distReset('L', 'F');
-    chassis.moveToPoint(57, -59.5, 1000, {.minSpeed = 40});
+    chassis.moveToPoint(58.5, -59.5, 1000, {.minSpeed = 40});
     liftTarget = 5;
     pros::delay(300); //TODO: increased collect time from 200 to 400
 
-    // exit ml and score first pin
+    // exit ml and score
     chassis.moveToPoint(56, -45, 1000, {.forwards = false}); //TODO: max speed 100?
     liftTarget = prescore;
-    chassis.turnToPoint(50, -26, 1000);
-    chassis.moveToPoint(50, -26, 1000, {.maxSpeed = 80, .minSpeed = 15});
+    chassis.turnToPoint(49, -26, 1000);
+    chassis.moveToPoint(49, -26, 1000, {.maxSpeed = 80, .minSpeed = 15});
     liftTarget = score;
     pros::delay(400); //TODO: score time 400
     clawState = 2;
@@ -157,17 +157,20 @@ void skills() {
     mlFarGoal(75, 65);
 
     // grab pin for center
-    chassis.moveToPoint(55, -40, 1000, {.forwards = false, .maxSpeed = 90}, true);
-    pros::delay(400);
+    chassis.moveToPoint(55, -40, 1000, {.forwards = false}, true); //TODO: REVIEW REVIEW
+    pros::delay(600);
     clawState = 1;
     pros::delay(200);
     liftTarget = -5;
     chassis.waitUntilDone();
-    chassis.turnToPoint(58, -59.5, 1000, {.maxSpeed = 100});
-    chassis.distReset('L', 'F');
-    chassis.moveToPoint(58, -59.5, 1000, {.minSpeed = 40});
-    liftTarget = 3;
-    pros::delay(200);
+
+    chassis.turnToHeading(180, 1000, {.direction = lemlib::AngularDirection::CCW_COUNTERCLOCKWISE,.minSpeed = 40}); //TODO: this needs to be here for the dist reset statement
+    chassis.distReset('L', 'F'); //TODO: swapped with dist reset statement below
+    chassis.turnToPoint(58.5, -59.5, 1000, {.minSpeed = 30}); //TODO: see if this works
+    // chassis.distReset('L', 'F');
+    chassis.moveToPoint(58.5, -59.5, 1000, {.minSpeed = 40});
+    liftTarget = 5;
+    pros::delay(300); //TODO: increased collect time from 200 to 400
 
     //leave for toggle
     chassis.moveToPose(60, -14, 180, 3000, {.forwards = false, .minSpeed = 50});
