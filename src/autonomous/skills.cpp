@@ -36,7 +36,7 @@ void mlFarGoal(float prescore, float score) {
 
     chassis.turnToHeading(180, 1000, {.direction = lemlib::AngularDirection::CCW_COUNTERCLOCKWISE,.minSpeed = 40}); //TODO: this needs to be here for the dist reset statement
     chassis.distReset('L', 'F'); //TODO: swapped with dist reset statement below
-    chassis.turnToPoint(58.5, -59.5, 1000, {.minSpeed = 30}); //TODO: see if this works
+    chassis.turnToPoint(58.5, -59.5, 1000); //TODO: no minSpeed, old minSpeed 30
     // chassis.distReset('L', 'F');
     chassis.moveToPoint(58.5, -59.5, 1000, {.minSpeed = 40});
     liftTarget = 5;
@@ -166,7 +166,7 @@ void skills() {
 
     chassis.turnToHeading(180, 1000, {.direction = lemlib::AngularDirection::CCW_COUNTERCLOCKWISE,.minSpeed = 40}); //TODO: this needs to be here for the dist reset statement
     chassis.distReset('L', 'F'); //TODO: swapped with dist reset statement below
-    chassis.turnToPoint(58.5, -59.5, 1000, {.minSpeed = 30}); //TODO: see if this works
+    chassis.turnToPoint(58.5, -59.5, 1000); //TODO: see if this works
     // chassis.distReset('L', 'F');
     chassis.moveToPoint(58.5, -59.5, 1000, {.minSpeed = 40});
     liftTarget = 5;
