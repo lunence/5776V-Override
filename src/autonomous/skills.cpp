@@ -26,21 +26,21 @@ void mlCloseGoal(float prescore, float score) {
 }
 
 void mlFarGoal(float prescore, float score) {
-    chassis.moveToPoint(55, -40, 1000, {.forwards = false, .maxSpeed = 90}, true); //TODO: REVIEW REVIEW
+    chassis.moveToPoint(55, -40, 1000, {.forwards = false}, true); //TODO: REVIEW REVIEW
     pros::delay(600);
     clawState = 1;
     pros::delay(200);
     liftTarget = -5;
     chassis.waitUntilDone();
 
-    chassis.turnToPoint(57, -59.5, 1000, {.maxSpeed = 100}); //TODO: see if this works
+    chassis.turnToPoint(57, -59.5, 1000); //TODO: see if this works
     chassis.distReset('L', 'F');
     chassis.moveToPoint(57, -59.5, 1000, {.minSpeed = 40});
     liftTarget = 5;
     pros::delay(300); //TODO: increased collect time from 200 to 400
 
     // exit ml and score first pin
-    chassis.moveToPoint(56, -45, 1000, {.forwards = false, .maxSpeed = 90}); //TODO: max speed 100?
+    chassis.moveToPoint(56, -45, 1000, {.forwards = false}); //TODO: max speed 100?
     liftTarget = prescore;
     chassis.turnToPoint(50, -26, 1000);
     chassis.moveToPoint(50, -26, 1000, {.maxSpeed = 80, .minSpeed = 15});
