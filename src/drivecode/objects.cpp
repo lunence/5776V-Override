@@ -16,6 +16,19 @@ pros::controller_digital_e_t toggleButton = pros::E_CONTROLLER_DIGITAL_Y;
 pros::controller_digital_e_t overrideButton = pros::E_CONTROLLER_DIGITAL_DOWN; 
 //additional binds: A=zero lift
 
+lemlib::ExpoDriveCurve latCurve(
+    3,
+    10,
+    1.019
+);
+
+lemlib::ExpoDriveCurve angCurve(
+    3,
+    10,
+    1.019
+);
+
+
 //TODO: ALL READINGS WILL BE SKEWED BY 5.5s SO DON'T USE THEM
 pros::MotorGroup leftMotors({-11, -15, 13}, pros::MotorGearset::blue);
 pros::MotorGroup rightMotors({20, -18, 19}, pros::MotorGearset::blue);
@@ -120,7 +133,9 @@ lemlib::Chassis chassis(
     lateralController,
     angularController,
     odomSensorsDrive,
-    distSensors
+    distSensors,
+    &latCurve,
+    &angCurve
 );
 
 // double reverse four bar
