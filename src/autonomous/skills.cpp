@@ -1,4 +1,5 @@
 #include "autonomous.hpp"
+#include "lemlib/chassis/chassis.hpp"
 
 void mlCloseGoal(float prescore, float score) {
     //perform ml
@@ -33,8 +34,10 @@ void mlFarGoal(float prescore, float score) {
     liftTarget = -5;
     chassis.waitUntilDone();
 
-    chassis.turnToPoint(57, -59.5, 1000); //TODO: see if this works
-    chassis.distReset('L', 'F');
+    chassis.turnToHeading(180, 1000, {.direction = lemlib::AngularDirection::CCW_COUNTERCLOCKWISE,.minSpeed = 40}); //TODO: this needs to be here for the dist reset statement
+    chassis.distReset('R', 'B'); //TODO: swapped with dist reset statement below
+    chassis.turnToPoint(57, -59.5, 1000, {.minSpeed = 30}); //TODO: see if this works
+    // chassis.distReset('L', 'F');
     chassis.moveToPoint(57, -59.5, 1000, {.minSpeed = 40});
     liftTarget = 5;
     pros::delay(300); //TODO: increased collect time from 200 to 400
@@ -65,8 +68,8 @@ void skills() {
 
     // back out, turn and move to goal
     chassis.moveToPoint(3, -47, 1000, {.forwards = false});
-    chassis.turnToPoint(18, -48, 1000);
-    chassis.moveToPoint(18, -48, 1000, {.maxSpeed = 70, .minSpeed = 30});
+    chassis.turnToPoint(18, -47, 1000);
+    chassis.moveToPoint(18, -47, 1000, {.maxSpeed = 70, .minSpeed = 30});
 
     // score preload
     liftTarget = 3;
@@ -77,7 +80,8 @@ void skills() {
     rightMotors.move(0);
 
     // get pin stack 1
-    chassis.moveToPose(10, -46, 95, 1000, {.forwards = false, .minSpeed = 40}, true); //TODO: try curve away
+    //prev x 10
+    chassis.moveToPose(5, -46, 95, 1000, {.forwards = false, .minSpeed = 40}, true); //TODO: try curve away
     pros::delay(200);
     clawState = 1;
     chassis.waitUntilDone();
@@ -124,7 +128,8 @@ void skills() {
     chassis.distReset('B', 'L');
 
     // ml first pin for second pin stack
-    chassis.moveToPose(65, -48, -90, 1000, {.forwards = false}, true);
+    //TODO: dropped by an inch from 65
+    chassis.moveToPose(64, -48, -90, 1000, {.forwards = false}, true);
     pros::delay(400);
     clawState = 1;
     pros::delay(200);
@@ -132,16 +137,16 @@ void skills() {
     chassis.waitUntilDone();
     chassis.distReset('B', 'L');
 
-    chassis.turnToPoint(58, -59.5, 1000, {.maxSpeed = 100});
-    chassis.moveToPoint(58, -59.5, 1000, {.minSpeed = 40});
+    chassis.turnToPoint(57, -59.5, 1000, {.maxSpeed = 100});
+    chassis.moveToPoint(57, -59.5, 1000, {.minSpeed = 40});
     liftTarget = 3;
     pros::delay(200);
 
     // exit ml and score first pin 2nd alliance goal
     chassis.moveToPoint(56, -45, 1000, {.forwards = false});
     liftTarget = 20;
-    chassis.turnToPoint(50, -26, 1000);
-    chassis.moveToPoint(50, -26, 1000, {.maxSpeed = 80, .minSpeed = 15});
+    chassis.turnToPoint(48, -26, 1000);
+    chassis.moveToPoint(48, -26, 1000, {.maxSpeed = 80, .minSpeed = 15});
     liftTarget = 3;
     pros::delay(400);
     clawState = 2;
@@ -174,7 +179,7 @@ void skills() {
     pros::delay(300);
     leftMotors.move(0);
     rightMotors.move(0);
-    pros::delay(500);
+    pros::delay(400);
     toggleState = 0;
     chassis.moveDistance(-25, 1000, {.forwards = false});
     chassis.distReset('F', 'R');
