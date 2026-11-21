@@ -48,7 +48,7 @@ void mlFarGoal(float prescore, float score) {
     chassis.turnToPoint(49, -26, 1000);
     chassis.moveToPoint(49, -26, 1000, {.maxSpeed = 80, .minSpeed = 15});
     liftTarget = score;
-    pros::delay(400); //TODO: score time 400
+    pros::delay(200); //TODO: score time 400
     clawState = 2;
 }
 
