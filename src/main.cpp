@@ -35,6 +35,7 @@ void autonomous() {
 
 	// auton functions!
 	skills();
+	fourPinBack();
 } 
 
 void opcontrol() {
@@ -45,11 +46,14 @@ void opcontrol() {
 	overrideMotionLimits = false;
 	autoToggle = false;
 
+	lemlib::ExpoDriveCurve angularDriveCurve(2, 0, 1.025);
+
+
 	while (true) {
 		int throttle = controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);
 		int turn = controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X);
 
-		chassis.arcade(throttle, turn);
+		chassis.arcade(throttle, angularDriveCurve.curve(turn));
 
 		updateManualLift();
 		updateManualToggle();

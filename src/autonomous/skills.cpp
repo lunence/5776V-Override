@@ -19,7 +19,8 @@ void mlCloseGoal(float prescore, float score) {
     chassis.moveDistance(-13.5, 1000, {.forwards = false}); //TODO: prev 12
     liftTarget = prescore;
     chassis.turnToHeading(-90, 1000);
-    chassis.moveDistance(32, 1500, {.maxSpeed = 70, .minSpeed = 10}); //TODO: old minspeed 20
+    //TODO: from 32 to 31, maxspeed 100
+    chassis.moveDistance(31, 1500, {.maxSpeed = 90, .earlyExitRange = 1}); //TODO: old minspeed 20, earlyExitRange?
     liftTarget = score;
     pros::delay(400); //TODO: score time 400
     clawState = 2;
@@ -36,17 +37,17 @@ void mlFarGoal(float prescore, float score) {
 
     chassis.turnToHeading(180, 1000, {.direction = lemlib::AngularDirection::CCW_COUNTERCLOCKWISE,.minSpeed = 40}); //TODO: this needs to be here for the dist reset statement
     chassis.distReset('L', 'F'); //TODO: swapped with dist reset statement below
-    chassis.turnToPoint(58.5, -59.5, 1000); //TODO: no minSpeed, old minSpeed 30
+    chassis.turnToPoint(58.5, -59.5, 1000, {.minSpeed = 20}); //TODO: minSpeed 20
     // chassis.distReset('L', 'F');
     chassis.moveToPoint(58.5, -59.5, 1000, {.minSpeed = 40});
     liftTarget = 5;
-    pros::delay(300); //TODO: increased collect time from 200 to 400
+    pros::delay(350); //TODO: increased collect time from 200 to 400
 
     // exit ml and score
     chassis.moveToPoint(56, -45, 1000, {.forwards = false}); //TODO: max speed 100?
     liftTarget = prescore;
     chassis.turnToPoint(49, -26, 1000);
-    chassis.moveToPoint(49, -26, 1000, {.maxSpeed = 80, .minSpeed = 15});
+    chassis.moveToPoint(49, -26, 1000, {.maxSpeed = 90, .earlyExitRange = 1});
     liftTarget = score;
     pros::delay(200); //TODO: score time 400
     clawState = 2;
@@ -54,7 +55,6 @@ void mlFarGoal(float prescore, float score) {
 
 void skills() {
     overrideMotionLimits = true;
-    
     // initialize
     chassis.setPose(100, -100, 180);
     chassis.distReset('L', 'F');
@@ -68,7 +68,7 @@ void skills() {
 
     // back out, turn and move to goal
     chassis.moveToPoint(3, -47, 1000, {.forwards = false});
-    chassis.turnToPoint(18, -47, 1000);
+    chassis.turnToPoint(18, -47, 1000, {.minSpeed = 20}); //TODO: minspeed 20
     chassis.moveToPoint(18, -47, 1000, {.maxSpeed = 70, .minSpeed = 30});
 
     // score preload
@@ -87,9 +87,9 @@ void skills() {
     chassis.waitUntilDone();
     chassis.distReset('F', 'R'); //TODO: blocked by claw?
     liftTarget = -5;
-    chassis.turnToPoint(19, -27, 1000);
+    chassis.turnToPoint(19, -27, 1000, {.minSpeed = 15}); //TODO: minspeed 15
     chassis.moveDistance(21, 1000, {.minSpeed = 20});
-    chassis.moveToPoint(19, -27, 1000, {.maxSpeed = 20});
+    chassis.moveToPoint(19, -27, 1000, {.maxSpeed = 20, .minSpeed = 10});
     leftMotors.move(0);
     rightMotors.move(0);
     pros::delay(200);
@@ -107,9 +107,9 @@ void skills() {
     chassis.moveDistance(-10, 1000, {.forwards = false, .minSpeed = 40});
     clawState = 1;
     liftTarget = -5;
-    chassis.turnToPoint(45, -45, 1000);
+    chassis.turnToPoint(45, -45, 1000, {.minSpeed = 15});
     chassis.moveDistance(26, 1000, {.minSpeed = 20}); //TODO: prev 23
-    chassis.moveToPoint(45, -45, 1000, {.maxSpeed = 20});
+    chassis.moveToPoint(45, -45, 1000, {.maxSpeed = 20, .minSpeed = 10});
     chassis.turnToPoint(29, -48.5, 1000); 
     chassis.distReset('B', 'L');
 
@@ -137,10 +137,10 @@ void skills() {
     chassis.waitUntilDone();
     chassis.distReset('B', 'L');
 
-    chassis.turnToPoint(57, -59.5, 1000, {.maxSpeed = 100});
+    chassis.turnToPoint(57, -59.5, 1000);
     chassis.moveToPoint(57, -59.5, 1000, {.minSpeed = 40});
     liftTarget = 3;
-    pros::delay(200);
+    pros::delay(400);
 
     // exit ml and score first pin 2nd alliance goal
     chassis.moveToPoint(56, -45, 1000, {.forwards = false});
@@ -166,15 +166,15 @@ void skills() {
 
     chassis.turnToHeading(180, 1000, {.direction = lemlib::AngularDirection::CCW_COUNTERCLOCKWISE,.minSpeed = 40}); //TODO: this needs to be here for the dist reset statement
     chassis.distReset('L', 'F'); //TODO: swapped with dist reset statement below
-    chassis.turnToPoint(58.5, -59.5, 1000); //TODO: see if this works
+    chassis.turnToPoint(58.5, -59.5, 1000, {.minSpeed = 15}); //TODO: minspeed 15
     // chassis.distReset('L', 'F');
     chassis.moveToPoint(58.5, -59.5, 1000, {.minSpeed = 40});
     liftTarget = 5;
     pros::delay(300); //TODO: increased collect time from 200 to 400
 
     //leave for toggle
-    chassis.moveToPose(60, -14, 180, 3000, {.forwards = false, .minSpeed = 50});
-    chassis.moveToPose(55, 0, 90, 2000, {.forwards = false, .minSpeed = 30});
+    chassis.moveToPose(60, -14, 180, 3000, {.forwards = false, .minSpeed = 80}); //old minSpeed 50
+    chassis.moveToPose(55, 0, 90, 2000, {.forwards = false, .minSpeed = 40});
     chassis.turnToHeading(90, 1000, {.minSpeed = 30});
     toggleState = 1;
     leftMotors.move(40);
@@ -184,16 +184,18 @@ void skills() {
     rightMotors.move(0);
     pros::delay(400);
     toggleState = 0;
-    chassis.moveDistance(-25, 1000, {.forwards = false});
+    chassis.moveDistance(-25, 1000, {.forwards = false, .minSpeed = 100});
     chassis.distReset('F', 'R');
-    chassis.turnToPoint(0, 0, 1000);
+    chassis.turnToPoint(0, 0, 1000, {.minSpeed = 20});
 
     //go to center and score
     liftTarget = 35;
-    chassis.moveToPoint(-3, 0, 1500, {.maxSpeed = 70, .minSpeed = 15});
+    chassis.moveToPoint(-3, 0, 1500, {.minSpeed = 40}, true);
+    pros::delay(400);
     liftTarget = 20;
     pros::delay(200);
     clawState = 2;
+    chassis.waitUntilDone();
     return;
 }
 
