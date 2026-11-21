@@ -2,7 +2,7 @@
 #include "drivecode/dr4b.hpp"
 #include <iostream>
 
-const float maxLiftRot = 87;
+const float maxLiftRot = 90;
 const float errorRange = 1.5;
 
 float liftTarget = 0;
@@ -85,7 +85,7 @@ void runLift() {
 
         // upper limit check
         if(!overrideMotionLimits && liftPos >= maxLiftRot && power > 0) power = 0;
-        if(!overrideMotionLimits && liftPos <= -1 && power < 0) power = 0; //lower limit check
+        if(!overrideMotionLimits && liftPos <= -2 && power < 0) power = 0; //lower limit check
 
         // send power
         lift.move(power);

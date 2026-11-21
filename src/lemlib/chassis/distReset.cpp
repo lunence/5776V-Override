@@ -2,7 +2,6 @@
 #include "lemlib/util.hpp"
 #include <cmath>
 
-//TODO: claude is complaining about the two .get() calls being redundant but not that deep
 void lemlib::Chassis::distReset(char xDirection, char yDirection) {
     //treat as lemlib motion so doesnt interfere with motions in progress
     this->requestMotionStart();

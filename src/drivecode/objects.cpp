@@ -31,7 +31,7 @@ pros::Motor toggle(14, pros::MotorGearset::green);
 
 // lift rot, toggle colors
 pros::Rotation liftRot(-6);
-pros::adi::Button liftLimit(0);
+pros::adi::Button liftLimit(0); //TODO: not added
 pros::Optical toggleOptical(0); //TODO: not added
 
 // 4 distance sensors for dsr

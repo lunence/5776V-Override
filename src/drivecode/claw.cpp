@@ -31,8 +31,8 @@ void updateClaw() {
 
 void runClaw() {
     while (true) {
-        if(std::fabs(claw.get_actual_velocity()) < 10) stallTime++; //stall code
-        else stallTime = 0;
+        // if(std::fabs(claw.get_actual_velocity()) < 40) stallTime++; //stall code
+        // else stallTime = 0;
 
         switch (clawState) {
             // claw off
@@ -49,13 +49,7 @@ void runClaw() {
 
             // open claw, full power
             case 2: {
-                if(stallTime >= 100) { //stall out at 100 ticks/1 second, hold motor
-                    claw.move(0);
-                    claw.set_brake_mode(pros::E_MOTOR_BRAKE_BRAKE); //TODO: brake or hold
-                } else { //if stall not reached do ts
-                    claw.move_voltage(-12000);
-                    claw.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
-                }
+                claw.move_voltage(-12000);
                 break;
             }
 

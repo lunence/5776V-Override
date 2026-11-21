@@ -65,8 +65,9 @@ lemlib::Pose lemlib::estimatePose(float time, bool radians) {
     Pose futurePose = curPose;
     futurePose.x += deltaLocalPose.y * sin(avgHeading);
     futurePose.y += deltaLocalPose.y * cos(avgHeading);
-    futurePose.x += deltaLocalPose.x * -cos(avgHeading);
-    futurePose.y += deltaLocalPose.x * sin(avgHeading);
+    // local x is rightward-positive: right = (cos(theta), -sin(theta)) for clockwise-from-+y heading
+    futurePose.x += deltaLocalPose.x * cos(avgHeading);
+    futurePose.y += deltaLocalPose.x * -sin(avgHeading);
     if (!radians) futurePose.theta = radToDeg(futurePose.theta);
 
     return futurePose;
@@ -177,7 +178,9 @@ void lemlib::update() {
         localX = deltaX;
         localY = deltaY;
     } else {
-        localX = 2 * sin(deltaHeading / 2) * (deltaX / deltaHeading + horizontalOffset);
+        // horizontal wheel reads positive when moving RIGHT, so the offset term is subtracted
+        // (offset keeps the same meaning as stock LemLib: positive = wheel ahead of the tracking center)
+        localX = 2 * sin(deltaHeading / 2) * (deltaX / deltaHeading - horizontalOffset);
         localY = 2 * sin(deltaHeading / 2) * (deltaY / deltaHeading + verticalOffset);
     }
 
@@ -187,8 +190,8 @@ void lemlib::update() {
     // calculate global x and y
     odomPose.x += localY * sin(avgHeading);
     odomPose.y += localY * cos(avgHeading);
-    odomPose.x += localX * -cos(avgHeading);
-    odomPose.y += localX * sin(avgHeading);
+    odomPose.x += localX * cos(avgHeading);
+    odomPose.y += localX * -sin(avgHeading);
     odomPose.theta = heading;
 
     // calculate speed

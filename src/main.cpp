@@ -30,6 +30,8 @@ void autonomous() {
 	chassis.setBrakeMode(pros::E_MOTOR_BRAKE_BRAKE);
 	lift.set_brake_mode_all(pros::E_MOTOR_BRAKE_BRAKE);
 	manualControl = false;
+	overrideMotionLimits = false;
+	autoToggle = false;
 
 	// auton functions!
 	skills();
@@ -37,10 +39,11 @@ void autonomous() {
 
 void opcontrol() {
 	// set the drive to coast
-	chassis.setBrakeMode(pros::E_MOTOR_BRAKE_COAST );
-	lift.set_brake_mode_all(pros::E_MOTOR_BRAKE_BRAKE); //TODO: reconsider this
+	chassis.setBrakeMode(pros::E_MOTOR_BRAKE_COAST);
+	lift.set_brake_mode_all(pros::E_MOTOR_BRAKE_BRAKE);
 	manualControl = true;
 	overrideMotionLimits = false;
+	autoToggle = false;
 
 	while (true) {
 		int throttle = controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);

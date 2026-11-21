@@ -10,7 +10,7 @@
 
 // sensor settings
 void sensorInit() {
-    lift.tare_position_all();
+    lift.tare_position_all(); //TODO: two lift ones are technically unnecessary
     lift.set_encoder_units(pros::motor_encoder_units_e::E_MOTOR_ENCODER_DEGREES);
     liftRot.reset_position();
 }
@@ -34,8 +34,8 @@ void runScreen() {
         pros::screen::print(pros::E_TEXT_SMALL, 2, "Lift pos: %.3f", liftRot.get_position()/100.0);
         pros::screen::print(pros::E_TEXT_SMALL, 3, "Lift target: %.3f", liftTarget);    
         pros::screen::print(pros::E_TEXT_SMALL, 4, "Color: %.3f", toggleOptical.get_hue());
-        pros::screen::print(pros::E_TEXT_SMALL, 5, "Toggle state: %d", toggleState);
-        pros::screen::print(pros::E_TEXT_SMALL, 6, "claw actual vel: %.3f", claw.get_actual_velocity());
+        // pros::screen::print(pros::E_TEXT_SMALL, 5, "Toggle state: %d", toggleState);
+        pros::screen::print(pros::E_TEXT_SMALL, 6, "claw actual vel: %.3f", horizOdom.getDistanceTraveled());
         pros::delay(10);
     }
 }
