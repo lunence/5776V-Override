@@ -25,7 +25,7 @@ lemlib::ExpoDriveCurve latCurve(
 lemlib::ExpoDriveCurve angCurve(
     3,
     10,
-    1.019
+    1.04
 );
 
 

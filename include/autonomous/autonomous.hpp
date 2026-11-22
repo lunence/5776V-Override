@@ -10,6 +10,7 @@ void fourPinSide();
 
 void preloadBack();
 void preloadSide();
+void preloadRight();
 
 void toggleOneAuto();
 void toggleTwoAuto();
