@@ -35,7 +35,8 @@ void autonomous() {
 
 	// auton functions!
 	// skills();
-	fourPinBack();
+	//fourPinBack();
+	fourPinSide();
 	// preloadRight();
 } 
 
