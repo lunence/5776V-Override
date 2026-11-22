@@ -34,8 +34,8 @@ void autonomous() {
 	autoToggle = false;
 
 	// auton functions!
-	skills();
-	// fourPinBack();
+	// skills();
+	fourPinBack();
 	// preloadRight();
 } 
 

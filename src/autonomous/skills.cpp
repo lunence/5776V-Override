@@ -47,7 +47,8 @@ void mlCloseGoal(float prescore, float score) {
 }
 
 void mlFarGoal(float prescore, float score) {
-    chassis.moveToPoint(60, -48, 1000, {.forwards = false}, true); //prev x 65
+    //maxspeed 80????
+    chassis.moveToPoint(60, -48, 1000, {.forwards = false, .maxSpeed = 70}, true); //prev x 65
     pros::delay(300);
     clawState = 1;
     pros::delay(400);
@@ -61,12 +62,16 @@ void mlFarGoal(float prescore, float score) {
     chassis.moveToPoint(58, -47, 1000, {.forwards = false}); //reverse out
     chassis.distReset('L', 'F'); //TODO: DIST RESET AFTER REVERSE
     liftTarget = prescore;
-    chassis.turnToPoint(51, -27, 1000); //TODO: good coord?
-    chassis.moveToPoint(51, -27, 1000, {.maxSpeed = 60, .minSpeed = 20}); //TODO: does eer work
+    chassis.turnToPoint(50, -27, 1000); //TODO: good coord?
+    chassis.moveToPoint(50, -27, 1000, {.maxSpeed = 60, .minSpeed = 20}); //TODO: does eer work
+    leftMotors.move(20);
+    rightMotors.move(25);
     liftTarget = score;
     pros::delay(400);
     clawState = 2;
     pros::delay(400);
+    leftMotors.move(0);
+    rightMotors.move(0);
 
     
     // chassis.moveToPoint(55, -40, 1000, {.forwards = false}, true); //TODO: REVIEW REVIEW
@@ -149,9 +154,10 @@ void skills() {
     chassis.moveDistance(-10, 1000, {.forwards = false, .minSpeed = 40});
     clawState = 1;
     liftTarget = -5;
-    chassis.turnToPoint(45, -45, 1000, {.minSpeed = 15});
+    chassis.turnToPoint(44, -45, 1000, {.minSpeed = 15});
     chassis.moveDistance(24, 1000, {.minSpeed = 20}); //TODO: prev 23
-    chassis.moveToPoint(45, -45, 1000, {.maxSpeed = 20});
+    chassis.moveToPoint(44, -45, 1000, {.maxSpeed = 20});
+    liftTarget = 3;
     chassis.turnToPoint(29, -48.5, 1000); 
     chassis.distReset('B', 'L');
 
@@ -186,26 +192,30 @@ void skills() {
     chassis.moveToPoint(58, -47, 1000, {.forwards = false}); //reverse out
     chassis.distReset('L', 'F'); //TODO: DIST RESET AFTER REVERSE
     liftTarget = 20;
-    chassis.turnToPoint(49.5, -30, 1000);
-    chassis.moveToPoint(49.5, -30, 1000, {.maxSpeed = 60, .minSpeed = 20}); //TODO: does eer work
+    chassis.turnToPoint(50, -27, 1000);
+    chassis.moveToPoint(50, -27, 1000, {.maxSpeed = 60, .minSpeed = 20}); //TODO: does eer work
+    leftMotors.move(20);
+    rightMotors.move(25);
     liftTarget = 5;
-    pros::delay(300);
+    pros::delay(400);
     clawState = 2;
-    pros::delay(500);
+    pros::delay(400);
+    leftMotors.move(0);
+    rightMotors.move(0);
 
     mlFarGoal(45, 25);
-    mlFarGoal(65, 55);
+    mlFarGoal(65, 45);
 
-    chassis.moveToPose(62, -42, 0, 1500, {.forwards = false}, true);
+    chassis.moveToPose(61.5, -42, 0, 1500, {.forwards = false}, true);
     pros::delay(300);
     liftTarget = -5;
     chassis.waitUntilDone();
-    chassis.moveToPoint(62, -4, 1500, {.minSpeed = 80});
+    chassis.moveToPoint(61.5, -4, 1500, {.minSpeed = 80});
     chassis.turnToHeading(90, 1000);
     toggleState = 1;
     leftMotors.move(40);
     rightMotors.move(40);
-    pros::delay(600);
+    pros::delay(900);
     leftMotors.move(0);
     rightMotors.move(0);
     chassis.moveDistance(-60, 1000, {.forwards = false, .minSpeed = 100});
