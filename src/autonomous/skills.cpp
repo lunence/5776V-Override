@@ -106,17 +106,21 @@ void skills() {
     chassis.setPose(100, -100, 180);
     chassis.distReset('L', 'F');
 
+    if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_L1));
+
     // toggle and then lift dr4b
     clawState = 3;
     toggleState = 1;
     pros::delay(650);
     toggleState = 0;
     liftTarget = 20;
+    if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) return;
 
     // back out, turn and move to goal
     chassis.moveToPoint(3, -48, 1000, {.forwards = false});
     chassis.turnToPoint(19, -48, 1000);
     chassis.moveToPoint(19, -48, 1000, {.maxSpeed = 60, .minSpeed = 20});
+    if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) return;
 
     // score preload
     liftTarget = 4;
@@ -125,6 +129,7 @@ void skills() {
     pros::delay(400);
     leftMotors.move(0);
     rightMotors.move(0);
+    if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) return;
 
     // get pin stack 1
     //prev x 10
@@ -140,6 +145,7 @@ void skills() {
     leftMotors.move(0);
     rightMotors.move(0);
     pros::delay(200);
+    if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) return;
 
     // score pin stack 1
     liftTarget = 27;
@@ -149,6 +155,7 @@ void skills() {
     pros::delay(400);
     clawState = 2;
     pros::delay(200);
+    if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) return;
 
     // get pin stack 2
     chassis.moveDistance(-10, 1000, {.forwards = false, .minSpeed = 40});
@@ -160,6 +167,7 @@ void skills() {
     liftTarget = 3;
     chassis.turnToPoint(29, -48.5, 1000); 
     chassis.distReset('B', 'L');
+    if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) return;
 
     // score pin stack 2
     liftTarget = 45;
@@ -169,10 +177,13 @@ void skills() {
     pros::delay(500);
     clawState = 2;
     chassis.distReset('B', 'L');
+    if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) return;
 
     //+2 pin stacks from ml
     mlCloseGoal(65, 45);
+    if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) return;
     mlCloseGoal(88, 62);
+    if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) return;
 
     //TODO: test reset
     // chassis.setPose(100, -100, -90);
@@ -188,6 +199,7 @@ void skills() {
     chassis.moveToPoint(58, -59, 1000, {.minSpeed = 40}); //TODO: min speed 40
     pros::delay(500); //collect time 500
     liftTarget = 3;
+    if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) return;
 
     chassis.moveToPoint(58, -47, 1000, {.forwards = false}); //reverse out
     chassis.distReset('L', 'F'); //TODO: DIST RESET AFTER REVERSE
@@ -202,9 +214,12 @@ void skills() {
     pros::delay(400);
     leftMotors.move(0);
     rightMotors.move(0);
+    if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) return;
 
     mlFarGoal(45, 25);
+    if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) return;
     mlFarGoal(65, 45);
+    if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) return;
 
     chassis.moveToPose(61.5, -42, 0, 1500, {.forwards = false}, true);
     pros::delay(300);
@@ -218,7 +233,9 @@ void skills() {
     pros::delay(900);
     leftMotors.move(0);
     rightMotors.move(0);
+    if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) return;
     chassis.moveDistance(-60, 1000, {.forwards = false, .minSpeed = 100});
+    if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) return;
 
 
     // // grab pin for center

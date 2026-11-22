@@ -35,20 +35,31 @@ void autonomous() {
 
 	// auton functions!
 	// skills();
-	//fourPinBack();
-	fourPinSide();
+	fourPinBack();
+	// fourPinSide();
 	// preloadRight();
 } 
 
 void opcontrol() {
+	// // auton motor modes
+	// chassis.setBrakeMode(pros::E_MOTOR_BRAKE_BRAKE);
+	// lift.set_brake_mode_all(pros::E_MOTOR_BRAKE_BRAKE);
+	// manualControl = false;
+	// overrideMotionLimits = false;
+	// autoToggle = false;
+
+	// // auton functions!
+	// // skills();
+	// fourPinBack();
+	// // fourPinSide();
+	// // preloadRight();
+
 	// set the drive to coast
 	chassis.setBrakeMode(pros::E_MOTOR_BRAKE_COAST);
 	lift.set_brake_mode_all(pros::E_MOTOR_BRAKE_BRAKE);
 	manualControl = true;
 	overrideMotionLimits = false;
 	autoToggle = false;
-
-	// lemlib::ExpoDriveCurve angularDriveCurve(2, 0, 1.025);
 
 
 	while (true) {
