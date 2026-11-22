@@ -67,8 +67,8 @@ overrideMotionLimits = true;
     // score pin stack 2
     // liftTarget = 47;
     // pros::delay(450); //TODO: previously 400
-    chassis.moveToPoint(48.5, -29, 1000, {.maxSpeed = 80, .minSpeed = 15}, true);
-    pros::delay(100);
+    chassis.moveToPoint(47, -28, 1000, {.maxSpeed = 80, .minSpeed = 15}, true);
+    pros::delay(450);
     liftTarget = 28;
     pros::delay(500);
     clawState = 2;

@@ -3,7 +3,7 @@
 #include <iostream>
 
 const float maxLiftRot = 90;
-const float errorRange = 1.5;
+const float errorRange = 1;
 
 float liftTarget = 0;
 float liftPos = 0;

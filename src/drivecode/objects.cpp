@@ -139,7 +139,7 @@ lemlib::Chassis chassis(
 );
 
 // double reverse four bar
-lemlib::PID liftPID(5.8,
+lemlib::PID liftPID(6, // previously 5.8
                     // proportional gain (kP)
                     0.2,
                     // integral gain (kI)
